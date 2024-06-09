@@ -46,6 +46,11 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             coinAmountSpan.textContent = coins;
             updateUpgradePrices();
+            Object.keys(autoClickers).forEach(key => {
+                if (autoClickers[key].level > 0) {
+                    startAutoClicker(key);
+                }
+            });
         }
     };
 
@@ -90,6 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
             coins += autoClickers[upgradeType].currentRate;
             coinAmountSpan.textContent = coins;
             updateUpgradePrices();
+            saveProgressLocal();
         }, 1000);
     };
 
@@ -123,7 +129,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showCoinAnimation(event.clientX, event.clientY, coinsPerTap);
         updateUpgradePrices();
 
-        if (clickCount % 20 === 0) {
+        if (clickCount % 5 === 0) {
             saveProgressLocal();
         }
     };
@@ -219,6 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener('gesturestart', (e) => e.preventDefault());
     document.addEventListener('gesturechange', (e) => e.preventDefault());
     document.addEventListener('gestureend', (e) => e.preventDefault());
+    document.addEventListener('dblclick', (e) => e.preventDefault());
 
     showPage('home-page');
     loadProgressLocal();
