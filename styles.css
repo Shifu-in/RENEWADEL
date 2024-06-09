@@ -504,3 +504,15 @@ body, html {
     opacity: 0;
     transition: opacity 0.5s;
 }
+
+.text-container-unified {
+    width: 90%;
+    max-width: 300px;
+    margin: 20px auto; /* Центрируем по горизонтали и добавляем отступы сверху и снизу */
+    text-align: left;
+    background: url('assets/images/Фон для текста.svg') no-repeat center center;
+    background-size: cover;
+    padding: 20px;
+    border-radius: 20px;
+    color: #fff;
+}
