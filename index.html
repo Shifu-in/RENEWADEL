@@ -10,26 +10,6 @@
             font-family: 'Discovery';
             src: url('assets/fonts/discovery font.woff') format('woff');
         }
-
-        * {
-            -webkit-tap-highlight-color: rgba(0,0,0,0); /* Убираем подсветку при тапе на Android */
-            -webkit-user-select: none; /* Запрещаем выделение текста */
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-
-        .text-container-unified {
-            width: 90%;
-            max-width: 300px;
-            margin: 20px auto; /* Центрируем по горизонтали и добавляем отступы сверху и снизу */
-            text-align: left;
-            background: url('assets/images/Фон для текста.svg') no-repeat center center;
-            background-size: cover;
-            padding: 20px;
-            border-radius: 20px;
-            color: #fff;
-        }
     </style>
 </head>
 <body>
@@ -59,7 +39,7 @@
         </div>
         <div class="content" id="content-her" style="display: none;">
             <img src="assets/images/Adel.png" alt="Character" class="character character-her" id="character-her">
-            <div class="text-container text-container-unified">
+            <div class="text-container">
                 <div class="text-background">
                     <p class="text-main">Знакомьтесь - это ваш персонаж</p>
                     <p class="text-sub">Пока вы можете переключаться между ними. Для получения Young, тапайте по эрану!</p>
@@ -68,7 +48,7 @@
         </div>
         <div class="content" id="content-him">
             <img src="assets/images/Ai.svg" alt="Character" class="character" id="character">
-            <div class="text-container text-container-unified">
+            <div class="text-container" style="margin-bottom: 50px;">
                 <div class="text-background">
                     <p class="text-main">Знакомьтесь - это ваш персонаж</p>
                     <p class="text-sub">Пока вы можете переключаться между ними. Для получения Young, тапайте по эрану!</p>
@@ -122,7 +102,7 @@
                     <button class="upgrade-button" data-type="defi">BUY</button>
                 </div>
             </div>
-            <div class="text-container text-container-unified">
+            <div class="text-container-store">
                 <div class="text-background">
                     <p class="text-main">Описание</p>
                     <p class="text-sub">Покупка первого апргрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young.</p>
@@ -137,10 +117,10 @@
 
     <div class="main-screen" id="stats-page" style="display: none;">
         <div class="background-room">
-            <div class="text-container text-container-unified">
+            <div class="text-container-room">
                 <div class="text-background">
-                    <p class="text-main">Это первый дом вашего персонажа</p>
-                    <p class="text-sub">Он/она скоро вернётся домой и ваше приключение начнётся...</p>
+                    <p class="text-main">Это первый дом вашего персонажа</п>
+                    <p class="text-sub">Он/она скоро вернётся домой и ваше приключение начнётся...</п>
                 </div>
             </div>
         </div>
@@ -149,7 +129,7 @@
     <div class="main-screen" id="fun-page" style="display: none;">
         <div class="partner-container" style="display: none;"> <!-- Hiding the FUN section -->
             <div class="partner" id="partner1">
-                <div class="text-container text-container-unified">
+                <div class="text-background">
                     <п class="text-main">ShifuCrypto</п>
                     <п class="text-sub">Подпишитесь на канал.</п>
                     <div class="button-container">
@@ -159,7 +139,7 @@
                 </div>
             </div>
             <div class="partner" id="partner2">
-                <div class="text-container text-container-unified">
+                <div class="text-background">
                     <п class="text-main">Tai Lung Airdrop</п>
                     <п class="text-sub">Подпишитесь на канал.</п>
                     <div class="button-container">
