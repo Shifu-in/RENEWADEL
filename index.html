@@ -1,202 +1,197 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Main Screen</title>
-    <link rel="stylesheet" href="styles.css">
-    <style>
-        @font-face {
-            font-family: 'Discovery';
-            src: url('assets/fonts/discovery font.woff') format('woff');
-        }
+/* Общие стили */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    font-family: 'Discovery', Arial, sans-serif;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden; /* Убираем прокрутку */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #000000;
-            font-family: 'Discovery', Arial, sans-serif;
-            -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
-            -ms-user-select: none; /* Запрещаем выделение текста на IE */
-            user-select: none; /* Запрещаем выделение текста на всех браузерах */
-        }
-    </style>
-</head>
-<body>
-    <div id="loading-screen">
-        <img src="assets/images/loading.gif" alt="Loading" id="loading-gif">
-        <div id="loading-text">
-            <p class="loading-main-text">YOUNG</p>
-            <p class="loading-sub-text">ver.beta</p>
-        </div>
-    </div>
+/* Стили для загрузочного экрана */
+#loading-screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #000;
+    z-index: 10000;
+}
 
-    <div class="main-screen" id="home-page" style="display: none;">
-        <div class="header">
-            <div class="coin-info">
-                <div class="coin-text">Young coin</div>
-                <div>
-                    <span class="coin-amount">0</span>
-                    <img src="assets/images/coins.svg" alt="Coins" class="coin-icon">
-                </div>
-            </div>
-            <div class="gender-switch">
-                <input type="radio" id="for-her" name="gender" value="her">
-                <label for="for-her">Она</label>
-                <input type="radio" id="for-him" name="gender" value="him" checked>
-                <label for="for-him">Он</label>
-            </div>
-        </div>
-        <div class="content" id="content-her" style="display: none;">
-            <img src="assets/images/Adel.png" alt="Character" class="character character-her" id="character-her">
-            <div class="text-container">
-                <div class="text-background">
-                    <p class="text-main">Знакомьтесь - это ваш персонаж</p>
-                    <p class="text-sub">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
-                </div>
-            </div>
-        </div>
-        <div class="content" id="content-him">
-            <img src="assets/images/Ai.svg" alt="Character" class="character" id="character">
-            <div class="text-container" style="margin-bottom: 50px;">
-                <div class="text-background">
-                    <p class="text-main">Знакомьтесь - это ваш персонаж</p>
-                    <p class="text-sub">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
-                </div>
-            </div>
-        </div>
-    </div>
+#loading-gif {
+    width: 10%; /* Используйте проценты для адаптивности */
+    height: auto;
+}
 
-    <div class="main-screen" id="store-page" style="display: none;">
-        <div class="content-group">
-            <div class="upgrades">
-                <h2>UPGRADES</h2>
-                <div class="upgrade-item">
-                    <div class="upgrade-icon">
-                        <img src="assets/images/апгрейд 1.svg" alt="GYM">
-                    </div>
-                    <div class="upgrade-details">
-                        <h3>GYM</h3>
-                        <p>50 | level 0/10<br>1 Young coin per tap</p>
-                    </div>
-                    <button class="upgrade-button" data-type="gym">BUY</button>
-                </div>
-                <div class="upgrade-item">
-                    <div class="upgrade-icon">
-                        <img src="assets/images/апгрейд 2.svg" alt="AI-TAP">
-                    </div>
-                    <div class="upgrade-details">
-                        <h3>AI-TAP</h3>
-                        <p>20,000 | level 0/10<br>2 Young coin / sec</p>
-                    </div>
-                    <button class="upgrade-button" data-type="aiTap">BUY</button>
-                </div>
-                <div class="upgrade-item">
-                    <div class="upgrade-icon">
-                        <img src="assets/images/апгрейд 3.svg" alt="AIRDROP">
-                    </div>
-                    <div class="upgrade-details">
-                        <h3>AIRDROP</h3>
-                        <p>100,000 | level 0/10<br>6 Young coin / sec</p>
-                    </div>
-                    <button class="upgrade-button" data-type="airdrop">BUY</button>
-                </div>
-                <div class="upgrade-item">
-                    <div class="upgrade-icon">
-                        <img src="assets/images/апгрейд 4.svg" alt="DeFi">
-                    </div>
-                    <div class="upgrade-details">
-                        <h3>DeFi</h3>
-                        <p>10,000,000 | level 0/10<br>10 Young coin / sec</p>
-                    </div>
-                    <button class="upgrade-button" data-type="defi">BUY</button>
-                </div>
-            </div>
-            <div class="text-container-store">
-                <div class="text-background">
-                    <p class="text-main">Описание</p>
-                    <p class="text-sub">Покупка первого апгрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+/* Основные экраны */
+.main-screen {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    position: absolute;
+    overflow: hidden;
+    background: url('assets/images/Фон общий.png') no-repeat center center;
+    background-size: cover;
+}
 
-    <div class="main-screen" id="wallet-page" style="display: none;">
-        <img src="assets/images/Solutions.svg" alt="Solutions" class="centered-image"> <!-- Added image -->
-    </div>
+/* Обновленные стили для персонажей */
+.character, .character-her {
+    width: 80%; /* Используйте проценты для адаптивности */
+    height: auto;
+    margin-bottom: -5%; /* Используйте проценты для адаптивности */
+    cursor: pointer;
+}
 
-    <div class="main-screen" id="stats-page" style="display: none;">
-        <div class="background-room">
-            <div class="text-container-room">
-                <div class="text-background">
-                    <p class="text-main">Это первый дом вашего персонажа</p>
-                    <p class="text-sub">Он/она скоро вернётся домой и ваше приключение начнётся...</p>
-                </div>
-            </div>
-        </div>
-    </div>
+/* Контейнер для текста */
+.text-container {
+    width: 90%;
+    max-width: 300px;
+    text-align: left;
+}
 
-    <div class="main-screen" id="fun-page" style="display: none;">
-        <div class="partner-container" style="display: none;"> <!-- Hiding the FUN section -->
-            <div class="partner" id="partner1">
-                <div class="text-background">
-                    <p class="text-main">ShifuCrypto</p>
-                    <p class="text-sub">Подпишитесь на канал.</p>
-                    <div class="button-container">
-                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/shifucrypto', 'partner1')">Подписаться</button>
-                        <button class="confirm-button" onclick="confirmSubscription('partner1')" style="display: none;">Проверить</button>
-                    </div>
-                </div>
-            </div>
-            <div class="partner" id="partner2">
-                <div class="text-background">
-                    <p class="text-main">Tai Lung Airdrop</p>
-                    <p class="text-sub">Подпишитесь на канал.</p>
-                    <div class="button-container">
-                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/tailungairdrop', 'partner2')">Подписаться</button>
-                        <button class="confirm-button" onclick="confirmSubscription('partner2')" style="display: none;">Проверить</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+.text-background {
+    background: url('assets/images/Фон для текста.svg') no-repeat center center;
+    background-size: cover;
+    padding: 5%;
+    border-radius: 20px;
+    color: #fff;
+    text-align: left;
+}
 
-    <div class="main-screen" id="friends-page" style="display: none;">
-        <h1 class="friends-title">Друзья</h1>
-        <p class="invite-text">Расскажи о нас друзьям и получи награду!</p>
-        <div class="link-container">
-            <input type="text" class="referral-link" id="linkInput" value="https://t.me/YoungGame_bot" readonly>
-            <button class="copy-button" id="copyButton">Копировать</button>
-        </div>
-    </div>
+.text-main {
+    font-size: 1.8em;
+    margin: 0;
+}
 
-    <div class="navigation">
-        <div class="nav-item" id="nav-home" data-page="home-page">
-            <img src="assets/images/home.svg" alt="Home">
-        </div>
-        <div class="nav-item" id="nav-store" data-page="store-page">
-            <img src="assets/images/store.svg" alt="Store">
-        </div>
-        <div class="nav-item" id="nav-stats" data-page="stats-page">
-            <img src="assets/images/stats-up-square.svg" alt="Stats">
-        </div>
-        <div class="nav-item" id="nav-wallet" data-page="wallet-page">
-            <img src="assets/images/wallet.svg" alt="Wallet">
-        </div>
-        <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
-            <img src="assets/images/fun.svg" alt="Fun">
-        </div>
-        <div class="nav-item" id="nav-friends" data-page="friends-page">
-            <img src="assets/images/fren.svg" alt="Friends">
-        </div>
-    </div>
+.text-sub {
+    font-size: 1.4em;
+    margin: 10px 0 20px 0;
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+/* Навигация */
+.navigation {
+    display: flex;
+    justify-content: space-around;
+    padding: 1% 0;
+    background-color: #f0f0f0;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 400px;
+    position: absolute;
+    bottom: 2%;
+}
+
+.nav-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 10%;
+    height: 10%;
+    background-color: transparent;
+}
+
+.nav-item.active {
+    background-color: #555555;
+    border-radius: 10px;
+}
+
+.nav-item img {
+    width: 80%;
+    height: 80%;
+}
+
+/* Стили для магазина */
+.upgrades {
+    width: 85%; /* Используйте проценты для адаптивности */
+    background-color: #1c1c1e;
+    border-radius: 20px;
+    margin-top: -10%;
+    padding: 5%;
+}
+
+.upgrades h2 {
+    color: #fff;
+    margin-bottom: 5%;
+    font-size: 1.5em;
+}
+
+.upgrade-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 5%;
+}
+
+.upgrade-icon {
+    width: 15%;
+    height: auto;
+    background-color: #2c2c2e;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.upgrade-icon img {
+    width: 100%;
+    height: auto;
+}
+
+.upgrade-details {
+    flex-grow: 1;
+    margin-left: 5%;
+}
+
+.upgrade-details h3 {
+    color: #fff;
+    margin: 0;
+    font-size: 1.2em;
+}
+
+.upgrade-details p {
+    color: #888;
+    margin: 5% 0 0;
+    font-size: 1em;
+}
+
+.upgrade-button {
+    background-color: #ff3b30;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    padding: 5% 10%;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+.upgrade-button:hover {
+    background-color: #ff5e57;
+}
+
+/* Уведомления */
+.notification {
+    position: fixed;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #32CD32;
+    color: #fff;
+    padding: 2% 5%;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
