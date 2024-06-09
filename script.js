@@ -28,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
             coins: coins,
             coinsPerTap: coinsPerTap,
             autoClickers: autoClickers,
-            rewardGiven: rewardGiven
+            rewardGiven: rewardGiven,
+            lastActive: Date.now()
         };
         localStorage.setItem('gameProgress', JSON.stringify(progress));
     };
@@ -40,10 +41,13 @@ document.addEventListener("DOMContentLoaded", () => {
             coins = progress.coins;
             coinsPerTap = progress.coinsPerTap;
             rewardGiven = progress.rewardGiven;
+            const lastActive = progress.lastActive || Date.now();
+            const timeElapsed = Math.floor((Date.now() - lastActive) / 1000);
             Object.keys(autoClickers).forEach(key => {
                 autoClickers[key].level = progress.autoClickers[key].level;
                 autoClickers[key].currentRate = progress.autoClickers[key].currentRate;
             });
+            calculateOfflineEarnings(timeElapsed);
             coinAmountSpan.textContent = coins;
             updateUpgradePrices();
             Object.keys(autoClickers).forEach(key => {
@@ -52,6 +56,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
         }
+    };
+
+    const calculateOfflineEarnings = (timeElapsed) => {
+        let offlineCoins = 0;
+        Object.keys(autoClickers).forEach(key => {
+            offlineCoins += autoClickers[key].currentRate * timeElapsed;
+        });
+        coins += offlineCoins;
     };
 
     const hideAllPages = () => {
@@ -251,4 +263,6 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById('home-page').style.display = 'flex';
         }, 5000);
     });
+
+    window.addEventListener('beforeunload', saveProgressLocal);
 });
