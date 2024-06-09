@@ -1,3 +1,4 @@
+<style>
 body, html {
     margin: 0;
     padding: 0;
@@ -12,17 +13,6 @@ body, html {
     -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
     -ms-user-select: none; /* Запрещаем выделение текста на IE */
     user-select: none; /* Запрещаем выделение текста на всех браузерах */
-}
-
-/* Убираем выделение на элементах при фокусе */
-button:focus,
-input:focus,
-select:focus,
-textarea:focus,
-a:focus,
-img:focus {
-    outline: none;
-    box-shadow: none;
 }
 
 #loading-screen {
@@ -167,7 +157,7 @@ img:focus {
 .character {
     width: 420px; /* Уменьшенный размер на 10 пикселей */
     height: auto;
-    margin-bottom: -75px; /* Перемещение вверх на 5 пикселей */
+    margin-bottom: -60px; /* Перемещение вверх на 5 пикселей */
     margin-top: 45px; /* Перемещение вверх на 10 пикселей */
     margin-left: -20px; /* Сдвиг вправо на 5 пикселей */
     cursor: pointer; /* Указываем, что элемент кликабельный */
