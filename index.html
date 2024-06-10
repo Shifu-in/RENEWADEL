@@ -26,11 +26,21 @@
             -ms-user-select: none; /* Запрещаем выделение текста на IE */
             user-select: none; /* Запрещаем выделение текста на всех браузерах */
         }
+
+        #tap-timer {
+            display: none;
+            color: white;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
     <!-- Таймер блокировки тапов -->
-    <div id="tap-timer" style="display:none; color: white; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); font-size: 16px;"></div>
+    <div id="tap-timer"></div>
 
     <div id="loading-screen">
         <img src="assets/images/loading.gif" alt="Loading" id="loading-gif">
