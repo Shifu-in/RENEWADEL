@@ -121,9 +121,9 @@ document.addEventListener("DOMContentLoaded", () => {
             const rate = autoClickers[upgradeType].currentRate;
 
             if (upgradeType === "gym") {
-                priceText.innerHTML = `${price} | level ${level}/5<br>${rate + coinsPerTap} Young coin per tap`;
+                priceText.innerHTML = `${price} | level ${level}/6<br>${rate + coinsPerTap} Young coin per tap`;
             } else {
-                priceText.innerHTML = `${price} | level ${level}/5<br>${rate} Young coin / sec`;
+                priceText.innerHTML = `${price} | level ${level}/6<br>${rate} Young coin / sec`;
             }
 
             if (coins >= price) {
@@ -168,7 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const upgradeType = button.getAttribute('data-type');
             const price = getUpgradePrice(upgradeType);
 
-            if (coins >= price && autoClickers[upgradeType].level < 5) { // изменено с 10 на 5
+            if (coins >= price && autoClickers[upgradeType].level < 6) { // изменено с 5 на 6
                 coins -= price;
                 coinAmountSpan.textContent = coins;
                 autoClickers[upgradeType].level++;
