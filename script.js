@@ -146,8 +146,8 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    characterHim.addEventListener('click', handleClick);
-    characterHer.addEventListener('click', handleClick);
+    characterHim.addEventListener('pointerdown', handleClick);
+    characterHer.addEventListener('pointerdown', handleClick);
 
     const showCoinAnimation = (x, y, amount) => {
         const coinAnimation = document.createElement('div');
