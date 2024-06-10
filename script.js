@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const languageSwitchInputs = document.querySelectorAll('.language-switch input');
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
+    const timerElement = document.getElementById('tap-timer');
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -18,6 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let rewardGiven = false;
     let tapCount = 0; // Добавлена переменная для отслеживания количества тапов
     let isTapBlocked = false; // Добавлена переменная для блокировки тапов
+    let blockStartTime = null; // Время начала блокировки
     let blockTimeout = null; // Таймаут для блокировки тапов
     const autoClickers = {
         gym: { level: 0, basePrice: 50, increment: 1, currentRate: 0, priceFactor: 3, multiplier: 2 },
@@ -35,6 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
             lastActive: Date.now(),
             tapCount: tapCount, // Сохранение количества тапов
             isTapBlocked: isTapBlocked, // Сохранение состояния блокировки
+            blockStartTime: blockStartTime // Сохранение времени начала блокировки
         };
         localStorage.setItem('gameProgress', JSON.stringify(progress));
     };
@@ -48,6 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
             rewardGiven = progress.rewardGiven;
             tapCount = progress.tapCount || 0; // Загрузка количества тапов
             isTapBlocked = progress.isTapBlocked || false; // Загрузка состояния блокировки
+            blockStartTime = progress.blockStartTime || null; // Загрузка времени начала блокировки
             const lastActive = progress.lastActive || Date.now();
             const timeElapsed = Math.floor((Date.now() - lastActive) / 1000);
             Object.keys(autoClickers).forEach(key => {
@@ -63,7 +67,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             if (isTapBlocked) {
-                startBlockTimeout(timeElapsed);
+                const blockDuration = 15 * 60 * 1000; // 15 минут в миллисекундах
+                const timeSinceBlock = Date.now() - blockStartTime;
+                if (timeSinceBlock >= blockDuration) {
+                    isTapBlocked = false;
+                    tapCount = 0;
+                    showNotification('Вы снова можете тапать!');
+                    timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
+                } else {
+                    startBlockTimeout(blockDuration - timeSinceBlock);
+                }
             }
         }
     };
@@ -158,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tapCount++;
         if (tapCount > 1000) {
             isTapBlocked = true;
+            blockStartTime = Date.now(); // Устанавливаем время начала блокировки
             showNotification('Достигнут лимит тапов! Подождите 15 минут.');
             startBlockTimeout();
             saveProgressLocal();
@@ -175,14 +189,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    const startBlockTimeout = (elapsedTime = 0) => {
-        const blockDuration = 15 * 60 * 1000; // 15 минут в миллисекундах
-        const remainingTime = blockDuration - elapsedTime;
-
+    const startBlockTimeout = (remainingTime = 15 * 60 * 1000) => {
         blockTimeout = setTimeout(() => {
             isTapBlocked = false;
             tapCount = 0;
             showNotification('Вы снова можете тапать!');
+            timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
             saveProgressLocal();
         }, remainingTime);
 
@@ -190,7 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const updateTimer = (remainingSeconds) => {
-        const timerElement = document.getElementById('tap-timer');
         timerElement.style.display = 'block';
 
         const interval = setInterval(() => {
