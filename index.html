@@ -31,18 +31,29 @@
             display: none;
             color: white;
             position: absolute;
-            top: 50%;
-            left: 33%;
+            top: 20px; /* Располагаем таймер в верхней части */
             font-size: 10px;
             z-index: 10000; /* Увеличенный z-index для отображения поверх других элементов */
-            transform: translateY(-50%);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .timer-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
         }
     </style>
 </head>
 <body>
-    <!-- Таймер блокировки тапов -->
-    <div id="tap-timer"></div>
-
     <div id="loading-screen">
         <img src="assets/images/loading.gif" alt="Loading" id="loading-gif">
         <div id="loading-text">
@@ -59,6 +70,9 @@
                     <span class="coin-amount">0</span>
                     <img src="assets/images/coins.svg" alt="Coins" class="coin-icon">
                 </div>
+            </div>
+            <div class="timer-container">
+                <div id="tap-timer"></div>
             </div>
             <div class="gender-switch">
                 <input type="radio" id="for-her" name="gender" value="her">
@@ -134,7 +148,7 @@
             </div>
             <div class="text-container-store">
                 <div class="text-background">
-                    <p class="text-main">Описание</p>
+                    <p class="text-main">Описание</п>
                     <p class="text-sub">Покупка первого апгрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young.</p>
                 </div>
             </div>
@@ -149,7 +163,7 @@
         <div class="background-room">
             <div class="text-container-room">
                 <div class="text-background">
-                    <p class="text-main">Это первый дом вашего персонажа</p>
+                    <p class="text-main">Это первый дом вашего персонажа</п>
                     <p class="text-sub">Он/она скоро вернётся домой и ваше приключение начнётся...</p>
                 </div>
             </div>
@@ -160,7 +174,7 @@
         <div class="partner-container" style="display: none;"> <!-- Hiding the FUN section -->
             <div class="partner" id="partner1">
                 <div class="text-background">
-                    <p class="text-main">ShifuCrypto</p>
+                    <p class="text-main">ShifuCrypto</п>
                     <p class="text-sub">Подпишитесь на канал.</p>
                     <div class="button-container">
                         <button class="subscribe-button" onclick="subscribeChannel('https://t.me/shifucrypto', 'partner1')">Подписаться</button>
@@ -170,8 +184,8 @@
             </div>
             <div class="partner" id="partner2">
                 <div class="text-background">
-                    <p class="text-main">Tai Lung Airdrop</p>
-                    <p class="text-sub">Подпишитесь на канал.</p>
+                    <п class="text-main">Tai Lung Airdrop</п>
+                    <п class="text-sub">Подпишитесь на канал.</п>
                     <div class="button-container">
                         <button class="subscribe-button" onclick="subscribeChannel('https://t.me/tailungairdrop', 'partner2')">Подписаться</button>
                         <button class="confirm-button" onclick="confirmSubscription('partner2')" style="display: none;">Проверить</button>
@@ -183,7 +197,7 @@
 
     <div class="main-screen" id="friends-page" style="display: none;">
         <h1 class="friends-title">Друзья</h1>
-        <p class="invite-text">Расскажи о нас друзьям и получи награду!</p>
+        <п class="invite-text">Расскажи о нас друзьям и получи награду!</п>
         <div class="link-container">
             <input type="text" class="referral-link" id="linkInput" value="https://t.me/YoungGame_bot" readonly>
             <button class="copy-button" id="copyButton">Копировать</button>
