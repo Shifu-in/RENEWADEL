@@ -213,7 +213,7 @@ document.addEventListener("DOMContentLoaded", () => {
             remainingSeconds--;
             const minutes = Math.floor(remainingSeconds / 60);
             const seconds = remainingSeconds % 60;
-            timerElement.textContent = `Подождите: ${minutes}м ${seconds}с`;
+            timerElement.textContent = `${minutes}м ${seconds}с`;
         }, 1000);
     };
 
