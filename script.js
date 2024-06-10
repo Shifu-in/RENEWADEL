@@ -126,10 +126,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 priceText.innerHTML = `${price} | level ${level}/6<br>${rate} Young coin / sec`;
             }
 
-            if (coins >= price) {
-                button.style.backgroundColor = '#00ff00';
+            if (level >= 6) {
+                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если достигнут максимальный уровень
+                button.disabled = true; // Отключаем кнопку
+            } else if (coins >= price) {
+                button.style.backgroundColor = '#00ff00'; // Кнопка зелёная, если достаточно монет для покупки
+                button.disabled = false; // Включаем кнопку
             } else {
-                button.style.backgroundColor = '#ff3b30';
+                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если недостаточно монет
+                button.disabled = false; // Включаем кнопку
             }
         });
     };
