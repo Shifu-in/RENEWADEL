@@ -8,10 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const genderSwitchInputs = document.querySelectorAll('.gender-switch input');
     const contentHer = document.getElementById('content-her');
     const contentHim = document.getElementById('content-him');
-    const languageSwitchInputs = document.querySelectorAll('.language-switch input');
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
+    const currentLanguageButton = document.getElementById('current-language');
+    const languageOptions = document.getElementById('language-options');
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -320,12 +321,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    languageSwitchInputs.forEach(input => {
-        input.addEventListener('change', () => {
-            if (input.checked) {
-                updateLanguage(input.value);
-            }
-        });
+    currentLanguageButton.addEventListener('click', () => {
+        languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+    });
+
+    languageOptions.addEventListener('click', (event) => {
+        const lang = event.target.getAttribute('data-lang');
+        updateLanguage(lang);
+        currentLanguageButton.textContent = lang.toUpperCase();
+        languageOptions.style.display = 'none';
     });
 
     window.addEventListener('load', () => {
