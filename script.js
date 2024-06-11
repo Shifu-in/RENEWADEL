@@ -100,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAllPages();
         document.getElementById(pageId).style.display = 'flex';
         updateNavigation(pageId);
+        saveProgressLocal(); // Сохраняем текущий язык
     };
 
     const updateNavigation = (activePageId) => {
@@ -319,6 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
         elements.forEach(el => {
             el.innerHTML = el.getAttribute(`data-lang-${lang}`);
         });
+        saveProgressLocal(); // Сохраняем текущий язык
     };
 
     currentLanguageButton.addEventListener('click', () => {
