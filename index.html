@@ -29,7 +29,7 @@
 
         .language-switch {
             position: absolute;
-            top: 10px;
+            top: 60px; /* Устанавливаем на 40 пикселей ниже данных о числе монет */
             left: 10px;
             color: #fff;
             font-family: 'Discovery', Arial, sans-serif;
@@ -124,52 +124,52 @@
     <div class="main-screen" id="store-page" style="display: none;">
         <div class="content-group">
             <div class="upgrades">
-                <h2>UPGRADES</h2>
+                <h2 data-lang-en="UPGRADES" data-lang-ru="АПГРЕЙДЫ">UPGRADES</h2>
                 <div class="upgrade-item">
                     <div class="upgrade-icon">
                         <img src="assets/images/апгрейд 1.svg" alt="GYM">
                     </div>
                     <div class="upgrade-details">
-                        <h3>GYM</h3>
-                        <p>50 | level 0/10<br>1 Young coin per tap</p>
+                        <h3 data-lang-en="GYM" data-lang-ru="ТРЕНАЖЕРНЫЙ ЗАЛ">GYM</h3>
+                        <p data-lang-en="50 | level 0/10<br>1 Young coin per tap" data-lang-ru="50 | уровень 0/10<br>1 Young coin за тап">50 | level 0/10<br>1 Young coin per tap</p>
                     </div>
-                    <button class="upgrade-button" data-type="gym">BUY</button>
+                    <button class="upgrade-button" data-type="gym" data-lang-en="BUY" data-lang-ru="КУПИТЬ">BUY</button>
                 </div>
                 <div class="upgrade-item">
                     <div class="upgrade-icon">
                         <img src="assets/images/апгрейд 2.svg" alt="AI-TAP">
                     </div>
                     <div class="upgrade-details">
-                        <h3>AI-TAP</h3>
-                        <p>20,000 | level 0/10<br>2 Young coin / sec</p>
+                        <h3 data-lang-en="AI-TAP" data-lang-ru="AI-ТАП">AI-TAP</h3>
+                        <p data-lang-en="20,000 | level 0/10<br>2 Young coin / sec" data-lang-ru="20,000 | уровень 0/10<br>2 Young coin / сек">20,000 | level 0/10<br>2 Young coin / sec</p>
                     </div>
-                    <button class="upgrade-button" data-type="aiTap">BUY</button>
+                    <button class="upgrade-button" data-type="aiTap" data-lang-en="BUY" data-lang-ru="КУПИТЬ">BUY</button>
                 </div>
                 <div class="upgrade-item">
                     <div class="upgrade-icon">
                         <img src="assets/images/апгрейд 3.svg" alt="AIRDROP">
                     </div>
                     <div class="upgrade-details">
-                        <h3>AIRDROP</h3>
-                        <p>100,000 | level 0/10<br>6 Young coin / sec</p>
+                        <h3 data-lang-en="AIRDROP" data-lang-ru="АИРДРОП">AIRDROP</h3>
+                        <p data-lang-en="100,000 | level 0/10<br>6 Young coin / sec" data-lang-ru="100,000 | уровень 0/10<br>6 Young coin / сек">100,000 | level 0/10<br>6 Young coin / sec</p>
                     </div>
-                    <button class="upgrade-button" data-type="airdrop">BUY</button>
+                    <button class="upgrade-button" data-type="airdrop" data-lang-en="BUY" data-lang-ru="КУПИТЬ">BUY</button>
                 </div>
                 <div class="upgrade-item">
                     <div class="upgrade-icon">
                         <img src="assets/images/апгрейд 4.svg" alt="DeFi">
                     </div>
                     <div class="upgrade-details">
-                        <h3>DeFi</h3>
-                        <p>10,000,000 | level 0/10<br>10 Young coin / sec</p>
+                        <h3 data-lang-en="DeFi" data-lang-ru="DeFi">DeFi</h3>
+                        <p data-lang-en="10,000,000 | level 0/10<br>10 Young coin / sec" data-lang-ru="10,000,000 | уровень 0/10<br>10 Young coin / сек">10,000,000 | level 0/10<br>10 Young coin / sec</p>
                     </div>
-                    <button class="upgrade-button" data-type="defi">BUY</button>
+                    <button class="upgrade-button" data-type="defi" data-lang-en="BUY" data-lang-ru="КУПИТЬ">BUY</button>
                 </div>
             </div>
             <div class="text-container-store">
                 <div class="text-background">
-                    <p class="text-main">Описание</p>
-                    <p class="text-sub">Покупка первого апгрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young.</p>
+                    <p class="text-main" data-lang-en="Description" data-lang-ru="Описание">Описание</p>
+                    <p class="text-sub" data-lang-en="Buying the first upgrade increases tap power. Subsequent upgrades enable auto-accrual of Young coins." data-lang-ru="Покупка первого апгрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young.">Покупка первого апгрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young.</p>
                 </div>
             </div>
         </div>
@@ -183,8 +183,8 @@
         <div class="background-room">
             <div class="text-container-room">
                 <div class="text-background">
-                    <p class="text-main">Это первый дом вашего персонажа</p>
-                    <p class="text-sub">Он/она скоро вернётся домой и ваше приключение начнётся...</p>
+                    <p class="text-main" data-lang-en="This is your character's first home" data-lang-ru="Это первый дом вашего персонажа">Это первый дом вашего персонажа</p>
+                    <p class="text-sub" data-lang-en="He/she will soon return home and your adventure will begin..." data-lang-ru="Он/она скоро вернётся домой и ваше приключение начнётся...">Он/она скоро вернётся домой и ваше приключение начнётся...</p>
                 </div>
             </div>
         </div>
@@ -195,20 +195,20 @@
             <div class="partner" id="partner1">
                 <div class="text-background">
                     <p class="text-main">ShifuCrypto</p>
-                    <p class="text-sub">Подпишитесь на канал.</p>
+                    <p class="text-sub" data-lang-en="Subscribe to the channel." data-lang-ru="Подпишитесь на канал.">Подпишитесь на канал.</p>
                     <div class="button-container">
-                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/shifucrypto', 'partner1')">Подписаться</button>
-                        <button class="confirm-button" onclick="confirmSubscription('partner1')" style="display: none;">Проверить</button>
+                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/shifucrypto', 'partner1')" data-lang-en="Subscribe" data-lang-ru="Подписаться">Подписаться</button>
+                        <button class="confirm-button" onclick="confirmSubscription('partner1')" style="display: none;" data-lang-en="Check" data-lang-ru="Проверить">Проверить</button>
                     </div>
                 </div>
             </div>
             <div class="partner" id="partner2">
                 <div class="text-background">
                     <p class="text-main">Tai Lung Airdrop</p>
-                    <p class="text-sub">Подпишитесь на канал.</p>
+                    <p class="text-sub" data-lang-en="Subscribe to the channel." data-lang-ru="Подпишитесь на канал.">Подпишитесь на канал.</p>
                     <div class="button-container">
-                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/tailungairdrop', 'partner2')">Подписаться</button>
-                        <button class="confirm-button" onclick="confirmSubscription('partner2')" style="display: none;">Проверить</button>
+                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/tailungairdrop', 'partner2')" data-lang-en="Subscribe" data-lang-ru="Подписаться">Подписаться</button>
+                        <button class="confirm-button" onclick="confirmSubscription('partner2')" style="display: none;" data-lang-en="Check" data-lang-ru="Проверить">Проверить</button>
                     </div>
                 </div>
             </div>
@@ -216,12 +216,12 @@
     </div>
 
     <div class="main-screen" id="friends-page" style="display: none;">
-        <h1 class="friends-title">Друзья</h1>
-        <p class="invite-text">Расскажи о нас друзьям и получи награду!</p>
-        <p class="invite-text">Твоя реферальная ссылка находиться в этом боте:</p>
+        <h1 class="friends-title" data-lang-en="Friends" data-lang-ru="Друзья">Друзья</h1>
+        <p class="invite-text" data-lang-en="Tell your friends about us and get a reward!" data-lang-ru="Расскажи о нас друзьям и получи награду!">Расскажи о нас друзьям и получи награду!</p>
+        <p class="invite-text" data-lang-en="Your referral link is in this bot:" data-lang-ru="Твоя реферальная ссылка находиться в этом боте:">Твоя реферальная ссылка находиться в этом боте:</p>
         <div class="link-container">
             <input type="text" class="referral-link" id="linkInput" value="https://t.me/YoungGame_bot" readonly>
-            <button class="copy-button" id="copyButton">Копировать</button>
+            <button class="copy-button" id="copyButton" data-lang-en="Copy" data-lang-ru="Копировать">Копировать</button>
         </div>
     </div>
 
