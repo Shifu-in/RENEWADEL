@@ -27,22 +27,44 @@
             user-select: none; /* Запрещаем выделение текста на всех браузерах */
         }
 
-        #tap-timer {
-            display: none;
-            color: white;
+        .language-switch {
             position: absolute;
-            top: 80px;
-            right: 20px; /* Таймер будет справа под переключателем "Он/Она" */
-            font-size: 10px;
-            z-index: 10000; /* Увеличенный z-index для отображения поверх других элементов */
+            top: 10px;
+            left: 10px;
+            color: #fff;
+            font-family: 'Discovery', Arial, sans-serif;
+            cursor: pointer;
+            user-select: none;
         }
 
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 20px;
+        .language-switch button {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .language-switch ul {
+            display: none;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            background-color: #333;
+            border-radius: 5px;
+            position: absolute;
+            top: 20px;
+            left: 0;
+        }
+
+        .language-switch ul li {
+            padding: 5px 10px;
+            cursor: pointer;
+        }
+
+        .language-switch ul li:hover {
+            background-color: #555;
         }
     </style>
 </head>
@@ -58,7 +80,7 @@
     <div class="main-screen" id="home-page" style="display: none;">
         <div class="header">
             <div class="coin-info">
-                <div class="coin-text">Young coin</div>
+                <div class="coin-text" data-lang-en="Young coin" data-lang-ru="Young coin">Young coin</div>
                 <div>
                     <span class="coin-amount">0</span>
                     <img src="assets/images/coins.svg" alt="Coins" class="coin-icon">
@@ -66,9 +88,16 @@
             </div>
             <div class="gender-switch">
                 <input type="radio" id="for-her" name="gender" value="her">
-                <label for="for-her">Она</label>
+                <label for="for-her" data-lang-en="Her" data-lang-ru="Она">Она</label>
                 <input type="radio" id="for-him" name="gender" value="him" checked>
-                <label for="for-him">Он</label>
+                <label for="for-him" data-lang-en="Him" data-lang-ru="Он">Он</label>
+            </div>
+            <div class="language-switch">
+                <button id="current-language">RU</button>
+                <ul id="language-options">
+                    <li data-lang="ru">RU</li>
+                    <li data-lang="en">EN</li>
+                </ul>
             </div>
         </div>
         <div id="tap-timer"></div>
@@ -76,8 +105,8 @@
             <img src="assets/images/Adel.png" alt="Character" class="character character-her" id="character-her">
             <div class="text-container">
                 <div class="text-background">
-                    <p class="text-main">Знакомьтесь - это ваш персонаж</p>
-                    <p class="text-sub">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
+                    <p class="text-main" data-lang-en="Meet your character" data-lang-ru="Знакомьтесь - это ваш персонаж">Знакомьтесь - это ваш персонаж</p>
+                    <p class="text-sub" data-lang-en="You can switch between them for now. Tap the screen to get Young coins!" data-lang-ru="Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
                 </div>
             </div>
         </div>
@@ -85,8 +114,8 @@
             <img src="assets/images/Ai.svg" alt="Character" class="character" id="character">
             <div class="text-container" style="margin-bottom: 50px;">
                 <div class="text-background">
-                    <p class="text-main">Знакомьтесь - это ваш персонаж</p>
-                    <p class="text-sub">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
+                    <p class="text-main" data-lang-en="Meet your character" data-lang-ru="Знакомьтесь - это ваш персонаж">Знакомьтесь - это ваш персонаж</p>
+                    <p class="text-sub" data-lang-en="You can switch between them for now. Tap the screen to get Young coins!" data-lang-ru="Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
                 </div>
             </div>
         </div>
@@ -189,6 +218,7 @@
     <div class="main-screen" id="friends-page" style="display: none;">
         <h1 class="friends-title">Друзья</h1>
         <p class="invite-text">Расскажи о нас друзьям и получи награду!</p>
+        <p class="invite-text">Твоя реферальная ссылка находиться в этом боте:</p>
         <div class="link-container">
             <input type="text" class="referral-link" id="linkInput" value="https://t.me/YoungGame_bot" readonly>
             <button class="copy-button" id="copyButton">Копировать</button>
