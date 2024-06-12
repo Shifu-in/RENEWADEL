@@ -8,7 +8,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const genderSwitchInputs = document.querySelectorAll('.gender-switch input');
     const contentHer = document.getElementById('content-her');
     const contentHim = document.getElementById('content-him');
-    const languageSwitchInputs = document.querySelectorAll('.language-switch input');
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
