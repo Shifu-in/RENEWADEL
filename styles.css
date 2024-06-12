@@ -49,7 +49,7 @@ body, html {
 
 .language-switch {
     position: absolute;
-    top: 70px; /* 30px ниже предыдущего положения */
+    top: 120px; /* Опущен еще на 50 пикселей */
     left: 35px; /* 5px правее предыдущего положения */
     transform: translateY(-50%);
     color: #fff;
