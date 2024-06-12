@@ -100,7 +100,6 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAllPages();
         document.getElementById(pageId).style.display = 'flex';
         updateNavigation(pageId);
-        saveProgressLocal(); 
     };
 
     const updateNavigation = (activePageId) => {
@@ -280,21 +279,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             notification.style.opacity = 1;
-        }, 100); // Delay to trigger CSS transition
+        }, 100);
 
         setTimeout(() => {
             notification.style.opacity = 0;
             setTimeout(() => {
                 notification.remove();
-            }, 500); // Wait for transition to complete
-        }, 3000); // Duration the notification is visible
+            }, 500);
+        }, 3000);
     };
 
     copyButton.addEventListener('click', () => {
         linkInput.select();
-        linkInput.setSelectionRange(0, 99999); // Для мобильных устройств
+        linkInput.setSelectionRange(0, 99999);
 
-        // Копируем выделенный текст в буфер обмена
         navigator.clipboard.writeText(linkInput.value).then(() => {
             showNotification('Ссылка скопирована!');
             if (!rewardGiven) {
@@ -320,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
         elements.forEach(el => {
             el.innerHTML = el.getAttribute(`data-lang-${lang}`);
         });
-        localStorage.setItem('selectedLanguage', lang); // Сохраняем текущий язык в localStorage
+        localStorage.setItem('selectedLanguage', lang);
     };
 
     const savedLanguage = localStorage.getItem('selectedLanguage');
