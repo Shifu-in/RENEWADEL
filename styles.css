@@ -49,7 +49,7 @@ body, html {
 
 .language-switch {
     position: absolute;
-    top: 100px; /* Устанавливаем на 40 пикселей ниже данных о числе монет */
+    top: 120px; /* Устанавливаем на 40 пикселей ниже данных о числе монет */
     left: 10px;
     color: #fff;
     font-family: 'Discovery', Arial, sans-serif;
