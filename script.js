@@ -318,7 +318,7 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProgressLocal();
 
     const updateLanguage = (lang) => {
-        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en]');
+        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
         elements.forEach(el => {
             el.innerHTML = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
         });
