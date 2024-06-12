@@ -8,20 +8,23 @@ document.addEventListener("DOMContentLoaded", () => {
     const genderSwitchInputs = document.querySelectorAll('.gender-switch input');
     const contentHer = document.getElementById('content-her');
     const contentHim = document.getElementById('content-him');
+    const languageSwitchInputs = document.querySelectorAll('.language-switch input');
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
-    const currentLanguageButton = document.getElementById('current-language');
-    const languageOptions = document.getElementById('language-options');
+
+    const languageSwitcher = document.getElementById('language-switch');
+    const currentLanguage = document.querySelector('.current-language');
+    const languageList = document.querySelector('.language-list');
 
     let coins = 0;
     let coinsPerTap = 1;
     let clickCount = 0;
     let rewardGiven = false;
-    let tapCount = 0;
-    let isTapBlocked = false;
-    let blockStartTime = null;
-    let blockTimeout = null;
+    let tapCount = 0; // Добавлена переменная для отслеживания количества тапов
+    let isTapBlocked = false; // Добавлена переменная для блокировки тапов
+    let blockStartTime = null; // Время начала блокировки
+    let blockTimeout = null; // Таймаут для блокировки тапов
     const autoClickers = {
         gym: { level: 0, basePrice: 50, increment: 1, currentRate: 0, priceFactor: 3, multiplier: 2 },
         aiTap: { level: 0, basePrice: 20000, increment: 2, currentRate: 0, priceFactor: 3, multiplier: 2 },
@@ -36,9 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
             autoClickers: autoClickers,
             rewardGiven: rewardGiven,
             lastActive: Date.now(),
-            tapCount: tapCount,
-            isTapBlocked: isTapBlocked,
-            blockStartTime: blockStartTime
+            tapCount: tapCount, // Сохранение количества тапов
+            isTapBlocked: isTapBlocked, // Сохранение состояния блокировки
+            blockStartTime: blockStartTime // Сохранение времени начала блокировки
         };
         localStorage.setItem('gameProgress', JSON.stringify(progress));
     };
@@ -50,9 +53,9 @@ document.addEventListener("DOMContentLoaded", () => {
             coins = progress.coins;
             coinsPerTap = progress.coinsPerTap;
             rewardGiven = progress.rewardGiven;
-            tapCount = progress.tapCount || 0;
-            isTapBlocked = progress.isTapBlocked || false;
-            blockStartTime = progress.blockStartTime || null;
+            tapCount = progress.tapCount || 0; // Загрузка количества тапов
+            isTapBlocked = progress.isTapBlocked || false; // Загрузка состояния блокировки
+            blockStartTime = progress.blockStartTime || null; // Загрузка времени начала блокировки
             const lastActive = progress.lastActive || Date.now();
             const timeElapsed = Math.floor((Date.now() - lastActive) / 1000);
             Object.keys(autoClickers).forEach(key => {
@@ -68,13 +71,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             if (isTapBlocked) {
-                const blockDuration = 15 * 60 * 1000;
+                const blockDuration = 15 * 60 * 1000; // 15 минут в миллисекундах
                 const timeSinceBlock = Date.now() - blockStartTime;
                 if (timeSinceBlock >= blockDuration) {
                     isTapBlocked = false;
                     tapCount = 0;
                     showNotification('Вы снова можете тапать!');
-                    timerElement.style.display = 'none';
+                    timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
                 } else {
                     startBlockTimeout(blockDuration - timeSinceBlock);
                 }
@@ -151,14 +154,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (level >= 6) {
-                button.style.backgroundColor = '#ff3b30';
-                button.disabled = true;
+                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если достигнут максимальный уровень
+                button.disabled = true; // Отключаем кнопку
             } else if (coins >= price) {
-                button.style.backgroundColor = '#00ff00';
-                button.disabled = false;
+                button.style.backgroundColor = '#00ff00'; // Кнопка зелёная, если достаточно монет для покупки
+                button.disabled = false; // Включаем кнопку
             } else {
-                button.style.backgroundColor = '#ff3b30';
-                button.disabled = false;
+                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если недостаточно монет
+                button.disabled = false; // Включаем кнопку
             }
         });
     };
@@ -172,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tapCount++;
         if (tapCount > 1000) {
             isTapBlocked = true;
-            blockStartTime = Date.now();
+            blockStartTime = Date.now(); // Устанавливаем время начала блокировки
             showNotification('Достигнут лимит тапов! Подождите 15 минут.');
             startBlockTimeout();
             saveProgressLocal();
@@ -195,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
             isTapBlocked = false;
             tapCount = 0;
             showNotification('Вы снова можете тапать!');
-            timerElement.style.display = 'none';
+            timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
             saveProgressLocal();
         }, remainingTime);
 
@@ -240,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const upgradeType = button.getAttribute('data-type');
             const price = getUpgradePrice(upgradeType);
 
-            if (coins >= price && autoClickers[upgradeType].level < 6) {
+            if (coins >= price && autoClickers[upgradeType].level < 6) { // изменено с 5 на 6
                 coins -= price;
                 coinAmountSpan.textContent = coins;
                 autoClickers[upgradeType].level++;
@@ -279,20 +282,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             notification.style.opacity = 1;
-        }, 100);
+        }, 100); // Delay to trigger CSS transition
 
         setTimeout(() => {
             notification.style.opacity = 0;
             setTimeout(() => {
                 notification.remove();
-            }, 500);
-        }, 3000);
+            }, 500); // Wait for transition to complete
+        }, 3000); // Duration the notification is visible
     };
 
     copyButton.addEventListener('click', () => {
         linkInput.select();
-        linkInput.setSelectionRange(0, 99999);
+        linkInput.setSelectionRange(0, 99999); // Для мобильных устройств
 
+        // Копируем выделенный текст в буфер обмена
         navigator.clipboard.writeText(linkInput.value).then(() => {
             showNotification('Ссылка скопирована!');
             if (!rewardGiven) {
@@ -314,28 +318,25 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProgressLocal();
 
     const updateLanguage = (lang) => {
-        const elements = document.querySelectorAll('[data-lang-en], [data-lang-ru]');
+        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en]');
         elements.forEach(el => {
-            el.innerHTML = el.getAttribute(`data-lang-${lang}`);
+            el.innerHTML = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
         });
-        localStorage.setItem('selectedLanguage', lang);
     };
 
-    const savedLanguage = localStorage.getItem('selectedLanguage');
-    if (savedLanguage) {
-        updateLanguage(savedLanguage);
-        currentLanguageButton.textContent = savedLanguage.toUpperCase();
-    }
-
-    currentLanguageButton.addEventListener('click', () => {
-        languageOptions.style.display = languageOptions.style.display === 'block' ? 'none' : 'block';
+    languageSwitcher.addEventListener('click', () => {
+        if (languageList.style.display === 'none') {
+            languageList.style.display = 'block';
+        } else {
+            languageList.style.display = 'none';
+        }
     });
 
-    languageOptions.addEventListener('click', (event) => {
-        const lang = event.target.getAttribute('data-lang');
-        updateLanguage(lang);
-        currentLanguageButton.textContent = lang.toUpperCase();
-        languageOptions.style.display = 'none';
+    languageList.addEventListener('click', (event) => {
+        const selectedLang = event.target.getAttribute('data-lang');
+        currentLanguage.textContent = selectedLang;
+        updateLanguage(selectedLang);
+        languageList.style.display = 'none';
     });
 
     window.addEventListener('load', () => {
