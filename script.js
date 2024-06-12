@@ -320,6 +320,9 @@ document.addEventListener("DOMContentLoaded", () => {
         const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
         elements.forEach(el => {
             el.innerHTML = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
+            if (lang.toLowerCase() === 'uz' && el.classList.contains('upgrade-button')) {
+                el.innerHTML = 'BUY'; // For Uzbek language, set upgrade button text to "BUY"
+            }
         });
     };
 
