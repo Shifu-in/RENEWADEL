@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
     const walletImage = document.querySelector('#wallet-page img'); // Добавлено для смены изображения на странице кошелька
+    const slider = document.getElementById('friends-slider');
+    const sliderValue = document.getElementById('slider-value');
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -202,7 +204,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveProgressLocal();
         }, remainingTime);
 
-        updateTimer(remainingTime / 1000);
+        updateTimer(remainingSeconds);
     };
 
     const updateTimer = (remainingSeconds) => {
@@ -281,79 +283,56 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.appendChild(notification);
 
         setTimeout(() => {
-            notification.style.opacity = 1;
-        }, 100); // Delay to trigger CSS transition
-
-        setTimeout(() => {
-            notification.style.opacity = 0;
-            setTimeout(() => {
-                notification.remove();
-            }, 500); // Wait for transition to complete
-        }, 3000); // Duration the notification is visible
+            notification.remove();
+        }, 3000);
     };
+
+    linkInput.addEventListener('click', () => {
+        linkInput.select();
+    });
 
     copyButton.addEventListener('click', () => {
         linkInput.select();
-        linkInput.setSelectionRange(0, 99999); // Для мобильных устройств
+        document.execCommand('copy');
+        showNotification('Ссылка скопирована!');
+    });
 
-        // Копируем выделенный текст в буфер обмена
-        navigator.clipboard.writeText(linkInput.value).then(() => {
-            showNotification('Ссылка скопирована!');
-            if (!rewardGiven) {
-                coins += 5000;
-                coinAmountSpan.textContent = coins;
-                showNotification('Вам начислено 5,000 монет Young!');
-                rewardGiven = true;
-                saveProgressLocal();
+    // Добавление кода для переключения языков
+    const languageElements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
+
+    const updateLanguage = (lang) => {
+        languageElements.forEach(el => {
+            const langText = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
+            if (langText) {
+                if (el.tagName === 'IMG') {
+                    el.src = langText; // Изменение изображения
+                } else {
+                    el.textContent = langText;
+                }
             }
+        });
+    };
+
+    currentLanguage.addEventListener('click', () => {
+        languageList.style.display = languageList.style.display === 'none' ? 'block' : 'none';
+    });
+
+    languageList.querySelectorAll('div').forEach(langDiv => {
+        langDiv.addEventListener('click', () => {
+            const selectedLang = langDiv.getAttribute('data-lang');
+            currentLanguage.textContent = selectedLang;
+            languageList.style.display = 'none';
+            updateLanguage(selectedLang);
         });
     });
 
-    document.addEventListener('gesturestart', (e) => e.preventDefault());
-    document.addEventListener('gesturechange', (e) => e.preventDefault());
-    document.addEventListener('gestureend', (e) => e.preventDefault());
-    document.addEventListener('dblclick', (e) => e.preventDefault());
+    // Обработчик изменения значения ползунка
+    slider.addEventListener('input', (event) => {
+        const invitedFriends = event.target.value;
+        const coinsEarned = invitedFriends * 100; // Пример расчета монет на основе приглашенных друзей
+        sliderValue.textContent = `Вы получите: ${coinsEarned} монет`;
+    });
 
     showPage('home-page');
     loadProgressLocal();
-
-    const updateLanguage = (lang) => {
-        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
-        elements.forEach(el => {
-            el.innerHTML = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
-            if (lang.toLowerCase() === 'uz' && el.classList.contains('upgrade-button')) {
-                el.innerHTML = 'BUY'; // For Uzbek language, set upgrade button text to "BUY"
-            }
-        });
-
-        // Добавить код для изменения изображения на странице кошелька
-        const imageSrc = walletImage.getAttribute(`data-lang-${lang.toLowerCase()}`);
-        if (imageSrc) {
-            walletImage.src = imageSrc;
-        }
-    };
-
-    languageSwitcher.addEventListener('click', () => {
-        if (languageList.style.display === 'none') {
-            languageList.style.display = 'block';
-        } else {
-            languageList.style.display = 'none';
-        }
-    });
-
-    languageList.addEventListener('click', (event) => {
-        const selectedLang = event.target.getAttribute('data-lang');
-        currentLanguage.textContent = selectedLang;
-        updateLanguage(selectedLang);
-        languageList.style.display = 'none';
-    });
-
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            document.getElementById('loading-screen').style.display = 'none';
-            document.getElementById('home-page').style.display = 'flex';
-        }, 5000);
-    });
-
-    window.addEventListener('beforeunload', saveProgressLocal);
 });
