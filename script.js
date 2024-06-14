@@ -22,6 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const referralsCountElement = document.getElementById('referrals-count');
     const daysCountElement = document.getElementById('days-count');
     const probabilityValue = document.getElementById('probability-value');
+    const rewardProbabilitySlider = document.getElementById('reward-probability-slider');
 
     let referralsCount = 0;
     let daysCount = 0;
@@ -319,9 +320,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener('gesturestart', (e) => e.preventDefault());
-    document.addEventListener('gesturechange', (e) => e.preventDefault());
-    document.addEventListener('gestureend', (e) => e.preventDefault());
-    document.addEventListener('dblclick', (e) => e.preventDefault());
+    document.add.addEventListener('gesturechange', (e) => e.preventDefault());
+    document.add.addEventListener('gestureend', (e) => e.preventDefault());
+    document.add.addEventListener('dblclick', (e) => e.preventDefault());
 
     showPage('home-page');
     loadProgressLocal();
@@ -365,7 +366,7 @@ document.addEventListener("DOMContentLoaded", () => {
         probabilityValue.textContent = `${value}%`;
     };
 
-    friendsSlider.addEventListener('input', (e) => {
+    rewardProbabilitySlider.addEventListener('input', (e) => {
         updateProbabilityValue(e.target.value);
     });
 
