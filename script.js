@@ -1,353 +1,162 @@
-document.addEventListener("DOMContentLoaded", () => {
-    const pages = document.querySelectorAll('.main-screen');
+document.addEventListener('DOMContentLoaded', function () {
+    const homePage = document.getElementById('home-page');
+    const storePage = document.getElementById('store-page');
+    const statsPage = document.getElementById('stats-page');
+    const walletPage = document.getElementById('wallet-page');
+    const funPage = document.getElementById('fun-page');
+    const friendsPage = document.getElementById('friends-page');
+    const airdropPage = document.getElementById('airdrop-page'); // New Airdrop Page
+
     const navItems = document.querySelectorAll('.nav-item');
-    const coinAmountSpan = document.querySelector('.coin-amount');
+    const loadingScreen = document.getElementById('loading-screen');
+    const loadingGif = document.getElementById('loading-gif');
+    const loadingText = document.getElementById('loading-text');
+    const coinAmountElement = document.querySelector('.coin-amount');
+    const copyButton = document.getElementById('copyButton');
+    const linkInput = document.getElementById('linkInput');
+    const genderSwitch = document.querySelector('.gender-switch');
     const characterHer = document.getElementById('character-her');
     const characterHim = document.getElementById('character');
-    const upgradeButtons = document.querySelectorAll('.upgrade-button');
-    const genderSwitchInputs = document.querySelectorAll('.gender-switch input');
-    const contentHer = document.getElementById('content-her');
-    const contentHim = document.getElementById('content-him');
-    const linkInput = document.getElementById('linkInput');
-    const copyButton = document.getElementById('copyButton');
-    const timerElement = document.getElementById('tap-timer');
-    const slider = document.getElementById('airdrop-slider');
-    const sliderValue = document.getElementById('slider-value');
-
-    const languageSwitcher = document.getElementById('language-switch');
+    const tapTimer = document.getElementById('tap-timer');
+    const languageSwitch = document.getElementById('language-switch');
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
+    const friendsSlider = document.getElementById('friends-slider'); // Slider
+    const sliderValue = document.getElementById('slider-value'); // Slider value display
 
+    // Coins count
     let coins = 0;
-    let coinsPerTap = 1;
-    let clickCount = 0;
-    let rewardGiven = false;
-    let tapCount = 0; // Добавлена переменная для отслеживания количества тапов
-    let isTapBlocked = false; // Добавлена переменная для блокировки тапов
-    let blockStartTime = null; // Время начала блокировки
-    let blockTimeout = null; // Таймаут для блокировки тапов
-    const autoClickers = {
-        gym: { level: 0, basePrice: 50, increment: 1, currentRate: 0, priceFactor: 3, multiplier: 2 },
-        aiTap: { level: 0, basePrice: 20000, increment: 2, currentRate: 0, priceFactor: 3, multiplier: 2 },
-        airdrop: { level: 0, basePrice: 100000, increment: 6, currentRate: 0, priceFactor: 3, multiplier: 2 },
-        defi: { level: 0, basePrice: 10000000, increment: 10, currentRate: 0, priceFactor: 3, multiplier: 2 },
-    };
 
-    const saveProgressLocal = () => {
-        const progress = {
-            coins: coins,
-            coinsPerTap: coinsPerTap,
-            autoClickers: autoClickers,
-            rewardGiven: rewardGiven,
-            lastActive: Date.now(),
-            tapCount: tapCount, // Сохранение количества тапов
-            isTapBlocked: isTapBlocked, // Сохранение состояния блокировки
-            blockStartTime: blockStartTime // Сохранение времени начала блокировки
-        };
-        localStorage.setItem('gameProgress', JSON.stringify(progress));
-    };
+    // Simulate loading process
+    setTimeout(function () {
+        loadingScreen.style.display = 'none';
+        homePage.style.display = 'flex';
+    }, 3000); // Simulate 3 seconds loading time
 
-    const loadProgressLocal = () => {
-        const savedProgress = localStorage.getItem('gameProgress');
-        if (savedProgress) {
-            const progress = JSON.parse(savedProgress);
-            coins = progress.coins;
-            coinsPerTap = progress.coinsPerTap;
-            rewardGiven = progress.rewardGiven;
-            tapCount = progress.tapCount || 0; // Загрузка количества тапов
-            isTapBlocked = progress.isTapBlocked || false; // Загрузка состояния блокировки
-            blockStartTime = progress.blockStartTime || null; // Загрузка времени начала блокировки
-            const lastActive = progress.lastActive || Date.now();
-            const timeElapsed = Math.floor((Date.now() - lastActive) / 1000);
-            Object.keys(autoClickers).forEach(key => {
-                autoClickers[key].level = progress.autoClickers[key].level;
-                autoClickers[key].currentRate = progress.autoClickers[key].currentRate;
-            });
-            calculateOfflineEarnings(timeElapsed);
-            coinAmountSpan.textContent = coins;
-            updateUpgradePrices();
-            Object.keys(autoClickers).forEach(key => {
-                if (autoClickers[key].level > 0) {
-                    startAutoClicker(key);
-                }
-            });
-            if (isTapBlocked) {
-                const blockDuration = 15 * 60 * 1000; // 15 минут в миллисекундах
-                const timeSinceBlock = Date.now() - blockStartTime;
-                if (timeSinceBlock >= blockDuration) {
-                    isTapBlocked = false;
-                    tapCount = 0;
-                    showNotification('Вы снова можете тапать!');
-                    timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
-                } else {
-                    startBlockTimeout(blockDuration - timeSinceBlock);
-                }
-            }
-        }
-    };
+    // Coin animation
+    const createCoinAnimation = (x, y, coinValue) => {
+        const coin = document.createElement('div');
+        coin.className = 'coin-animation';
+        coin.style.left = `${x}px`;
+        coin.style.top = `${y}px`;
+        coin.innerHTML = `<img src="assets/images/coins.svg" alt="Coin">${coinValue}`;
+        document.body.appendChild(coin);
 
-    const calculateOfflineEarnings = (timeElapsed) => {
-        let offlineCoins = 0;
-        Object.keys(autoClickers).forEach(key => {
-            offlineCoins += autoClickers[key].currentRate * timeElapsed;
-        });
-        coins += offlineCoins;
-    };
-
-    const hideAllPages = () => {
-        pages.forEach(page => {
-            page.style.display = 'none';
-        });
-    };
-
-    const showPage = (pageId) => {
-        hideAllPages();
-        document.getElementById(pageId).style.display = 'flex';
-        updateNavigation(pageId);
-    };
-
-    const updateNavigation = (activePageId) => {
-        navItems.forEach(navItem => {
-            navItem.classList.remove('active');
-            if (navItem.dataset.page === activePageId) {
-                navItem.classList.add('active');
-            }
-        });
-    };
-
-    navItems.forEach(navItem => {
-        navItem.addEventListener('click', () => {
-            showPage(navItem.dataset.page);
-        });
-    });
-
-    const getUpgradePrice = (upgradeType) => {
-        const basePrice = autoClickers[upgradeType].basePrice;
-        const level = autoClickers[upgradeType].level;
-        if (level === 0) {
-            return basePrice;
-        }
-        return Math.floor(basePrice * Math.pow(autoClickers[upgradeType].priceFactor, level));
-    };
-
-    const startAutoClicker = (upgradeType) => {
-        setInterval(() => {
-            coins += autoClickers[upgradeType].currentRate;
-            coinAmountSpan.textContent = coins;
-            updateUpgradePrices();
-            saveProgressLocal();
+        setTimeout(() => {
+            document.body.removeChild(coin);
         }, 1000);
     };
 
-    const updateUpgradePrices = () => {
-        upgradeButtons.forEach(button => {
-            const upgradeType = button.getAttribute('data-type');
-            const price = getUpgradePrice(upgradeType);
-            const upgradeItem = button.parentElement;
-            const priceText = upgradeItem.querySelector('.upgrade-details p');
-            const level = autoClickers[upgradeType].level;
-            const rate = autoClickers[upgradeType].currentRate;
-
-            if (upgradeType === "gym") {
-                priceText.innerHTML = `${price} | level ${level}/6<br>${rate + coinsPerTap} Young coin per tap`;
-            } else {
-                priceText.innerHTML = `${price} | level ${level}/6<br>${rate} Young coin / sec`;
-            }
-
-            if (level >= 6) {
-                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если достигнут максимальный уровень
-                button.disabled = true; // Отключаем кнопку
-            } else if (coins >= price) {
-                button.style.backgroundColor = '#00ff00'; // Кнопка зелёная, если достаточно монет для покупки
-                button.disabled = false; // Включаем кнопку
-            } else {
-                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если недостаточно монет
-                button.disabled = false; // Включаем кнопку
-            }
-        });
+    const updateSliderValue = (value) => {
+        sliderValue.textContent = `Вы получите: ${value} монет`;
     };
 
-    const handleClick = (event) => {
-        if (isTapBlocked) {
-            showNotification('Достигнут лимит тапов! Подождите 15 минут.');
-            return;
+    // Navigation
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const pageId = item.getAttribute('data-page');
+
+            navItems.forEach(nav => nav.classList.remove('active'));
+            item.classList.add('active');
+
+            homePage.style.display = 'none';
+            storePage.style.display = 'none';
+            statsPage.style.display = 'none';
+            walletPage.style.display = 'none';
+            funPage.style.display = 'none';
+            friendsPage.style.display = 'none';
+            airdropPage.style.display = 'none'; // Hide other pages
+
+            document.getElementById(pageId).style.display = 'flex';
+        });
+    });
+
+    // Gender switch
+    genderSwitch.addEventListener('change', (event) => {
+        if (event.target.value === 'her') {
+            document.getElementById('content-her').style.display = 'flex';
+            document.getElementById('content-him').style.display = 'none';
+        } else {
+            document.getElementById('content-her').style.display = 'none';
+            document.getElementById('content-him').style.display = 'flex';
         }
-
-        tapCount++;
-        if (tapCount > 1000) {
-            isTapBlocked = true;
-            blockStartTime = Date.now(); // Устанавливаем время начала блокировки
-            showNotification('Достигнут лимит тапов! Подождите 15 минут.');
-            startBlockTimeout();
-            saveProgressLocal();
-            return;
-        }
-
-        coins += coinsPerTap;
-        clickCount++;
-        coinAmountSpan.textContent = coins;
-        showCoinAnimation(event.clientX, event.clientY, coinsPerTap);
-        updateUpgradePrices();
-
-        if (clickCount % 5 === 0) {
-            saveProgressLocal();
-        }
-    };
-
-    const startBlockTimeout = (remainingTime = 15 * 60 * 1000) => {
-        blockTimeout = setTimeout(() => {
-            isTapBlocked = false;
-            tapCount = 0;
-            showNotification('Вы снова можете тапать!');
-            timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
-            saveProgressLocal();
-        }, remainingTime);
-
-        updateTimer(remainingTime / 1000);
-    };
-
-    const updateTimer = (remainingSeconds) => {
-        timerElement.style.display = 'block';
-
-        const interval = setInterval(() => {
-            if (remainingSeconds <= 0) {
-                clearInterval(interval);
-                timerElement.style.display = 'none';
-                return;
-            }
-            remainingSeconds--;
-            const minutes = Math.floor(remainingSeconds / 60);
-            const seconds = remainingSeconds % 60;
-            timerElement.textContent = `${minutes}м ${seconds}с`;
-        }, 1000);
-    };
-
-    characterHim.addEventListener('pointerdown', handleClick);
-    characterHer.addEventListener('pointerdown', handleClick);
-
-    const showCoinAnimation = (x, y, amount) => {
-        const coinAnimation = document.createElement('div');
-        coinAnimation.classList.add('coin-animation');
-        coinAnimation.innerHTML = `<img src="assets/images/coins.svg" alt="Coin"><span>+${amount}</span>`;
-        document.body.appendChild(coinAnimation);
-
-        coinAnimation.style.left = `${x}px`;
-        coinAnimation.style.top = `${y}px`;
-
-        coinAnimation.addEventListener('animationend', () => {
-            coinAnimation.remove();
-        });
-    };
-
-    upgradeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const upgradeType = button.getAttribute('data-type');
-            const price = getUpgradePrice(upgradeType);
-
-            if (coins >= price && autoClickers[upgradeType].level < 6) { // изменено с 5 на 6
-                coins -= price;
-                coinAmountSpan.textContent = coins;
-                autoClickers[upgradeType].level++;
-                if (upgradeType === "gym") {
-                    coinsPerTap *= autoClickers[upgradeType].multiplier;
-                } else {
-                    autoClickers[upgradeType].currentRate += autoClickers[upgradeType].increment * autoClickers[upgradeType].multiplier ** (autoClickers[upgradeType].level - 1);
-                }
-                if (autoClickers[upgradeType].level === 1) {
-                    startAutoClicker(upgradeType);
-                }
-                updateUpgradePrices();
-                saveProgressLocal();
-            }
-        });
     });
 
-    genderSwitchInputs.forEach(input => {
-        input.addEventListener('change', () => {
-            if (input.value === 'her') {
-                contentHer.style.display = 'flex';
-                contentHim.style.display = 'none';
-            } else {
-                contentHer.style.display = 'none';
-                contentHim.style.display = 'flex';
-            }
-            saveProgressLocal();
-        });
+    // Tap to earn coins
+    homePage.addEventListener('click', function (event) {
+        coins++;
+        coinAmountElement.textContent = coins;
+
+        const x = event.clientX;
+        const y = event.clientY;
+
+        createCoinAnimation(x, y, 1);
     });
 
-    const showNotification = (message) => {
-        const notification = document.createElement('div');
-        notification.classList.add('notification');
-        notification.textContent = message;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.style.opacity = 1;
-        }, 100); // Delay to trigger CSS transition
-
-        setTimeout(() => {
-            notification.style.opacity = 0;
-            setTimeout(() => {
-                notification.remove();
-            }, 500); // Wait for transition to complete
-        }, 3000); // Duration the notification is visible
-    };
-
-    linkInput.addEventListener('click', () => {
-        linkInput.select();
-    });
-
-    copyButton.addEventListener('click', () => {
-        linkInput.select();
-        document.execCommand('copy');
-        showNotification('Ссылка скопирована!');
-    });
-
-    // Добавление кода для переключения языков
-    const languageElements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
-
-    const updateLanguage = (lang) => {
-        languageElements.forEach(el => {
-            const langText = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
-            if (langText) {
-                if (el.tagName === 'IMG') {
-                    el.src = langText; // Изменение изображения
-                } else {
-                    el.textContent = langText;
-                }
-            }
-        });
-    };
-
-    currentLanguage.addEventListener('click', () => {
+    // Language switcher
+    languageSwitch.addEventListener('click', function () {
         languageList.style.display = languageList.style.display === 'none' ? 'block' : 'none';
     });
 
-    languageList.querySelectorAll('div').forEach(langDiv => {
-        langDiv.addEventListener('click', () => {
-            const selectedLang = langDiv.getAttribute('data-lang');
-            currentLanguage.textContent = selectedLang;
+    languageList.addEventListener('click', function (event) {
+        const lang = event.target.getAttribute('data-lang');
+        if (lang) {
+            currentLanguage.textContent = lang;
             languageList.style.display = 'none';
-            updateLanguage(selectedLang);
+            setLanguage(lang);
+        }
+    });
+
+    const setLanguage = (lang) => {
+        document.querySelectorAll('[data-lang-' + lang.toLowerCase() + ']').forEach(element => {
+            element.textContent = element.getAttribute('data-lang-' + lang.toLowerCase());
+        });
+    };
+
+    // Copy referral link
+    copyButton.addEventListener('click', function () {
+        linkInput.select();
+        document.execCommand('copy');
+        alert('Скопировано в буфер обмена');
+    });
+
+    // Update slider value display
+    friendsSlider.addEventListener('input', function () {
+        updateSliderValue(this.value);
+    });
+
+    // Timer to track taps
+    let tapStartTime = 0;
+    let tapTimerInterval;
+
+    const updateTapTimer = () => {
+        const currentTime = Date.now();
+        const elapsedSeconds = Math.floor((currentTime - tapStartTime) / 1000);
+        tapTimer.textContent = `Time: ${elapsedSeconds}s`;
+    };
+
+    const startTapTimer = () => {
+        tapStartTime = Date.now();
+        tapTimer.style.display = 'block';
+        tapTimerInterval = setInterval(updateTapTimer, 1000);
+    };
+
+    const stopTapTimer = () => {
+        clearInterval(tapTimerInterval);
+        tapTimer.style.display = 'none';
+    };
+
+    // Start the timer when the home page is clicked
+    homePage.addEventListener('click', function () {
+        if (!tapTimerInterval) {
+            startTapTimer();
+        }
+    });
+
+    // Stop the timer when the home page is hidden
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            stopTapTimer();
         });
     });
-
-    // Обработчик изменения значения ползунка
-    slider.addEventListener('input', (event) => {
-        const invitedFriends = event.target.value;
-        const coinsEarned = invitedFriends * 100; // Пример расчета монет на основе приглашенных друзей
-        sliderValue.textContent = `Вы получите: ${coinsEarned} монет`;
-    });
-
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            document.getElementById('loading-screen').style.display = 'none';
-            document.getElementById('home-page').style.display = 'flex';
-        }, 5000);
-    });
-
-    window.addEventListener('beforeunload', saveProgressLocal);
-
-    showPage('home-page');
-    loadProgressLocal();
 });
