@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const languageSwitcher = document.getElementById('language-switch');
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
+    const walletImage = document.querySelector('#wallet-page img'); // Добавлено для смены изображения на странице кошелька
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -324,6 +325,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 el.innerHTML = 'BUY'; // For Uzbek language, set upgrade button text to "BUY"
             }
         });
+
+        // Добавить код для изменения изображения на странице кошелька
+        const imageSrc = walletImage.getAttribute(`data-lang-${lang.toLowerCase()}`);
+        if (imageSrc) {
+            walletImage.src = imageSrc;
+        }
     };
 
     languageSwitcher.addEventListener('click', () => {
