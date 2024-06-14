@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             if (isTapBlocked) {
-                const blockDuration = 15 * 60 * 1000; // 15 минут в миллисекундах
+                const blockDuration = 15 * 60 * 0; // 15 минут в миллисекундах
                 const timeSinceBlock = Date.now() - blockStartTime;
                 if (timeSinceBlock >= blockDuration) {
                     isTapBlocked = false;
@@ -320,9 +320,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     document.addEventListener('gesturestart', (e) => e.preventDefault());
-    document.add.addEventListener('gesturechange', (e) => e.preventDefault());
-    document.add.addEventListener('gestureend', (e) => e.preventDefault());
-    document.add.addEventListener('dblclick', (e) => e.preventDefault());
+    document.addEventListener('gesturechange', (e) => e.preventDefault());
+    document.addEventListener('gestureend', (e) => e.preventDefault());
+    document.addEventListener('dblclick', (e) => e.preventDefault());
 
     showPage('home-page');
     loadProgressLocal();
