@@ -11,13 +11,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
+    const slider = document.getElementById('airdrop-slider');
+    const sliderValue = document.getElementById('slider-value');
 
     const languageSwitcher = document.getElementById('language-switch');
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
-    const walletImage = document.querySelector('#wallet-page img'); // Добавлено для смены изображения на странице кошелька
-    const slider = document.getElementById('friends-slider');
-    const sliderValue = document.getElementById('slider-value');
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -204,7 +203,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveProgressLocal();
         }, remainingTime);
 
-        updateTimer(remainingSeconds);
+        updateTimer(remainingTime / 1000);
     };
 
     const updateTimer = (remainingSeconds) => {
@@ -283,8 +282,15 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.appendChild(notification);
 
         setTimeout(() => {
-            notification.remove();
-        }, 3000);
+            notification.style.opacity = 1;
+        }, 100); // Delay to trigger CSS transition
+
+        setTimeout(() => {
+            notification.style.opacity = 0;
+            setTimeout(() => {
+                notification.remove();
+            }, 500); // Wait for transition to complete
+        }, 3000); // Duration the notification is visible
     };
 
     linkInput.addEventListener('click', () => {
@@ -332,6 +338,15 @@ document.addEventListener("DOMContentLoaded", () => {
         const coinsEarned = invitedFriends * 100; // Пример расчета монет на основе приглашенных друзей
         sliderValue.textContent = `Вы получите: ${coinsEarned} монет`;
     });
+
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            document.getElementById('loading-screen').style.display = 'none';
+            document.getElementById('home-page').style.display = 'flex';
+        }, 5000);
+    });
+
+    window.addEventListener('beforeunload', saveProgressLocal);
 
     showPage('home-page');
     loadProgressLocal();
