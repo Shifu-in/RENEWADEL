@@ -44,31 +44,6 @@
             width: 100%;
             padding: 20px;
         }
-
-        .centered-image {
-            display: block;
-            margin: auto;
-            max-width: 100%;
-            height: auto;
-        }
-
-        .airdrop-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 20px;
-            color: white;
-        }
-
-        .slider {
-            width: 80%;
-            margin: 20px 0;
-        }
-
-        .slider-value {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
     </style>
 </head>
 <body>
@@ -183,18 +158,7 @@
     </div>
 
     <div class="main-screen" id="wallet-page" style="display: none;">
-        <img src="assets/images/Solutions.svg" alt="About the project RU" class="centered-image" data-lang-ru="assets/images/Solutions.svg" data-lang-en="assets/images/2.svg" data-lang-fr="assets/images/3.svg" data-lang-sp="assets/images/4.svg" data-lang-uz="assets/images/5.svg" data-lang-ch="assets/images/6.svg">
-    </div>
-
-    <div class="main-screen" id="airdrop-page" style="display: none;">
-        <div class="airdrop-container">
-            <h2 data-lang-ru="Розыгрыш призов" data-lang-en="Airdrop" data-lang-fr="Loterie" data-lang-uz="Sovrinlar o'yini" data-lang-ch="空投" data-lang-sp="Lotería">Розыгрыш призов</h2>
-            <p data-lang-ru="Пригласите больше друзей и получите больше наград!" data-lang-en="Invite more friends and get more rewards!" data-lang-fr="Invitez plus d'amis et obtenez plus de récompenses!" data-lang-uz="Ko'proq do'stlarni taklif qiling va ko'proq mukofotlar oling!" data-lang-ch="邀请更多朋友，获得更多奖励！" data-lang-sp="¡Invita a más amigos y obtén más recompensas!">Пригласите больше друзей и получите больше наград!</p>
-            <div class="slider">
-                <input type="range" min="0" max="100" value="0" id="friends-slider">
-            </div>
-            <div class="slider-value" id="slider-value" data-lang-ru="Вы получите: 0 монет" data-lang-en="You will get: 0 coins" data-lang-fr="Vous recevrez : 0 pièces" data-lang-uz="Siz olasiz: 0 tangalar" data-lang-ch="您将获得：0枚硬币" data-lang-sp="Recibirás: 0 monedas">Вы получите: 0 монет</div>
-        </div>
+        <img src="assets/images/Solutions.svg" alt="Solutions" class="centered-image"> <!-- Added image -->
     </div>
 
     <div class="main-screen" id="stats-page" style="display: none;">
@@ -240,6 +204,16 @@
         <div class="link-container">
             <input type="text" class="referral-link" id="linkInput" value="https://t.me/YoungGame_bot" readonly>
             <button class="copy-button" id="copyButton" data-lang-ru="Копировать" data-lang-en="Copy" data-lang-fr="Copier" data-lang-uz="Nusxalash" data-lang-ch="复制" data-lang-sp="Copiar">Копировать</button>
+        </div>
+    </div>
+
+    <div class="main-screen" id="airdrop-page" style="display: none;">
+        <div class="airdrop-container">
+            <h1 data-lang-ru="Airdrop" data-lang-en="Airdrop" data-lang-fr="Airdrop" data-lang-uz="Airdrop" data-lang-ch="Airdrop" data-lang-sp="Airdrop">Airdrop</h1>
+            <div class="slider">
+                <input type="range" min="0" max="100" value="0" id="friends-slider">
+            </div>
+            <div class="slider-value" id="slider-value" data-lang-ru="Вы получите: 0 монет" data-lang-en="You will receive: 0 coins" data-lang-fr="Vous recevrez : 0 pièces" data-lang-uz="Siz olasiz: 0 tanga" data-lang-ch="你会收到：0硬币" data-lang-sp="Recibirás: 0 monedas">Вы получите: 0 монет</div>
         </div>
     </div>
 
