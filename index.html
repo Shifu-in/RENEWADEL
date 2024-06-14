@@ -138,7 +138,7 @@
                     <button class="upgrade-button" data-type="airdrop" data-lang-ru="КУПИТЬ" data-lang-en="BUY" data-lang-fr="ACHETER" data-lang-uz="SOTIB OLISH" data-lang-ch="购买" data-lang-sp="COMPRAR">КУПИТЬ</button>
                 </div>
                 <div class="upgrade-item">
-                    <div class="upgrade-icon">
+                    <div class=" upgrade-icon">
                         <img src="assets/images/апгрейд 4.svg" alt="DeFi">
                     </div>
                     <div class="upgrade-details">
@@ -209,16 +209,47 @@
 
     <div class="main-screen" id="airdrop-page" style="display: none;">
         <div class="airdrop-container">
-            <h1 data-lang-ru="Airdrop" data-lang-en="Airdrop" data-lang-fr="Airdrop" data-lang-uz="Airdrop" data-lang-ch="Airdrop" data-lang-sp="Airdrop">Airdrop</h1>
-            <h2 data-lang-ru="Условия" data-lang-en="Conditions" data-lang-fr="Conditions" data-lang-uz="Shartlar" data-lang-ch="条件" data-lang-sp="Condiciones">Условия</h2>
-            <div class="slider">
-                <input type="range" min="0" max="100" value="0" id="friends-slider">
+            <h1 data-lang-ru="Airdrop КАЛЬКУЛЯТОР" data-lang-en="Airdrop CALCULATOR" data-lang-fr="Calculateur Airdrop" data-lang-uz="Airdrop Kalkulyatori" data-lang-ch="Airdrop 计算器" data-lang-sp="Calculadora Airdrop">Airdrop КАЛЬКУЛЯТОР</h1>
+            <div class="counter-container">
+                <div class="counter">
+                    <h2 data-lang-ru="Рефералов" data-lang-en="Referrals" data-lang-fr="Références" data-lang-uz="Referallar" data-lang-ch="推荐人" data-lang-sp="Referencias">Рефералов</h2>
+                    <div class="counter-controls">
+                        <button class="minus-button" id="minus-referrals">
+                            <img src="assets/images/minus.svg" alt="Minus">
+                        </button>
+                        <span id="referrals-count">0</span>
+                        <button class="plus-button" id="plus-referrals">
+                            <img src="assets/images/plus.svg" alt="Plus">
+                        </button>
+                    </div>
+                </div>
+                <div class="counter">
+                    <h2 data-lang-ru="Дней в игре" data-lang-en="Days in Game" data-lang-fr="Jours dans le jeu" data-lang-uz="O'yindagi kunlar" data-lang-ch="游戏天数" data-lang-sp="Días en el juego">Дней в игре</h2>
+                    <div class="counter-controls">
+                        <button class="minus-button" id="minus-days">
+                            <img src="assets/images/minus.svg" alt="Minus">
+                        </button>
+                        <span id="days-count">0</span>
+                        <button class="plus-button" id="plus-days">
+                            <img src="assets/images/plus.svg" alt="Plus">
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div class="slider-value" id="slider-value" data-lang-ru="Вы получите: 0 монет" data-lang-en="You will receive: 0 coins" data-lang-fr="Vous recevrez : 0 pièces" data-lang-uz="Siz olasiz: 0 tanga" data-lang-ch="你会收到：0硬币" data-lang-sp="Recibirás: 0 monedas">Вы получите: 0 монет</div>
-            <div class="rewards">
-                <div class="reward-item" data-lang-ru="Рыба" data-lang-en="Fish" data-lang-fr="Poisson" data-lang-uz="Baliq" data-lang-ch="鱼" data-lang-sp="Pez">Рыба</div>
-                <div class="reward-item" data-lang-ru="Рыба" data-lang-en="Fish" data-lang-fr="Poisson" data-lang-uz="Baliq" data-lang-ch="鱼" data-lang-sp="Pez">Рыба</div>
-                <div class="reward-item" data-lang-ru="Рыба" data-lang-en="Fish" data-lang-fr="Poisson" data-lang-uz="Baliq" data-lang-ch="鱼" data-lang-sp="Pez">Рыба</div>
+            <div class="probability-container">
+                <h2 data-lang-ru="Вероятность получения награды*" data-lang-en="Reward Probability*" data-lang-fr="Probabilité de Récompense*" data-lang-uz="Mukofot olish ehtimoli*" data-lang-ch="奖励概率*" data-lang-sp="Probabilidad de recompensa*">Вероятность получения награды*</h2>
+                <div class="slider">
+                    <input type="range" min="0" max="100" value="0" id="reward-probability-slider">
+                </div>
+                <div class="slider-value" id="probability-value">0%</div>
+            </div>
+            <div class="rewards-container">
+                <h2 data-lang-ru="Награды:" data-lang-en="Rewards:" data-lang-fr="Récompenses:" data-lang-uz="Mukofotlar:" data-lang-ch="奖励：" data-lang-sp="Recompensas:">Награды:</h2>
+                <ul class="rewards-list">
+                    <li class="reward-item">100 NFT на сумму 100.000$*</li>
+                    <li class="reward-item">1.000.000.000 монет Young*</li>
+                    <li class="reward-item">1000 TON*</li>
+                </ul>
             </div>
         </div>
     </div>
