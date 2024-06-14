@@ -19,6 +19,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const airdropPage = document.getElementById('airdrop-page'); // New Airdrop Page
     const friendsSlider = document.getElementById('friends-slider'); // Slider
     const sliderValue = document.getElementById('slider-value'); // Slider value display
+    const referralsCountElement = document.getElementById('referrals-count');
+    const daysCountElement = document.getElementById('days-count');
+    const probabilityValue = document.getElementById('probability-value');
+
+    let referralsCount = 0;
+    let daysCount = 0;
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -354,28 +360,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     window.addEventListener('beforeunload', saveProgressLocal);
 
-    // Update slider value display
-    friendsSlider.addEventListener('input', function () {
-        updateSliderValue(this.value);
-    });
-
-    const updateSliderValue = (value) => {
-        sliderValue.textContent = `Вы получите: ${value} монет`;
+    // New Airdrop Page functionality
+    const updateProbabilityValue = (value) => {
+        probabilityValue.textContent = `${value}%`;
     };
 
-    // Navigation
-    navItems.forEach(item => {
-        item.addEventListener('click', () => {
-            const pageId = item.getAttribute('data-page');
+    friendsSlider.addEventListener('input', (e) => {
+        updateProbabilityValue(e.target.value);
+    });
 
-            navItems.forEach(nav => nav.classList.remove('active'));
-            item.classList.add('active');
+    document.getElementById('minus-referrals').addEventListener('click', () => {
+        if (referralsCount > 0) {
+            referralsCount--;
+            referralsCountElement.textContent = referralsCount;
+        }
+    });
 
-            pages.forEach(page => {
-                page.style.display = 'none';
-            });
+    document.getElementById('plus-referrals').addEventListener('click', () => {
+        referralsCount++;
+        referralsCountElement.textContent = referralsCount;
+    });
 
-            document.getElementById(pageId).style.display = 'flex';
-        });
+    document.getElementById('minus-days').addEventListener('click', () => {
+        if (daysCount > 0) {
+            daysCount--;
+            daysCountElement.textContent = daysCount;
+        }
+    });
+
+    document.getElementById('plus-days').addEventListener('click', () => {
+        daysCount++;
+        daysCountElement.textContent = daysCount;
     });
 });
