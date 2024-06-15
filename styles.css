@@ -591,12 +591,11 @@ body, html {
 }
 
 .counter-controls span {
-    margin: 0 35px; /* Добавление отступа между кнопками и числом */
+    margin: 0 40px; /* Увеличиваем отступы между кнопками и числом */
     font-size: 28px;
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
-    margin-right: 15px;
 }
 
 .rewards-container {
