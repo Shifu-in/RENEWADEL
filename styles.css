@@ -534,6 +534,9 @@ body, html {
     align-items: center;
     padding: 20px;
     color: white;
+    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
+    -ms-user-select: none; /* Запрещаем выделение текста на IE */
+    user-select: none; /* Запрещаем выделение текста на всех браузерах */
 }
 
 .airdrop-container h1 {
@@ -583,8 +586,8 @@ body, html {
 }
 
 .rewards-container {
-    width: 100%;
-    text-align: center;
+    width: 800%;
+    text-align: left;
 }
 
 .rewards-list {
