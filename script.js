@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
     const pages = document.querySelectorAll('.main-screen');
     const navItems = document.querySelectorAll('.nav-item');
     const coinAmountSpan = document.querySelector('.coin-amount');
@@ -11,6 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
+
     const languageSwitcher = document.getElementById('language-switch');
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
@@ -279,120 +280,133 @@ document.addEventListener("DOMContentLoaded", () => {
         document.body.appendChild(notification);
 
         setTimeout(() => {
-            notification.style.opacity = '1';
-        }, 10);
+            notification.style.opacity = 1;
+        }, 100); // Delay to trigger CSS transition
 
         setTimeout(() => {
-            notification.style.opacity = '0';
+            notification.style.opacity = 0;
             setTimeout(() => {
                 notification.remove();
-            }, 500);
-        }, 3000);
+            }, 500); // Wait for transition to complete
+        }, 3000); // Duration the notification is visible
     };
 
-    const copyToClipboard = () => {
+    copyButton.addEventListener('click', () => {
         linkInput.select();
-        document.execCommand('copy');
-        showNotification('Ссылка скопирована в буфер обмена!');
+        linkInput.setSelectionRange(0, 99999); // Для мобильных устройств
+
+        // Копируем выделенный текст в буфер обмена
+        navigator.clipboard.writeText(linkInput.value).then(() => {
+            showNotification('Ссылка скопирована!');
+            if (!rewardGiven) {
+                coins += 5000;
+                coinAmountSpan.textContent = coins;
+                showNotification('Вам начислено 5,000 монет Young!');
+                rewardGiven = true;
+                saveProgressLocal();
+            }
+        });
+    });
+
+    document.addEventListener('gesturestart', (e) => e.preventDefault());
+    document.addEventListener('gesturechange', (e) => e.preventDefault());
+    document.addEventListener('gestureend', (e) => e.preventDefault());
+    document.addEventListener('dblclick', (e) => e.preventDefault());
+
+    showPage('home-page');
+    loadProgressLocal();
+
+    const updateLanguage = (lang) => {
+        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
+        elements.forEach(el => {
+            el.innerHTML = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
+            if (lang.toLowerCase() === 'uz' && el.classList.contains('upgrade-button')) {
+                el.innerHTML = 'BUY'; // For Uzbek language, set upgrade button text to "BUY"
+            }
+        });
     };
 
-    copyButton.addEventListener('click', copyToClipboard);
-
-    // Language switcher functionality
-    currentLanguage.addEventListener('click', () => {
-        languageList.style.display = languageList.style.display === 'block' ? 'none' : 'block';
+    languageSwitcher.addEventListener('click', () => {
+        languageList.style.display = languageList.style.display === 'none' ? 'block' : 'none';
     });
 
     languageList.addEventListener('click', (event) => {
         const selectedLang = event.target.getAttribute('data-lang');
         if (selectedLang) {
-            currentLanguage.textContent = selectedLang.toUpperCase();
-            translatePage(selectedLang);
+            currentLanguage.textContent = selectedLang;
             languageList.style.display = 'none';
+            updateLanguage(selectedLang);
+            saveProgressLocal();
         }
     });
 
-    const translatePage = (lang) => {
-        const elementsToTranslate = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
-        elementsToTranslate.forEach(element => {
-            const translation = element.getAttribute(`data-lang-${lang}`);
-            if (translation) {
-                element.textContent = translation;
+    // Airdrop Page Functionality
+    const referralsCountElement = document.getElementById('referrals-count');
+    const daysCountElement = document.getElementById('days-count');
+    const rewardProbabilitySlider = document.getElementById('reward-probability-slider');
+    const probabilityValueElement = document.getElementById('probability-value');
+    const rewardsListItems = document.querySelectorAll('.reward-item');
+
+    let referralsCount = 0;
+    let daysCount = 0;
+
+    const updateRewards = () => {
+        rewardsListItems.forEach(item => {
+            const threshold = parseInt(item.getAttribute('data-threshold'));
+            const progressElement = item.querySelector('.progress');
+            const percentageElement = item.querySelector('.progress-percentage');
+            const progressPercentage = Math.min((referralsCount / threshold) * 100, 100);
+            progressElement.style.width = `${progressPercentage}%`;
+            percentageElement.textContent = `${progressPercentage.toFixed(1)}%`;
+
+            if (referralsCount >= threshold) {
+                item.classList.add('activated');
+            } else {
+                item.classList.remove('activated');
             }
         });
     };
 
-    const handleAirdropPage = () => {
-        const minusReferralsButton = document.getElementById('minus-referrals');
-        const plusReferralsButton = document.getElementById('plus-referrals');
-        const referralsCountElement = document.getElementById('referrals-count');
-        const minusDaysButton = document.getElementById('minus-days');
-        const plusDaysButton = document.getElementById('plus-days');
-        const daysCountElement = document.getElementById('days-count');
-        const rewardProbabilitySlider = document.getElementById('reward-probability-slider');
-        const probabilityValueElement = document.getElementById('probability-value');
-        const rewardItems = document.querySelectorAll('.reward-item');
-
-        let referralsCount = 0;
-        let daysCount = 0;
-
-        const updateProbability = () => {
-            const totalCount = referralsCount + daysCount;
-            rewardProbabilitySlider.value = totalCount;
-            probabilityValueElement.textContent = `${totalCount}%`;
-            updateRewards(totalCount);
-        };
-
-        const updateRewards = (totalCount) => {
-            rewardItems.forEach(item => {
-                const threshold = parseInt(item.getAttribute('data-threshold'), 10);
-                const progressElement = item.querySelector('.progress');
-                const percentageElement = item.querySelector('.progress-percentage');
-                let progress = 0;
-
-                if (totalCount >= threshold) {
-                    progress = 100;
-                    item.classList.add('activated');
-                } else {
-                    progress = (totalCount / threshold) * 100;
-                    item.classList.remove('activated');
-                }
-
-                progressElement.style.width = `${progress}%`;
-                percentageElement.textContent = `${Math.floor(progress)}%`;
-            });
-        };
-
-        minusReferralsButton.addEventListener('click', () => {
-            if (referralsCount > 0) {
-                referralsCount--;
-                referralsCountElement.textContent = referralsCount;
-                updateProbability();
-            }
-        });
-
-        plusReferralsButton.addEventListener('click', () => {
-            referralsCount++;
+    document.getElementById('minus-referrals').addEventListener('click', () => {
+        if (referralsCount > 0) {
+            referralsCount--;
             referralsCountElement.textContent = referralsCount;
-            updateProbability();
-        });
+            updateRewards();
+        }
+    });
 
-        minusDaysButton.addEventListener('click', () => {
-            if (daysCount > 0) {
-                daysCount--;
-                daysCountElement.textContent = daysCount;
-                updateProbability();
-            }
-        });
+    document.getElementById('plus-referrals').addEventListener('click', () => {
+        referralsCount++;
+        referralsCountElement.textContent = referralsCount;
+        updateRewards();
+    });
 
-        plusDaysButton.addEventListener('click', () => {
-            daysCount++;
+    document.getElementById('minus-days').addEventListener('click', () => {
+        if (daysCount > 0) {
+            daysCount--;
             daysCountElement.textContent = daysCount;
-            updateProbability();
-        });
+        }
+    });
+
+    document.getElementById('plus-days').addEventListener('click', () => {
+        daysCount++;
+        daysCountElement.textContent = daysCount;
+    });
+
+    rewardProbabilitySlider.addEventListener('input', () => {
+        const probability = rewardProbabilitySlider.value;
+        probabilityValueElement.textContent = `${probability}%`;
+    });
+
+    setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+    }, 4000); // Убираем экран загрузки через 4 секунды
+
+    const airdropPage = document.getElementById('airdrop-page');
+    const showAirdropPage = () => {
+        hideAllPages();
+        airdropPage.style.display = 'flex';
     };
 
-    handleAirdropPage();
-    loadProgressLocal();
-    showPage('home-page');
+    document.getElementById('nav-airdrop').addEventListener('click', showAirdropPage);
 });
