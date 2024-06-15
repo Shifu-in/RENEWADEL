@@ -595,8 +595,6 @@ body, html {
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
-    position: absolute;
-    margin-left: 45px; /* Сдвиг вправо на 5 пикселей */
 }
 
 .rewards-container {
