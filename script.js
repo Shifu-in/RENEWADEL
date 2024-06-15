@@ -321,20 +321,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     languageList.addEventListener('click', (event) => {
-        if (event.target.dataset.lang) {
-            currentLanguage.textContent = event.target.dataset.lang;
-            changeLanguage(event.target.dataset.lang);
-            languageList.style.display = 'none';
-        }
+        const selectedLanguage = event.target.dataset.lang;
+        currentLanguage.textContent = selectedLanguage;
+        setLanguage(selectedLanguage);
+        languageList.style.display = 'none';
     });
 
-    const changeLanguage = (language) => {
-        const elements = document.querySelectorAll('[data-lang-' + language.toLowerCase() + ']');
-        elements.forEach(element => {
-            element.textContent = element.getAttribute('data-lang-' + language.toLowerCase());
+    const setLanguage = (lang) => {
+        document.querySelectorAll('[data-lang-' + lang.toLowerCase() + ']').forEach(element => {
+            element.textContent = element.getAttribute('data-lang-' + lang.toLowerCase());
         });
     };
 
+    loadProgressLocal();
+
+    const navItems = document.querySelectorAll('.nav-item');
     const referralsCountSpan = document.getElementById('referrals-count');
     const daysCountSpan = document.getElementById('days-count');
     const minusReferralsBtn = document.getElementById('minus-referrals');
@@ -375,21 +376,22 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const updateRewards = () => {
         rewardItems.forEach(item => {
-            const [referralThreshold, dayThreshold] = item.dataset.threshold.split(',').map(Number);
+            const thresholds = item.dataset.threshold.split(',').map(Number);
+            const [referralThreshold, daysThreshold] = thresholds;
             const progressBar = item.querySelector('.progress');
             const progressPercentage = item.querySelector('.progress-percentage');
 
-            const referralProgress = Math.min((referralsCount / referralThreshold) * 100, 100);
-            const dayProgress = Math.min((daysCount / dayThreshold) * 100, 100);
+            let referralProgress = referralsCount / referralThreshold * 50;
+            let daysProgress = daysCount / daysThreshold * 50;
+            let totalProgress = Math.min(referralProgress + daysProgress, 100);
 
-            const currentPercentage = Math.min(referralProgress, dayProgress);
-            progressBar.style.width = `${currentPercentage}%`;
-            progressPercentage.textContent = `${currentPercentage.toFixed(1)}%`;
+            progressBar.style.width = `${totalProgress}%`;
+            progressPercentage.textContent = `${totalProgress.toFixed(1)}%`;
 
-            if (currentPercentage >= 100) {
-                item.classList.add('completed');
+            if (totalProgress >= 100) {
+                item.querySelector('span').style.color = '#00ff00'; // Зеленый цвет текста
             } else {
-                item.classList.remove('completed');
+                item.querySelector('span').style.color = '#fff'; // Белый цвет текста
             }
         });
     };
@@ -399,6 +401,4 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
     }, 4000);
-
-    loadProgressLocal();
 });
