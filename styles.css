@@ -547,117 +547,89 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: 20px;
 }
 
 .counter-controls {
     display: flex;
     align-items: center;
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 5px 10px;
+    margin-bottom: 5px;
+    background-image: url('assets/images/Фон для текста.svg');
+    background-size: cover;
 }
 
 .counter-controls button {
-    background-color: #f0f0f0;
+    background-color: transparent;
     border: none;
-    border-radius: 50%;
-    width: 30px;
-    height: 30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    color: #000;
+    font-size: 20px;
     cursor: pointer;
-}
-
-.counter-controls button img {
-    width: 15px;
-    height: 15px;
 }
 
 .counter-controls span {
     margin: 0 10px;
-    font-size: 24px;
-    color: #d4af37;
-}
-
-.probability-container {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.probability-container h2 {
-    font-size: 18px;
-}
-
-.probability-container input[type="range"] {
-    width: 100%;
-    margin: 10px 0;
-}
-
-#probability-value {
-    font-size: 24px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
 }
 
 .rewards-container {
     width: 100%;
+    text-align: center;
 }
 
 .rewards-list {
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 .reward-item {
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    justify-content: space-between;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 22px;
+    animation: levitate 2s infinite;
 }
 
 .reward-item img {
-    width: 50px;
-    height: 50px;
+    width: 80px;
+    height: auto;
     margin-right: 10px;
-}
-
-.reward-item span {
-    flex-grow: 1;
-    font-size: 18px;
-    text-align: left;
 }
 
 .progress-bar {
-    background-color: #1c1c1e;
-    border-radius: 10px;
+    width: 100%;
+    background-color: #333;
     height: 10px;
-    flex-grow: 1;
-    margin-right: 10px;
+    border-radius: 5px;
     overflow: hidden;
-    position: relative;
+    margin-right: 10px;
 }
 
 .progress {
-    background-color: #d4af37;
     height: 100%;
-    width: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
+    background-color: #00ff00;
+    width: 0%;
 }
 
 .progress-percentage {
-    font-size: 14px;
     width: 50px;
     text-align: right;
+    font-size: 22px;
 }
 
-.reward-item.activated {
-    color: #32CD32;
-    animation: levitation 1s infinite alternate;
-}
-
-@keyframes levitation {
-    0% {
+@keyframes levitate {
+    0%, 100% {
         transform: translateY(0);
     }
-    100% {
+    50% {
         transform: translateY(-5px);
     }
 }
