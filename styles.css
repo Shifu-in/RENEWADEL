@@ -539,6 +539,7 @@ body, html {
     display: flex;
     justify-content: space-around;
     width: 100%;
+    max-width: 600px;
     margin-bottom: 20px;
 }
 
@@ -546,11 +547,18 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 150px;
+    height: 100px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center;
 }
 
 .counter h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
+    font-size: 16px;
+    color: #6d6d6d;
+    margin: 0 0 10px 0;
 }
 
 .counter-controls {
@@ -559,18 +567,26 @@ body, html {
 }
 
 .counter-controls button {
-    background: none;
+    background-color: #fff;
     border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
     cursor: pointer;
 }
 
-.counter-controls img {
-    width: 24px;
-    height: 24px;
+.counter-controls button img {
+    width: 15px;
+    height: 15px;
 }
 
 .counter-controls span {
     font-size: 24px;
+    color: #b07e31;
     margin: 0 10px;
 }
 
@@ -580,27 +596,24 @@ body, html {
 }
 
 .probability-container h2 {
-    font-size: 18px;
+    font-size: 16px;
+    color: #fff;
     margin-bottom: 10px;
 }
 
-.slider {
+.probability-container input[type="range"] {
     width: 80%;
-    margin: 20px 0;
 }
 
-.slider-value {
+#probability-value {
     font-size: 24px;
-    margin-bottom: 20px;
+    color: #b07e31;
+    margin-top: 10px;
 }
 
 .rewards-container {
-    text-align: center;
-}
-
-.rewards-container h2 {
-    font-size: 18px;
-    margin-bottom: 10px;
+    width: 100%;
+    max-width: 600px;
 }
 
 .rewards-list {
@@ -609,20 +622,57 @@ body, html {
 }
 
 .reward-item {
-    font-size: 18px;
     display: flex;
     align-items: center;
-    margin: 10px 0;
-    transition: all 0.3s ease; /* Добавляем плавный переход для левитации */
+    margin-bottom: 20px;
 }
 
 .reward-item img {
-    width: 24px;
-    height: 24px;
+    width: 50px;
+    height: 50px;
     margin-right: 10px;
 }
 
-.reward-item.activated {
-    color: #00ff00;
-    transform: translateY(-5px); /* Добавляем левитацию */
+.reward-item span {
+    flex-grow: 1;
+    font-size: 18px;
+}
+
+.progress-bar {
+    flex-grow: 1;
+    height: 10px;
+    background-color: #444;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.progress {
+    height: 100%;
+    background-color: #ff3b30;
+    width: 0;
+}
+
+.progress-percentage {
+    font-size: 18px;
+    color: #fff;
+}
+
+.reward-item.activated span,
+.reward-item.activated .progress {
+    color: #32CD32;
+    animation: levitate 1s ease-in-out infinite alternate;
+}
+
+.reward-item.activated img {
+    animation: levitate 1s ease-in-out infinite alternate;
+}
+
+@keyframes levitate {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(-5px);
+    }
 }
