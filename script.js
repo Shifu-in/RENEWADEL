@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveProgressLocal();
         }, remainingTime);
 
-        updateTimer(remainingSeconds);
+        updateTimer(remainingTime / 1000);
     };
 
     const updateTimer = (remainingSeconds) => {
