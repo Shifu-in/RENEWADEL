@@ -564,41 +564,41 @@ body, html {
     display: flex;
     align-items: center;
     border-radius: 10px;
-    padding: 10px 10px;
+    padding: 5px 10px;
     margin-bottom: 5px;
     background-size: cover;
     background-color: transparent; /* Убираем фон */
     position: relative; /* Добавляем позиционирование для абсолютного размещения кнопок */
-    width: 150px; /* Увеличиваем ширину контейнера для кнопок */
+    width: 170px; /* Увеличиваем ширину контейнера для кнопок */
 }
 
 .counter-controls button {
     background-color: transparent;
     border: none;
     color: #000;
-    font-size: 12px; /* Уменьшаем иконки на 3 пикселя */
+    font-size: 14px; /* Уменьшаем иконки на 3 пикселя */
     cursor: pointer;
     touch-action: manipulation; /* Устранение приближения при двойном нажатии */
-    position: absolute;
+    position: absolute; /* Абсолютное позиционирование кнопок */
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
-    left: 2.5px; /* Размещаем кнопку минус слева */
+    left: 4px; /* Размещаем кнопку минус слева */
 }
 
 .counter-controls button#plus-referrals, .counter-controls button#plus-days {
-    right: 2.5px; /* Размещаем кнопку плюс справа */
+    right: 4px; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
-    margin: 0 40px; /* Увеличиваем отступы между кнопками и числом */
+    margin: 0 50px; /* Увеличиваем отступы между кнопками и числом */
     font-size: 28px;
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
     position: absolute;
-    left: 50%; /* Центрируем текст */
-    transform: translateX(-50%); /* Компенсируем сдвиг для центрирования */
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .rewards-container {
