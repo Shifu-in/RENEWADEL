@@ -633,3 +633,7 @@ body, html {
         transform: translateY(-5px);
     }
 }
+
+.reward-item.completed span {
+    color: #00ff00;
+}
