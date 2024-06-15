@@ -596,7 +596,7 @@ body, html {
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
-    margin-right: -15px;
+    margin-right: -35px;
 }
 
 .rewards-container {
