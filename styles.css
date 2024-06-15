@@ -550,7 +550,7 @@ body, html {
     justify-content: space-around;
     width: 100%;
     margin-bottom: 20px;
-    padding: 0 20px; /* Отступы от боковых границ экрана */
+    padding: 5px; /* Добавляем отступы по 5 пикселей */
 }
 
 .counter {
@@ -576,6 +576,7 @@ body, html {
     color: #000;
     font-size: 17px; /* Уменьшение иконок на 3 пикселя */
     cursor: pointer;
+    touch-action: manipulation; /* Устранение приближения при двойном нажатии */
 }
 
 .counter-controls span {
@@ -602,14 +603,14 @@ body, html {
     padding: 10px;
     display: flex;
     align-items: center;
-    background-color: #f9f9f9;
+    background-color: rgba(0, 0, 0, 0.5); /* Темный полупрозрачный фон */
     margin: 10px 0;
 }
 
 .reward-container {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: calc(100% - 40px); /* Уменьшение ширины для соблюдения отступов */
 }
 
 .reward-image {
@@ -624,10 +625,11 @@ body, html {
 }
 
 .reward-title {
-    font-size: 20px;
+    font-size: 18px; /* Изменение размера шрифта */
     display: block;
     margin-bottom: 5px;
     text-align: left; /* Выравнивание текста по левому краю */
+    color: #fff; /* Цвет текста белый */
 }
 
 .progress-bar {
@@ -637,6 +639,7 @@ body, html {
     overflow: hidden;
     height: 10px;
     position: relative;
+    width: 100%;
 }
 
 .progress {
