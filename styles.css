@@ -596,6 +596,7 @@ body, html {
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     margin-left: -10px; /* Сдвиг вправо на 5 пикселей */
+    position: relative;
 
 }
 
