@@ -639,7 +639,7 @@ body, html {
     overflow: hidden;
     height: 10px;
     position: relative;
-    width: 100%;
+    width: calc(100% - 25px); /* Уменьшение ширины прогресс бара */
 }
 
 .progress {
@@ -651,8 +651,7 @@ body, html {
 
 .progress-percent {
     position: absolute;
-    right: 10px; /* Отступ справа в 10 пикселей */
-    top: -25px; /* Поднимаем вверх на 25 пикселей */
+    right: -25px; /* Отступ справа в 10 пикселей */
     font-size: 14px; /* Уменьшаем размер шрифта */
     color: #fff;
     text-align: right; /* Выравнивание текста по правому краю */
