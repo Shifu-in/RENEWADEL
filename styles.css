@@ -582,11 +582,11 @@ body, html {
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
-    left: 4px; /* Размещаем кнопку минус слева */
+    left: 3px; /* Размещаем кнопку минус слева */
 }
 
 .counter-controls button#plus-referrals, .counter-controls button#plus-days {
-    right: 4px; /* Размещаем кнопку плюс справа */
+    right: 3px; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
@@ -596,7 +596,7 @@ body, html {
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
     position: absolute;
-    margin-left: 59px; /* Сдвиг вправо на 5 пикселей */
+    margin-left: 45px; /* Сдвиг вправо на 5 пикселей */
 }
 
 .rewards-container {
