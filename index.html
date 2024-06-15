@@ -208,51 +208,57 @@
         <p class="invite-text" data-lang-ru="Расскажи о нас друзьям и получи награду!" data-lang-en="Tell your friends about us and get a reward!" data-lang-fr="Parlez de nous à vos amis et recevez une récompense !" data-lang-uz="Do'stlaringizga biz haqimizda aytib bering va mukofot oling!" data-lang-ch="向您的朋友介绍我们并获得奖励！" data-lang-sp="Háblales a tus amigos de nosotros y ¡consigue una recompensa!">Расскажи о нас друзьям и получи награду!</p>
         <p class="invite-text" data-lang-ru="Твоя реферальная ссылка находиться в этом боте:" data-lang-en="Your referral link is in this bot:" data-lang-fr="Votre lien de référence se trouve dans ce bot :" data-lang-uz="Sizning yo'naltiruvchi havolangiz ushbu botda:" data-lang-ch="您的推荐链接在此机器人中：" data-lang-sp="Tu enlace de recomendación está en este bot:">Твоя реферальная ссылка находиться в этом боте:</p>
         <div class="link-container">
-            <input type="text" class="referral-link" id="linkInput" value="https://t.me/YoungGame_bot" readonly>
-            <button class="copy-button" id="copyButton" data-lang-ru="Копировать" data-lang-en="Copy" data-lang-fr="Copier" data-lang-uz="Nusxalash" data-lang-ch="复制" data-lang-sp="Copiar">Копировать</button>
+            <input type="text" id="linkInput" class="referral-link" value="https://t.me/YourBot?start=referralCode" readonly>
+            <button id="copyButton" class="copy-button" data-lang-ru="СКОПИРОВАТЬ ССЫЛКУ" data-lang-en="COPY LINK" data-lang-fr="COPIER LE LIEN" data-lang-uz="HAVOLANI NUSXALASH" data-lang-ch="复制链接" data-lang-sp="COPIAR ENLACE">СКОПИРОВАТЬ ССЫЛКУ</button>
         </div>
     </div>
 
     <div class="main-screen" id="airdrop-page" style="display: none;">
         <div class="airdrop-container">
-            <h1 data-lang-ru="AIRDROP КАЛЬКУЛЯТОР" data-lang-en="AIRDROP CALCULATOR" data-lang-fr="CALCULATEUR AIRDROP" data-lang-uz="AIRDROP KALKULYATOR" data-lang-ch="空投计算器" data-lang-sp="CALCULADORA AIRDROP">AIRDROP КАЛЬКУЛЯТОР</h1>
+            <h1 data-lang-ru="Условия участия в airdrop" data-lang-en="Terms of participation in airdrop" data-lang-fr="Conditions de participation à l'airdrop" data-lang-uz="Airdropda ishtirok etish shartlari" data-lang-ch="空投参与条款" data-lang-sp="Términos de participación en el airdrop">Условия участия в airdrop</h1>
             <div class="counter-container">
                 <div class="counter">
                     <div class="counter-controls">
-                        <button id="minus-referrals"><img src="assets/images/minus.svg" alt="Minus"></button>
+                        <button id="minus-referrals" class="counter-btn">-</button>
                         <span id="referrals-count">0</span>
-                        <button id="plus-referrals"><img src="assets/images/plus.svg" alt="Plus"></button>
+                        <button id="plus-referrals" class="counter-btn">+</button>
                     </div>
-                    <span data-lang-ru="Рефералов" data-lang-en="Referrals" data-lang-fr="Parrainages" data-lang-uz="Yo'nalishlar" data-lang-ch="推荐" data-lang-sp="Referencias">Рефералов</span>
+                    <p data-lang-ru="Рефералы" data-lang-en="Referrals" data-lang-fr="Références" data-lang-uz="Tavsiya etilganlar" data-lang-ch="推荐" data-lang-sp="Referencias">Рефералы</p>
                 </div>
                 <div class="counter">
                     <div class="counter-controls">
-                        <button id="minus-days"><img src="assets/images/minus.svg" alt="Minus"></button>
+                        <button id="minus-days" class="counter-btn">-</button>
                         <span id="days-count">0</span>
-                        <button id="plus-days"><img src="assets/images/plus.svg" alt="Plus"></button>
+                        <button id="plus-days" class="counter-btn">+</button>
                     </div>
-                    <span data-lang-ru="Дней в игре" data-lang-en="Days in game" data-lang-fr="Jours dans le jeu" data-lang-uz="O'yindagi kunlar" data-lang-ch="游戏天数" data-lang-sp="Días en el juego">Дней в игре</span>
+                    <p data-lang-ru="Дни" data-lang-en="Days" data-lang-fr="Jours" data-lang-uz="Kunlar" data-lang-ch="天" data-lang-sp="Días">Дни</p>
                 </div>
             </div>
             <div class="rewards-container">
                 <ul class="rewards-list">
-                    <li class="reward-item" data-threshold="5,10">
-                        <img src="assets/images/coindrop.svg" alt="TON">
-                        <span class="reward-title">1000 монет Ton</span>
-                        <div class="progress-bar"><div class="progress"></div></div>
-                        <div class="progress-percentage">0%</div>
+                    <li class="reward-item" data-threshold="10,5">
+                        <div class="reward-title" data-lang-ru="1000 Ton" data-lang-en="1000 Ton" data-lang-fr="1000 Ton" data-lang-uz="1000 Ton" data-lang-ch="1000 Ton" data-lang-sp="1000 Ton">1000 Ton</div>
+                        <img src="assets/images/тон.svg" alt="Reward Image">
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                            <div class="progress-percentage">0%</div>
+                        </div>
                     </li>
-                    <li class="reward-item" data-threshold="5,15">
-                        <img src="assets/images/nft.svg" alt="NFT">
-                        <span class="reward-title">1.000.000.000 монет Young</span>
-                        <div class="progress-bar"><div class="progress"></div></div>
-                        <div class="progress-percentage">0%</div>
+                    <li class="reward-item" data-threshold="50,10">
+                        <div class="reward-title" data-lang-ru="5 000 Ton" data-lang-en="5 000 Ton" data-lang-fr="5 000 Ton" data-lang-uz="5 000 Ton" data-lang-ch="5 000 Ton" data-lang-sp="5 000 Ton">5 000 Ton</div>
+                        <img src="assets/images/тон.svg" alt="Reward Image">
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                            <div class="progress-percentage">0%</div>
+                        </div>
                     </li>
-                    <li class="reward-item" data-threshold="15,15">
-                        <img src="assets/images/land.svg" alt="Land">
-                        <span class="reward-title">100 NFT на сумму 100.000$</span>
-                        <div class="progress-bar"><div class="progress"></div></div>
-                        <div class="progress-percentage">0%</div>
+                    <li class="reward-item" data-threshold="100,20">
+                        <div class="reward-title" data-lang-ru="10 000 Ton" data-lang-en="10 000 Ton" data-lang-fr="10 000 Ton" data-lang-uz="10 000 Ton" data-lang-ch="10 000 Ton" data-lang-sp="10 000 Ton">10 000 Ton</div>
+                        <img src="assets/images/тон.svg" alt="Reward Image">
+                        <div class="progress-bar">
+                            <div class="progress"></div>
+                            <div class="progress-percentage">0%</div>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -260,26 +266,23 @@
     </div>
 
     <div class="navigation">
-        <div class="nav-item" id="nav-home" data-page="home-page">
-            <img src="assets/images/home.svg" alt="Home">
+        <div class="nav-item" data-page="home-page">
+            <img src="assets/images/4.svg" alt="Home" data-lang-ru="assets/images/4.svg" data-lang-en="assets/images/5.svg" data-lang-fr="assets/images/6.svg" data-lang-sp="assets/images/7.svg" data-lang-uz="assets/images/8.svg" data-lang-ch="assets/images/9.svg">
         </div>
-        <div class="nav-item" id="nav-store" data-page="store-page">
-            <img src="assets/images/store.svg" alt="Store">
+        <div class="nav-item" data-page="store-page">
+            <img src="assets/images/5.svg" alt="Store" data-lang-ru="assets/images/5.svg" data-lang-en="assets/images/6.svg" data-lang-fr="assets/images/7.svg" data-lang-sp="assets/images/8.svg" data-lang-uz="assets/images/9.svg" data-lang-ch="assets/images/10.svg">
         </div>
-        <div class="nav-item" id="nav-stats" data-page="stats-page">
-            <img src="assets/images/stats-up-square.svg" alt="Stats">
+        <div class="nav-item" data-page="wallet-page">
+            <img src="assets/images/6.svg" alt="Wallet" data-lang-ru="assets/images/6.svg" data-lang-en="assets/images/7.svg" data-lang-fr="assets/images/8.svg" data-lang-sp="assets/images/9.svg" data-lang-uz="assets/images/10.svg" data-lang-ch="assets/images/11.svg">
         </div>
-        <div class="nav-item" id="nav-wallet" data-page="wallet-page">
-            <img src="assets/images/wallet.svg" alt="Wallet">
+        <div class="nav-item" data-page="stats-page">
+            <img src="assets/images/7.svg" alt="Stats" data-lang-ru="assets/images/7.svg" data-lang-en="assets/images/8.svg" data-lang-fr="assets/images/9.svg" data-lang-sp="assets/images/10.svg" data-lang-uz="assets/images/11.svg" data-lang-ch="assets/images/12.svg">
         </div>
-        <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
-            <img src="assets/images/fun.svg" alt="Fun">
+        <div class="nav-item" data-page="friends-page">
+            <img src="assets/images/8.svg" alt="Friends" data-lang-ru="assets/images/8.svg" data-lang-en="assets/images/9.svg" data-lang-fr="assets/images/10.svg" data-lang-sp="assets/images/11.svg" data-lang-uz="assets/images/12.svg" data-lang-ch="assets/images/13.svg">
         </div>
-        <div class=" nav-item" id="nav-friends" data-page="friends-page">
-            <img src="assets/images/fren.svg" alt="Friends">
-        </div>
-        <div class="nav-item" id="nav-airdrop" data-page="airdrop-page">
-            <img src="assets/images/wallet.svg" alt="Airdrop">
+        <div class="nav-item" data-page="airdrop-page">
+            <img src="assets/images/9.svg" alt="Airdrop" data-lang-ru="assets/images/9.svg" data-lang-en="assets/images/10.svg" data-lang-fr="assets/images/11.svg" data-lang-sp="assets/images/12.svg" data-lang-uz="assets/images/13.svg" data-lang-ch="assets/images/14.svg">
         </div>
     </div>
 
