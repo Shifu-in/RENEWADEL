@@ -323,23 +323,18 @@ document.addEventListener("DOMContentLoaded", () => {
     languageList.addEventListener('click', (event) => {
         if (event.target.dataset.lang) {
             currentLanguage.textContent = event.target.dataset.lang;
+            changeLanguage(event.target.dataset.lang);
             languageList.style.display = 'none';
-            updateLanguage(event.target.dataset.lang);
         }
     });
 
-    const updateLanguage = (lang) => {
-        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
+    const changeLanguage = (language) => {
+        const elements = document.querySelectorAll('[data-lang-' + language.toLowerCase() + ']');
         elements.forEach(element => {
-            element.textContent = element.dataset[`lang${lang}`];
+            element.textContent = element.getAttribute('data-lang-' + language.toLowerCase());
         });
-        saveProgressLocal();
     };
 
-    // Load initial progress
-    loadProgressLocal();
-
-    const airdropPage = document.getElementById('airdrop-page');
     const referralsCountSpan = document.getElementById('referrals-count');
     const daysCountSpan = document.getElementById('days-count');
     const minusReferralsBtn = document.getElementById('minus-referrals');
@@ -380,10 +375,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const updateRewards = () => {
         rewardItems.forEach(item => {
-            const threshold = parseInt(item.dataset.threshold, 10);
+            const [referralThreshold, dayThreshold] = item.dataset.threshold.split(',').map(Number);
             const progressBar = item.querySelector('.progress');
             const progressPercentage = item.querySelector('.progress-percentage');
-            const currentPercentage = Math.min((referralsCount / threshold) * 100, 100);
+
+            const referralProgress = Math.min((referralsCount / referralThreshold) * 100, 100);
+            const dayProgress = Math.min((daysCount / dayThreshold) * 100, 100);
+
+            const currentPercentage = Math.min(referralProgress, dayProgress);
             progressBar.style.width = `${currentPercentage}%`;
             progressPercentage.textContent = `${currentPercentage.toFixed(1)}%`;
 
@@ -400,4 +399,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
     }, 4000);
+
+    loadProgressLocal();
 });
