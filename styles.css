@@ -532,7 +532,7 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
+    padding: 10px; /* Уменьшение отступа до 10 пикселей */
     color: white;
     -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
     -ms-user-select: none; /* Запрещаем выделение текста на IE */
@@ -617,6 +617,7 @@ body, html {
     width: 100px; /* Увеличение размера иконок до 100 пикселей */
     height: auto;
     margin-right: 10px; /* Добавляем отступ справа */
+    margin-left: 10px; /* Перемещение иконки влево */
 }
 
 .progress-bar {
@@ -640,6 +641,14 @@ body, html {
     top: -25px; /* Поднимаем вверх на 25 пикселей */
     font-size: 14px; /* Уменьшаем размер шрифта */
     color: #fff;
+    text-align: right; /* Выравнивание текста по правому краю */
+}
+
+.counter-container {
+    -webkit-touch-callout: none; /* Запрещаем вызов контекстного меню на iOS */
+    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
+    -ms-user-select: none; /* Запрещаем выделение текста на IE */
+    user-select: none; /* Запрещаем выделение текста на всех браузерах */
 }
 
 @keyframes levitate {
