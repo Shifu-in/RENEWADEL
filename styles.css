@@ -661,7 +661,7 @@ body, html {
 
 .progress-percent {
     position: absolute;
-    bottom: -20px; /* Перемещение под прогресс бар */
+    bottom: -2px; /* Перемещение под прогресс бар */
     left: 50%; /* Выравнивание по центру */
     transform: translateX(-50%);
     font-size: 14px; /* Уменьшаем размер шрифта */
