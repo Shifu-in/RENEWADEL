@@ -123,7 +123,7 @@
                     </div>
                     <div class="upgrade-details">
                         <h3>AI-TAP</h3>
-                        <p data-lang-ru="20,000 | уровень 0/10<br>2 Young coin / сек" data-lang-en="20,000 | level 0/10<br>2 Young coin / sec" data-lang-fr="20,000 | niveau 0/10<br>2 pièces de monnaie / sec" data-lang-uz="20,000 | daraja 0/10<br>2 Young coin per tap" data-lang-ch="20,000 | 级别 0/10<br>2 Young coin / sec" data-lang-sp="20,000 | nivel 0/10<br>2 Moneda joven / seg">20,000 | уровень 0/10<br>2 Young coin / сек</p>
+                        <p data-lang-ru="20,000 | уровень 0/10<br>2 Young coin / сек" data-lang-en="20,000 | level 0/10<br>2 Young coin / sec" data-lang-fr="20,000 | niveau 0/10<br>2 pièces de monnaie / sec" data-lang-uz="20,000 | daraja 0/10<br>2 yosh tanga / sek" data-lang-ch="20,000 | 级别 0/10<br>2 Young coin / sec" data-lang-sp="20,000 | nivel 0/10<br>2 Moneda joven / seg">20,000 | уровень 0/10<br>2 Young coin / сек</p>
                     </div>
                     <button class="upgrade-button" data-type="aiTap" data-lang-ru="КУПИТЬ" data-lang-en="BUY" data-lang-fr="ACHETER" data-lang-uz="SOTIB OLISH" data-lang-ch="购买" data-lang-sp="COMPRAR">BUY</button>
                 </div>
@@ -137,8 +137,8 @@
                     </div>
                     <button class="upgrade-button" data-type="airdrop" data-lang-ru="КУПИТЬ" data-lang-en="BUY" data-lang-fr="ACHETER" data-lang-uz="SOTIB OLISH" data-lang-ch="购买" data-lang-sp="COMPRAR">КУПИТЬ</button>
                 </div>
-                <div class=" upgrade-item">
-                    <div class=" upgrade-icon">
+                <div class="upgrade-item">
+                    <div class="upgrade-icon">
                         <img src="assets/images/апгрейд 4.svg" alt="DeFi">
                     </div>
                     <div class="upgrade-details">
@@ -209,51 +209,50 @@
 
     <div class="main-screen" id="airdrop-page" style="display: none;">
         <div class="airdrop-container">
-            <h1 data-lang-ru="Airdrop КАЛЬКУЛЯТОР" data-lang-en="Airdrop CALCULATOR" data-lang-fr="Calculateur Airdrop" data-lang-uz="Airdrop Kalkulyatori" data-lang-ch="Airdrop 计算器" data-lang-sp="Calculadora Airdrop">Airdrop КАЛЬКУЛЯТОР</h1>
+            <h1 class="airdrop-title" data-lang-ru="AIRDROP КАЛЬКУЛЯТОР" data-lang-en="AIRDROP CALCULATOR" data-lang-fr="CALCULATEUR AIRDROP" data-lang-uz="AIRDROP KALKULYATOR" data-lang-ch="空投计算器" data-lang-sp="CALCULADORA DE AIRDROP">AIRDROP КАЛЬКУЛЯТОР</h1>
             <div class="counter-container">
                 <div class="counter">
                     <h2 data-lang-ru="Рефералов" data-lang-en="Referrals" data-lang-fr="Références" data-lang-uz="Referallar" data-lang-ch="推荐人" data-lang-sp="Referencias">Рефералов</h2>
                     <div class="counter-controls">
-                        <button class="minus-button" id="minus-referrals">
-                            <img src="assets/images/minus.svg" alt="Minus">
-                        </button>
+                        <button id="minus-referrals"><img src="assets/images/minus.svg" alt="Minus"></button>
                         <span id="referrals-count">0</span>
-                        <button class="plus-button" id="plus-referrals">
-                            <img src="assets/images/plus.svg" alt="Plus">
-                        </button>
+                        <button id="plus-referrals"><img src="assets/images/plus.svg" alt="Plus"></button>
                     </div>
                 </div>
                 <div class="counter">
-                    <h2 data-lang-ru="Дней в игре" data-lang-en="Days in Game" data-lang-fr="Jours dans le jeu" data-lang-uz="O'yindagi kunlar" data-lang-ch="游戏天数" data-lang-sp="Días en el juego">Дней в игре</h2>
+                    <h2 data-lang-ru="Дней в игре" data-lang-en="Days in Game" data-lang-fr="Jours en jeu" data-lang-uz="O'yindagi kunlar" data-lang-ch="游戏天数" data-lang-sp="Días en el juego">Дней в игре</h2>
                     <div class="counter-controls">
-                        <button class="minus-button" id="minus-days">
-                            <img src="assets/images/minus.svg" alt="Minus">
-                        </button>
+                        <button id="minus-days"><img src="assets/images/minus.svg" alt="Minus"></button>
                         <span id="days-count">0</span>
-                        <button class="plus-button" id="plus-days">
-                            <img src="assets/images/plus.svg" alt="Plus">
-                        </button>
+                        <button id="plus-days"><img src="assets/images/plus.svg" alt="Plus"></button>
                     </div>
                 </div>
             </div>
             <div class="probability-container">
-                <h2 data-lang-ru="Вероятность получения награды*" data-lang-en="Reward Probability*" data-lang-fr="Probabilité de Récompense*" data-lang-uz="Mukofot olish ehtimoli*" data-lang-ch="奖励概率*" data-lang-sp="Probabilidad de recompensa*">Вероятность получения награды*</h2>
-                <div class="slider">
-                    <input type="range" min="0" max="100" value="0" id="reward-probability-slider">
-                </div>
+                <h2 data-lang-ru="Вероятность получения награды*" data-lang-en="Reward Probability*" data-lang-fr="Probabilité de récompense*" data-lang-uz="Mukofot olish ehtimoli*" data-lang-ch="奖励概率*" data-lang-sp="Probabilidad de recompensa*">Вероятность получения награды*</h2>
+                <input type="range" min="0" max="100" value="0" id="reward-probability-slider">
                 <div class="slider-value" id="probability-value">0%</div>
             </div>
             <div class="rewards-container">
                 <h2 data-lang-ru="Награды:" data-lang-en="Rewards:" data-lang-fr="Récompenses:" data-lang-uz="Mukofotlar:" data-lang-ch="奖励：" data-lang-sp="Recompensas:">Награды:</h2>
                 <ul class="rewards-list">
                     <li class="reward-item" data-threshold="5">
-                        <img src="assets/images/land.svg" alt="Land">100 NFT на сумму 100.000$*
+                        <img src="assets/images/land.svg" alt="Land">
+                        <span data-lang-ru="100 NFT на сумму 100.000$*" data-lang-en="100 NFT worth $100,000*" data-lang-fr="100 NFT d'une valeur de 100 000 $*" data-lang-uz="100 000$ qiymatidagi 100 NFT*" data-lang-ch="价值100,000美元的100个NFT*" data-lang-sp="100 NFT valorados en $100,000*">100 NFT на сумму 100.000$*</span>
+                        <div class="progress-bar"><div class="progress"></div></div>
+                        <span class="progress-percentage">0%</span>
                     </li>
                     <li class="reward-item" data-threshold="20">
-                        <img src="assets/images/nft.svg" alt="NFT">1.000.000.000 монет Young*
+                        <img src="assets/images/nft.svg" alt="NFT">
+                        <span data-lang-ru="1.000.000.000 монет Young*" data-lang-en="1,000,000,000 Young coins*" data-lang-fr="1 000 000 000 de pièces Young*" data-lang-uz="1,000,000,000 Young tangalari*" data-lang-ch="10亿枚Young币*" data-lang-sp="1,000,000,000 monedas Young*">1.000.000.000 монет Young*</span>
+                        <div class="progress-bar"><div class="progress"></div></div>
+                        <span class="progress-percentage">0%</span>
                     </li>
                     <li class="reward-item" data-threshold="10">
-                        <img src="assets/images/coindrop.svg" alt="TON">1000 TON*
+                        <img src="assets/images/coindrop.svg" alt="Coin Drop">
+                        <span data-lang-ru="1000 TON*" data-lang-en="1000 TON*" data-lang-fr="1000 TON*" data-lang-uz="1000 TON*" data-lang-ch="1000 TON*" data-lang-sp="1000 TON*">1000 TON*</span>
+                        <div class="progress-bar"><div class="progress"></div></div>
+                        <span class="progress-percentage">0%</span>
                     </li>
                 </ul>
             </div>
@@ -274,10 +273,7 @@
             <img src="assets/images/wallet.svg" alt="Wallet">
         </div>
         <div class="nav-item" id="nav-airdrop" data-page="airdrop-page">
-            <img src="assets/images/stats-up-square.svg" alt="Airdrop">
-        </div>
-        <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
-            <img src="assets/images/fun.svg" alt="Fun">
+            <img src="assets/images/fun.svg" alt="Airdrop">
         </div>
         <div class="nav-item" id="nav-friends" data-page="friends-page">
             <img src="assets/images/fren.svg" alt="Friends">
