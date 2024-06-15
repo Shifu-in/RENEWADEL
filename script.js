@@ -241,4 +241,151 @@ document.addEventListener("DOMContentLoaded", () => {
             const upgradeType = button.getAttribute('data-type');
             const price = getUpgradePrice(upgradeType);
 
-            if (coins >= price && autoClickers[upgradeType].
+            if (coins >= price && autoClickers[upgradeType].level < 6) {
+                coins -= price;
+                autoClickers[upgradeType].level++;
+                autoClickers[upgradeType].currentRate = autoClickers[upgradeType].increment * autoClickers[upgradeType].level;
+
+                if (upgradeType === "gym") {
+                    coinsPerTap += autoClickers[upgradeType].increment;
+                } else if (autoClickers[upgradeType].level === 1) {
+                    startAutoClicker(upgradeType);
+                }
+                coinAmountSpan.textContent = coins;
+                updateUpgradePrices();
+                saveProgressLocal();
+            }
+        });
+    });
+
+    genderSwitchInputs.forEach(input => {
+        input.addEventListener('change', (event) => {
+            const selectedGender = event.target.value;
+            if (selectedGender === 'her') {
+                contentHer.style.display = 'flex';
+                contentHim.style.display = 'none';
+            } else {
+                contentHer.style.display = 'none';
+                contentHim.style.display = 'flex';
+            }
+        });
+    });
+
+    copyButton.addEventListener('click', () => {
+        linkInput.select();
+        linkInput.setSelectionRange(0, 99999);
+        document.execCommand('copy');
+        showNotification('Скопировано!');
+    });
+
+    const showNotification = (message) => {
+        const notification = document.createElement('div');
+        notification.classList.add('notification');
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.opacity = '1';
+        }, 100);
+
+        setTimeout(() => {
+            notification.style.opacity = '0';
+            setTimeout(() => {
+                notification.remove();
+            }, 500);
+        }, 2000);
+    };
+
+    // Language switcher functionality
+    currentLanguage.addEventListener('click', () => {
+        languageList.style.display = languageList.style.display === 'none' ? 'block' : 'none';
+    });
+
+    languageList.addEventListener('click', (event) => {
+        const selectedLang = event.target.dataset.lang;
+        if (selectedLang) {
+            currentLanguage.textContent = selectedLang;
+            languageList.style.display = 'none';
+            changeLanguage(selectedLang);
+        }
+    });
+
+    const changeLanguage = (lang) => {
+        const elements = document.querySelectorAll('[data-lang-' + lang.toLowerCase() + ']');
+        elements.forEach(element => {
+            element.textContent = element.getAttribute('data-lang-' + lang.toLowerCase());
+        });
+    };
+
+    // Airdrop page functionality
+    const referralsCountSpan = document.getElementById('referrals-count');
+    const daysCountSpan = document.getElementById('days-count');
+    const probabilitySlider = document.getElementById('reward-probability-slider');
+    const probabilityValue = document.getElementById('probability-value');
+
+    let referralsCount = 0;
+    let daysCount = 0;
+
+    document.getElementById('plus-referrals').addEventListener('click', () => {
+        referralsCount++;
+        referralsCountSpan.textContent = referralsCount;
+        updateProbability();
+    });
+
+    document.getElementById('minus-referrals').addEventListener('click', () => {
+        if (referralsCount > 0) {
+            referralsCount--;
+            referralsCountSpan.textContent = referralsCount;
+            updateProbability();
+        }
+    });
+
+    document.getElementById('plus-days').addEventListener('click', () => {
+        daysCount++;
+        daysCountSpan.textContent = daysCount;
+        updateProbability();
+    });
+
+    document.getElementById('minus-days').addEventListener('click', () => {
+        if (daysCount > 0) {
+            daysCount--;
+            daysCountSpan.textContent = daysCount;
+            updateProbability();
+        }
+    });
+
+    probabilitySlider.addEventListener('input', (event) => {
+        probabilityValue.textContent = `${event.target.value}%`;
+    });
+
+    const updateProbability = () => {
+        const totalPoints = referralsCount + daysCount;
+        const percentage = Math.min(totalPoints, 100);
+        probabilityValue.textContent = `${percentage}%`;
+        probabilitySlider.value = percentage;
+        updateRewards(percentage);
+    };
+
+    const updateRewards = (percentage) => {
+        const rewardItems = document.querySelectorAll('.reward-item');
+        rewardItems.forEach(item => {
+            const threshold = parseInt(item.dataset.threshold, 10);
+            const progressBar = item.querySelector('.progress');
+            const progressPercentage = item.querySelector('.progress-percentage');
+
+            if (percentage >= threshold) {
+                item.classList.add('activated');
+                progressBar.style.width = '100%';
+                progressPercentage.textContent = '100%';
+            } else {
+                item.classList.remove('activated');
+                const progress = (percentage / threshold) * 100;
+                progressBar.style.width = `${progress}%`;
+                progressPercentage.textContent = `${Math.floor(progress)}%`;
+            }
+        });
+    };
+
+    loadProgressLocal();
+    showPage('home-page');
+});
