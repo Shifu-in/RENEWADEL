@@ -536,11 +536,18 @@ body, html {
     color: white;
 }
 
+.airdrop-container h1 {
+    font-size: 24px; /* Измените размер шрифта здесь */
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 .counter-container {
     display: flex;
     justify-content: space-around;
     width: 100%;
     margin-bottom: 20px;
+    padding: 0 20px; /* Отступы от боковых границ экрана */
 }
 
 .counter {
@@ -564,7 +571,7 @@ body, html {
     background-color: transparent;
     border: none;
     color: #000;
-    font-size: 20px;
+    font-size: 17px; /* Уменьшение иконок на 3 пикселя */
     cursor: pointer;
 }
 
@@ -587,20 +594,26 @@ body, html {
 
 .reward-item {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    flex-direction: column;
+    align-items: center; /* Центрирование элементов */
     background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 20px;
+    padding: 10px 15px; /* Уменьшение ширины на 5 пикселей с каждой стороны */
     border-radius: 10px;
     margin-bottom: 10px;
-    font-size: 22px;
+    font-size: 22px; /* Размер шрифта для наград */
     animation: levitate 2s infinite;
 }
 
+.reward-title {
+    font-size: 22px; /* Измените размер шрифта здесь */
+    color: #fff;
+    margin-bottom: 5px; /* Добавляем отступ снизу */
+}
+
 .reward-item img {
-    width: 80px;
+    width: 50px; /* Уменьшение размера иконок */
     height: auto;
-    margin-right: 10px;
+    margin-bottom: 5px; /* Добавляем отступ снизу */
 }
 
 .progress-bar {
@@ -609,7 +622,6 @@ body, html {
     height: 10px;
     border-radius: 5px;
     overflow: hidden;
-    margin-right: 10px;
 }
 
 .progress {
