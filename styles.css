@@ -532,7 +532,7 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 8px; /* Уменьшение отступа до 10 пикселей */
+    padding: 10px; /* Уменьшение отступа до 10 пикселей */
     color: white;
     -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
     -ms-user-select: none; /* Запрещаем выделение текста на IE */
@@ -583,15 +583,15 @@ body, html {
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
-    left: 4px; /* Размещаем кнопку минус слева */
+    left: 5px; /* Размещаем кнопку минус слева */
 }
 
 .counter-controls button#plus-referrals, .counter-controls button#plus-days {
-    right: 4px; /* Размещаем кнопку плюс справа */
+    right: 5px; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
-    margin: 0 50px; /* Увеличиваем отступы между кнопками и числом */
+    margin: 0 45px; /* Уменьшаем отступы между кнопками и числом */
     font-size: 28px;
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
@@ -612,26 +612,26 @@ body, html {
 }
 
 .reward-item {
-    list-style-type: none;
-    border: 2px solid #9d53ff;
-    border-radius: 8px;
-    padding: 10px;
     display: flex;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.5); /* Темный полупрозрачный фон */
-    margin: 10px 0;
+    align-items: center; /* Центрирование элементов */
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 15px; /* Уменьшение ширины на 5 пикселей с каждой стороны */
+    border-radius: 10px;
+    margin-bottom: 10px;
+    font-size: 18px; /* Размер шрифта для наград */
+    animation: levitate 2s infinite;
 }
 
 .reward-container {
     display: flex;
     align-items: center;
-    width: 100%; /* Уменьшение ширины для соблюдения отступов */
+    width: 100%;
 }
 
 .reward-image {
     width: 100px; /* Увеличение размера иконок до 100 пикселей */
     height: auto;
-    margin-right: 10px;
+    margin-right: 10px; /* Добавляем отступ справа */
     margin-left: 10px; /* Перемещение иконки влево */
 }
 
@@ -640,38 +640,35 @@ body, html {
 }
 
 .reward-title {
-    font-size: 18px; /* Изменение размера шрифта */
-    display: block;
-    margin-bottom: 5px;
+    font-size: 18px; /* Измените размер шрифта здесь */
+    color: #fff;
+    margin-bottom: 5px; /* Добавляем отступ снизу */
     text-align: left; /* Выравнивание текста по левому краю */
-    color: #fff; /* Цвет текста белый */
 }
 
 .progress-bar {
     flex-grow: 1; /* Расширяем прогресс-бар */
-    background-color: #e0e0e0;
+    background-color: #333;
+    height: 10px;
     border-radius: 5px;
     overflow: hidden;
-    height: 10px;
     position: relative;
-    width: calc(100% - 25px); /* Уменьшение ширины прогресс бара */
 }
 
 .progress {
-    width: 0%;
     height: 100%;
-    background-color: #ff3b30;
-    border-radius: 5px;
+    background-color: #00ff00;
+    width: 0%;
 }
 
 .progress-percent {
     position: absolute;
-    bottom: -20px; /* Перемещение под прогресс бар */
-    left: 50%; /* Выравнивание по центру */
-    transform: translateX(-50%);
+    right: 10px; /* Отступ справа в 10 пикселей */
+    top: 50%; /* Центрирование по вертикали */
+    transform: translateY(-50%);
     font-size: 14px; /* Уменьшаем размер шрифта */
     color: #fff;
-    text-align: center; /* Центрирование текста */
+    text-align: right; /* Выравнивание текста по правому краю */
 }
 
 .counter-container {
