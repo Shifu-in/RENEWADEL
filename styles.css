@@ -582,11 +582,11 @@ body, html {
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
-    left: 3px; /* Размещаем кнопку минус слева */
+    left: 1px; /* Размещаем кнопку минус слева */
 }
 
 .counter-controls button#plus-referrals, .counter-controls button#plus-days {
-    right: 3px; /* Размещаем кнопку плюс справа */
+    right: 1px; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
