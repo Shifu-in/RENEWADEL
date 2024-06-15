@@ -212,51 +212,40 @@
             <h1 data-lang-ru="Airdrop" data-lang-en="Airdrop" data-lang-fr="Airdrop" data-lang-uz="Airdrop" data-lang-ch="Airdrop" data-lang-sp="Airdrop">Airdrop</h1>
             <div class="counter-container">
                 <div class="counter">
-                    <h2>Рефералов</h2>
-                    <div class="counter-controls">
-                        <button id="minus-referrals"><img src="assets/images/minus.svg" alt="minus"></button>
+                    <div class="counter-controls" style="background-image: url('assets/images/Фон для текста.svg');">
+                        <button id="minus-referrals"><img src="assets/images/minus.svg" alt="Minus"></button>
                         <span id="referrals-count">0</span>
-                        <button id="plus-referrals"><img src="assets/images/plus.svg" alt="plus"></button>
+                        <button id="plus-referrals"><img src="assets/images/plus.svg" alt="Plus"></button>
                     </div>
+                    <span data-lang-ru="Рефералов" data-lang-en="Referrals" data-lang-fr="Parrainages" data-lang-uz="Yo'nalishlar" data-lang-ch="推荐" data-lang-sp="Referencias">Рефералов</span>
                 </div>
                 <div class="counter">
-                    <h2>Дней в игре</h2>
-                    <div class="counter-controls">
-                        <button id="minus-days"><img src="assets/images/minus.svg" alt="minus"></button>
+                    <div class="counter-controls" style="background-image: url('assets/images/Фон для текста.svg');">
+                        <button id="minus-days"><img src="assets/images/minus.svg" alt="Minus"></button>
                         <span id="days-count">0</span>
-                        <button id="plus-days"><img src="assets/images/plus.svg" alt="plus"></button>
+                        <button id="plus-days"><img src="assets/images/plus.svg" alt="Plus"></button>
                     </div>
+                    <span data-lang-ru="Дней в игре" data-lang-en="Days in game" data-lang-fr="Jours dans le jeu" data-lang-uz="O'yindagi kunlar" data-lang-ch="游戏天数" data-lang-sp="Días en el juego">Дней в игре</span>
                 </div>
-            </div>
-            <div class="probability-container">
-                <h2>Вероятность получения награды*</h2>
-                <input type="range" id="reward-probability-slider" min="0" max="100" value="0">
-                <div id="probability-value">0%</div>
             </div>
             <div class="rewards-container">
                 <ul class="rewards-list">
                     <li class="reward-item" data-threshold="5">
-                        <img src="assets/images/land.svg" alt="land">
+                        <img src="assets/images/land.svg" alt="Land">
                         <span>100 NFT на сумму 100.000$</span>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
+                        <div class="progress-bar"><div class="progress"></div></div>
                         <div class="progress-percentage">0%</div>
                     </li>
                     <li class="reward-item" data-threshold="20">
-                        <img src="assets/images/nft.svg" alt="nft">
+                        <img src="assets/images/nft.svg" alt="NFT">
                         <span>1.000.000.000 монет Young</span>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
+                        <div class="progress-bar"><div class="progress"></div></div>
                         <div class="progress-percentage">0%</div>
                     </li>
                     <li class="reward-item" data-threshold="10">
-                        <img src="assets/images/coindrop.svg" alt="coindrop">
+                        <img src="assets/images/coindrop.svg" alt="TON">
                         <span>1000 TON</span>
-                        <div class="progress-bar">
-                            <div class="progress"></div>
-                        </div>
+                        <div class="progress-bar"><div class="progress"></div></div>
                         <div class="progress-percentage">0%</div>
                     </li>
                 </ul>
@@ -277,11 +266,14 @@
         <div class="nav-item" id="nav-wallet" data-page="wallet-page">
             <img src="assets/images/wallet.svg" alt="Wallet">
         </div>
-        <div class="nav-item" id="nav-airdrop" data-page="airdrop-page">
-            <img src="assets/images/stats-up-square.svg" alt="Airdrop">
+        <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
+            <img src="assets/images/fun.svg" alt="Fun">
         </div>
         <div class="nav-item" id="nav-friends" data-page="friends-page">
             <img src="assets/images/fren.svg" alt="Friends">
+        </div>
+        <div class="nav-item" id="nav-airdrop" data-page="airdrop-page">
+            <img src="assets/images/stats-up-square.svg" alt="Airdrop">
         </div>
     </div>
 
