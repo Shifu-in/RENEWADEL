@@ -44,6 +44,13 @@
             width: 100%;
             padding: 20px;
         }
+
+        .centered-image {
+            display: block;
+            margin: auto;
+            max-width: 100%; /* Вернули размер на 100% */
+            height: auto;
+        }
     </style>
 </head>
 <body>
@@ -51,7 +58,6 @@
         <img src="assets/images/loading.gif" alt="Loading" id="loading-gif">
         <div id="loading-text">
             <p class="loading-main-text">YOUNG</p>
-            <p class="loading-sub-text">ver.beta</p>
         </div>
     </div>
 
@@ -158,7 +164,7 @@
     </div>
 
     <div class="main-screen" id="wallet-page" style="display: none;">
-        <img src="assets/images/Solutions.svg" alt="Solutions" class="centered-image"> <!-- Added image -->
+        <img src="assets/images/Solutions.svg" alt="About the project RU" class="centered-image" data-lang-ru="assets/images/Solutions.svg" data-lang-en="assets/images/2.svg" data-lang-fr="assets/images/3.svg" data-lang-sp="assets/images/4.svg" data-lang-uz="assets/images/5.svg" data-lang-ch="assets/images/6.svg"> <!-- Updated images -->
     </div>
 
     <div class="main-screen" id="stats-page" style="display: none;">
@@ -207,9 +213,10 @@
         </div>
     </div>
 
+    <!-- Airdrop Page -->
     <div class="main-screen" id="airdrop-page" style="display: none;">
         <div class="airdrop-container">
-            <h1 data-lang-ru="Airdrop" data-lang-en="Airdrop" data-lang-fr="Airdrop" data-lang-uz="Airdrop" data-lang-ch="Airdrop" data-lang-sp="Airdrop">Airdrop</h1>
+            <h1 data-lang-ru="Airdrop" data-lang-en="Airdrop" data-lang-fr="Airdrop" data-lang-uz="Airdrop" data-lang-ch="Airdrop" data-lang-sp="Airdrop">AIRDROP КАЛЬКУЛЯТОР</h1>
             <div class="counter-container">
                 <div class="counter">
                     <div class="counter-controls" style="background-image: url('assets/images/Фон для текста.svg');">
@@ -230,21 +237,21 @@
             </div>
             <div class="rewards-container">
                 <ul class="rewards-list">
-                    <li class="reward-item" data-threshold="5">
-                        <img src="assets/images/land.svg" alt="Land">
-                        <span>100 NFT на сумму 100.000$</span>
+                    <li class="reward-item" data-threshold="5,10">
+                        <img src="assets/images/coindrop.svg" alt="TON">
+                        <span>1000 монет Ton</span>
                         <div class="progress-bar"><div class="progress"></div></div>
                         <div class="progress-percentage">0%</div>
                     </li>
-                    <li class="reward-item" data-threshold="20">
-                        <img src="assets/images/nft.svg" alt="NFT">
+                    <li class="reward-item" data-threshold="5,15">
+                        <img src="assets/images/nft.svg" alt="Young">
                         <span>1.000.000.000 монет Young</span>
                         <div class="progress-bar"><div class="progress"></div></div>
                         <div class="progress-percentage">0%</div>
                     </li>
-                    <li class="reward-item" data-threshold="10">
-                        <img src="assets/images/coindrop.svg" alt="TON">
-                        <span>1000 TON</span>
+                    <li class="reward-item" data-threshold="15,15">
+                        <img src="assets/images/land.svg" alt="NFT">
+                        <span>100 NFT на сумму 100.000$</span>
                         <div class="progress-bar"><div class="progress"></div></div>
                         <div class="progress-percentage">0%</div>
                     </li>
@@ -266,14 +273,11 @@
         <div class="nav-item" id="nav-wallet" data-page="wallet-page">
             <img src="assets/images/wallet.svg" alt="Wallet">
         </div>
-        <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
-            <img src="assets/images/fun.svg" alt="Fun">
+        <div class="nav-item" id="nav-airdrop" data-page="airdrop-page">
+            <img src="assets/images/wallet.svg" alt="Airdrop"> <!-- Reusing wallet icon for Airdrop -->
         </div>
         <div class="nav-item" id="nav-friends" data-page="friends-page">
             <img src="assets/images/fren.svg" alt="Friends">
-        </div>
-        <div class="nav-item" id="nav-airdrop" data-page="airdrop-page">
-            <img src="assets/images/stats-up-square.svg" alt="Airdrop">
         </div>
     </div>
 
