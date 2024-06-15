@@ -591,8 +591,8 @@ body, html {
 }
 
 .counter-controls span {
-    margin: 0 40px; /* Увеличиваем отступы между кнопками и числом */
-    font-size: 28px;
+    margin: 0 30px; /* Увеличиваем отступы между кнопками и числом */
+    font-size: 22px;
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     text-align: right; /* Центрирование текста */
