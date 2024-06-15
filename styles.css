@@ -532,7 +532,7 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 12px; /* Уменьшение отступа до 10 пикселей */
+    padding: 8px; /* Уменьшение отступа до 10 пикселей */
     color: white;
     -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
     -ms-user-select: none; /* Запрещаем выделение текста на IE */
