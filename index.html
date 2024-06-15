@@ -1,661 +1,288 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden; /* Убираем прокрутку */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #000000;
-    font-family: 'Discovery', Arial, sans-serif;
-    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
-    -ms-user-select: none; /* Запрещаем выделение текста на IE */
-    user-select: none; /* Запрещаем выделение текста на всех браузерах */
-}
-
-#loading-screen {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #000;
-    z-index: 10000; /* Высокий z-index для отображения поверх всего */
-}
-
-#loading-gif {
-    width: 200px; /* Установите нужный размер для гиф */
-    height: auto;
-}
-
-#loading-text {
-    font-family: 'Discovery', Arial, sans-serif;
-    color: #fff;
-    text-align: center;
-}
-
-.loading-main-text {
-    font-size: 22px;
-    margin: 10px 0 5px 0;
-}
-
-.loading-sub-text {
-    font-size: 10px;
-    margin: 0;
-}
-
-.language-switch {
-    position: absolute;
-    top: 120px; /* Опущен еще на 50 пикселей */
-    left: 35px; /* 5px правее предыдущего положения */
-    transform: translateY(-50%);
-    color: #fff;
-    font-family: 'Discovery', Arial, sans-serif;
-    cursor: pointer;
-    z-index: 10001; /* Ensure it is on top of other elements */
-}
-
-.language-switch .current-language {
-    font-size: 20px;
-    padding: 5px 10px;
-    background-color: #000;
-    border-radius: 5px;
-}
-
-.language-switch .language-list {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    background-color: #000;
-    border-radius: 5px;
-    overflow: hidden;
-    z-index: 10002; /* Ensure it is on top of other elements */
-}
-
-.language-switch .language-list div {
-    padding: 5px 10px;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.language-switch .language-list div:hover {
-    background-color: #555;
-}
-
-.main-screen {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    position: absolute;
-    overflow: hidden; /* Убираем прокрутку */
-    background: url('assets/images/Фон общий.png') no-repeat center center;
-    background-size: cover;
-}
-
-.main-screen#stats-page {
-    background: none; /* Убираем общий фон на странице статистики */
-}
-
-.header {
-    display: flex;
-    justify-content: space-between; /* Размещаем элементы по краям */
-    width: 100%;
-    padding: 20px;
-    position: relative;
-}
-
-.coin-info {
-    display: absolute;
-    flex-direction: column;
-    align-items: center;
-    color: #fff;
-    position: relative;
-    top: 5px;
-    left: 15px;
-}
-
-.coin-text {
-    margin-bottom: 5px;
-}
-
-.coin-amount {
-    margin-right: 5px;
-}
-
-.coin-info img {
-    width: 30px;
-    height: 30px;
-    position: relative;
-    top: 1px; /* Lower the coin image by 3px */
-}
-
-.gender-switch {
-    display: flex;
-    align-items: center;
-    background-color: #f0f0f0;
-    border-radius: 15px;
-    padding: 5px;
-    position: relative;
-    top: 5px;
-    right: 10px;
-}
-
-.gender-switch input[type="radio"] {
-    display: none;
-}
-
-.gender-switch label {
-    padding: 10px 20px;
-    border-radius: 10px;
-    cursor: pointer;
-}
-
-.gender-switch input[type="radio"]:checked + label {
-    background-color: #555555;
-    color: #ffffff;
-}
-
-.gender-switch label:not(:checked) {
-    background-color: #f0f0f0;
-    color: #000000;
-}
-
-.content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex-grow: 1;
-}
-
-.character {
-    width: 430px; /* Уменьшенный размер на 10 пикселей */
-    height: auto;
-    margin-bottom: -65px; /* Перемещение вверх на 5 пикселей */
-    margin-top: 10px; /* Перемещение вверх на 10 пикселей */
-    margin-left: -20px; /* Сдвиг вправо на 5 пикселей */
-    cursor: pointer; /* Указываем, что элемент кликабельный */
-}
-
-.character-her {
-    width: 370px; /* Уменьшенный размер на 20% + 10 пикселей */
-    height: auto;
-    margin-bottom: -25px; /* Перемещение вверх на 5 пикселей */
-    margin-top: 10px; /* Перемещение вверх на 10 пикселей */
-    margin-left: -10px; /* Сдвиг вправо на 5 пикселей */
-    cursor: pointer; /* Указываем, что элемент кликабельный */
-}
-
-.text-container {
-    width: 90%;
-    max-width: 300px;
-    text-align: left; /* Выравнивание текста по левому краю */
-}
-
-.text-background {
-    background: url('assets/images/Фон для текста.svg') no-repeat center center;
-    background-size: cover;
-    padding: 20px;
-    border-radius: 20px;
-    color: #fff;
-    text-align: left;
-}
-
-.text-main {
-    font-size: 18px;
-    margin: 0;
-}
-
-.text-sub {
-    font-size: 14px;
-    margin: 10px 0 20px 0;
-}
-
-.button-container {
-    display: flex;
-    justify-content: center;
-}
-
-.button {
-    width: 50px;
-    height: 50px;
-}
-
-/* Убираем элементы dots */
-.page-controls {
-    display: none;
-}
-
-.navigation {
-    display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-    background-color: #f0f0f0;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 400px;
-    position: absolute;
-    bottom: 20px;
-}
-
-.nav-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50px;
-    height: 50px;
-    background-color: transparent;
-}
-
-.nav-item.active {
-    background-color: #555555;
-    border-radius: 10px;
-}
-
-.nav-item img {
-    width: 24px;
-    height: 24px;
-}
-
-.upgrades {
-    width: 340px; /* Уменьшен контейнер на 20 пикселей */
-    max-width: 340px;
-    background-color: #1c1c1e;
-    border-radius: 20px;
-    margin-top: -120px;
-    padding: 20px;
-}
-
-.upgrades h2 {
-    color: #fff;
-    margin-bottom: 20px;
-    font-size: 20px;
-}
-
-.upgrade-item {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.upgrade-item:last-child {
-    margin-bottom: 0;
-}
-
-.upgrade-icon {
-    width: 50px;
-    height: 50px;
-    background-color: #2c2c2e;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.upgrade-icon img {
-    width: 30px;
-    height: 30px;
-}
-
-.upgrade-details {
-    flex-grow: 1;
-    margin-left: 20px;
-}
-
-.upgrade-details h3 {
-    color: #fff;
-    margin: 0;
-    font-size: 16px;
-}
-
-.upgrade-details p {
-    color: #888;
-    margin: 5px 0 0;
-    font-size: 14px;
-}
-
-.upgrade-button {
-    background-color: #ff3b30;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 17px; /* Make buttons narrower */
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.upgrade-button:hover {
-    background-color: #ff5e57;
-}
-
-.coming-soon {
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.text-container-store {
-    width: 280px; /* Уменьшен контейнер на 10 пикселей */
-    max-width: 300px;
-    position: relative;
-    margin: 0 auto; /* Центрирование по горизонтали */
-    margin-top: 0px; /* Adjust the margin as needed */
-    margin-bottom: 20px; /* Add margin-bottom to avoid overlapping with navigation */
-    text-align: left;
-}
-
-.content-group {
-    margin-top: 220px; /* Lower the group of containers by 150px */
-}
-
-.background-room {
-    background: url('assets/images/Фон комната.svg') no-repeat center center;
-    background-size: cover; /* Устанавливаем размер фонового изображения, чтобы оно покрыло весь экран */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.text-container-room {
-    width: 90%;
-    max-width: 300px;
-    margin-top: 420px; /* Опустить контейнер текста на 200 пикселей */
-    margin-left: 20px; /* Сдвиг правее на 20 пикселей */
-    text-align: left;
-}
-
-/* Updated styles for stats-page */
-#stats-page {
-    background: url('assets/images/Фон комната.svg') no-repeat center center;
-    background-size: cover; /* Устанавливаем размер фонового изображения, чтобы оно покрыло весь экран */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-/* Стили для анимации монет */
-.coin-animation {
-    position: absolute;
-    color: #ffd700; /* Золотой цвет для монет */
-    font-size: 18px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    animation: coin-fall 1s ease-out forwards;
-    z-index: 1000; /* Установим высокий z-index для отображения монет поверх всего */
-}
-
-.coin-animation img {
-    width: 20px;
-    height: 20px;
-    margin-right: 5px;
-}
-
-@keyframes coin-fall {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-}
-
-.partner-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Center the partner blocks */
-    justify-content: center;
-    width: 100%;
-    height: 100%; /* Ensure full height */
-}
-
-.partner {
-    margin-bottom: 20px;
-    width: 80%; /* Adjust width to ensure it doesn't stretch too much */
-    position: relative; /* Ensure relative positioning for the checkmark */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.text-background {
-    font-size: 1.5em; /* Increase font size by 1.5 times */
-}
-
-.subscribe-button, .confirm-button {
-    background-color: #ff3b30; /* New red color for buttons */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 17px; /* Make buttons narrower */
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.subscribe-button:hover, .confirm-button:hover {
-    background-color: #ff5e57;
-}
-
-.checkmark {
-    position: absolute;
-    top: 10px; /* Top right corner */
-    right: 10px; /* Top right corner */
-    width: 20px;
-    height: 20px;
-}
-
-.centered-image {
-    display: block;
-    margin: auto;
-    max-width: 100%;
-    height: auto;
-    margin-top: -10px;
-}
-
-.friends-title {
-    margin-top: 30px;
-    color: #fff;
-    font-size: 24px;
-    text-align: center;
-}
-
-.invite-text {
-    color: #fff;
-    font-size: 14px;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.link-container {
-    display: flex;
-    flex-direction: column; /* Updated to column to fit within screen */
-    align-items: center;
-    margin-top: 10px;
-}
-
-.copy-button {
-    background-color: #ff3b30;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 14px;
-    margin-top: 10px; /* Added margin-top for spacing */
-}
-
-.copy-button:hover {
-    background-color: #ff5e57;
-}
-
-.referral-link {
-    color: #fff;
-    margin-bottom: 10px;
-    padding: 10px;
-    background-color: #1c1c1e;
-    border: none;
-    border-radius: 10px;
-    width: 300px; /* Fixed width */
-}
-
-.notification {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #32CD32;
-    color: #fff;
-    padding: 10px 20px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    transition: opacity 0.5s;
-}
-
-/* Airdrop Page Styles */
-.airdrop-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 10px; /* Уменьшение отступа до 10 пикселей */
-    color: white;
-    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
-    -ms-user-select: none; /* Запрещаем выделение текста на IE */
-    user-select: none; /* Запрещаем выделение текста на всех браузерах */
-}
-
-.airdrop-container h1 {
-    font-size: 24px; /* Измените размер шрифта здесь */
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.counter-container {
-    display: flex;
-    justify-content: space-around;
-    width: 100%;
-    margin-bottom: 20px;
-    padding: 0 20px; /* Отступы от боковых границ экрана */
-}
-
-.counter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    font-size: 20px;
-}
-
-.counter-controls {
-    display: flex;
-    align-items: center;
-    border-radius: 10px;
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    background-size: cover;
-    background-color: transparent; /* Убираем фон */
-}
-
-.counter-controls button {
-    background-color: transparent;
-    border: none;
-    color: #000;
-    font-size: 17px; /* Уменьшение иконок на 3 пикселя */
-    cursor: pointer;
-}
-
-.counter-controls span {
-    margin: 0 10px;
-    font-size: 28px;
-    font-weight: bold;
-    color: #fff; /* Изменение цвета текста */
-}
-
-.rewards-container {
-    width: calc(100% - 20px); /* Оставляем отступ по 10 пикселей с каждой стороны */
-    text-align: left;
-}
-
-.rewards-list {
-    list-style: none;
-    padding: 0;
-}
-
-.reward-item {
-    display: flex;
-    align-items: center; /* Центрирование элементов */
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 15px; /* Уменьшение ширины на 5 пикселей с каждой стороны */
-    border-radius: 10px;
-    margin-bottom: 10px;
-    font-size: 22px; /* Размер шрифта для наград */
-    animation: levitate 2s infinite;
-}
-
-.reward-title {
-    font-size: 22px; /* Измените размер шрифта здесь */
-    color: #fff;
-    margin-bottom: 5px; /* Добавляем отступ снизу */
-    text-align: left; /* Выравнивание текста по левому краю */
-}
-
-.reward-item img {
-    width: 100px; /* Увеличение размера иконок до 100 пикселей */
-    height: auto;
-    margin-right: 10px; /* Добавляем отступ справа */
-    margin-left: 10px; /* Перемещение иконки влево */
-}
-
-.progress-bar {
-    flex-grow: 1; /* Расширяем прогресс-бар */
-    background-color: #333;
-    height: 10px;
-    border-radius: 5px;
-    overflow: hidden;
-    position: relative;
-}
-
-.progress {
-    height: 100%;
-    background-color: #00ff00;
-    width: 0%;
-}
-
-.progress-percentage {
-    position: absolute;
-    right: 10px; /* Отступ справа в 10 пикселей */
-    top: -25px; /* Поднимаем вверх на 25 пикселей */
-    font-size: 14px; /* Уменьшаем размер шрифта */
-    color: #fff;
-    text-align: right; /* Выравнивание текста по правому краю */
-}
-
-.counter-container {
-    -webkit-touch-callout: none; /* Запрещаем вызов контекстного меню на iOS */
-    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
-    -ms-user-select: none; /* Запрещаем выделение текста на IE */
-    user-select: none; /* Запрещаем выделение текста на всех браузерах */
-}
-
-@keyframes levitate {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Main Screen</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        @font-face {
+            font-family: 'Discovery';
+            src: url('assets/fonts/discovery font.woff') format('woff');
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; /* Убираем прокрутку */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000000;
+            font-family: 'Discovery', Arial, sans-serif;
+            -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
+            -ms-user-select: none; /* Запрещаем выделение текста на IE */
+            user-select: none; /* Запрещаем выделение текста на всех браузерах */
+        }
+
+        #tap-timer {
+            display: none;
+            color: white;
+            position: absolute;
+            top: 80px;
+            right: 20px; /* Таймер будет справа под переключателем "Он/Она" */
+            font-size: 10px;
+            z-index: 10000; /* Увеличенный z-index для отображения поверх других элементов */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+        }
+
+        .centered-image {
+            display: block;
+            margin: auto;
+            max-width: 100%; /* Вернули размер на 100% */
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <div id="loading-screen">
+        <img src="assets/images/loading.gif" alt="Loading" id="loading-gif">
+        <div id="loading-text">
+            <p class="loading-main-text">YOUNG</p>
+        </div>
+    </div>
+
+    <div class="main-screen" id="home-page" style="display: none;">
+        <div class="header">
+            <div class="coin-info">
+                <div class="coin-text">Young coin</div>
+                <div>
+                    <span class="coin-amount">0</span>
+                    <img src="assets/images/coins.svg" alt="Coins" class="coin-icon">
+                </div>
+            </div>
+            <div class="gender-switch">
+                <input type="radio" id="for-her" name="gender" value="her">
+                <label for="for-her" data-lang-ru="Она" data-lang-en="She" data-lang-fr="elle" data-lang-uz="u" data-lang-ch="她" data-lang-sp="ella">Она</label>
+                <input type="radio" id="for-him" name="gender" value="him" checked>
+                <label for="for-him" data-lang-ru="Он" data-lang-en="He" data-lang-fr="il" data-lang-uz="u" data-lang-ch="他" data-lang-sp="él">Он</label>
+            </div>
+            <div class="language-switch" id="language-switch">
+                <div class="current-language">RU</div>
+                <div class="language-list" style="display: none;">
+                    <div data-lang="RU">RU</div>
+                    <div data-lang="EN">EN</div>
+                    <div data-lang="FR">FR</div>
+                    <div data-lang="UZ">UZ</div>
+                    <div data-lang="CH">CH</div>
+                    <div data-lang="SP">SP</div>
+                </div>
+            </div>
+        </div>
+        <div id="tap-timer"></div>
+        <div class="content" id="content-her" style="display: none;">
+            <img src="assets/images/Adel.png" alt="Character" class="character character-her" id="character-her">
+            <div class="text-container">
+                <div class="text-background">
+                    <p class="text-main" data-lang-ru="Знакомьтесь - это ваш персонаж" data-lang-en="Meet your character" data-lang-fr="Rencontrez votre personnage" data-lang-uz="Tanishing-bu sizning xarakteringiz" data-lang-ch="认识你的角色" data-lang-sp="Conoce a tu personaje">Знакомьтесь - это ваш персонаж</p>
+                    <p class="text-sub" data-lang-ru="Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!" data-lang-en="You can switch between them for now. Tap the screen to earn Young coins!" data-lang-fr="Tant que vous pouvez passer de l'un à l'autre. Tapez sur l'écran pour obtenir Young !" data-lang-uz="Hozircha siz ikkalasini almashtirishingiz mumkin. Youngni olish uchun ekranga teging!" data-lang-ch="您现在可以在他们之间切换。要获得 Young，请点击屏幕！" data-lang-sp="Por ahora puedes cambiar entre ellos. Para conseguir a Young, ¡toca en la pantalla!">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
+                </div>
+            </div>
+        </div>
+        <div class="content" id="content-him">
+            <img src="assets/images/Ai.svg" alt="Character" class="character" id="character">
+            <div class="text-container" style="margin-bottom: 50px;">
+                <div class="text-background">
+                    <p class="text-main" data-lang-ru="Знакомьтесь - это ваш персонаж" data-lang-en="Meet your character" data-lang-fr="Rencontrez votre personnage" data-lang-uz="Tanishing-bu sizning xarakteringiz" data-lang-ch="认识你的角色" data-lang-sp="Conoce a tu personaje">Знакомьтесь - это ваш персонаж</p>
+                    <p class="text-sub" data-lang-ru="Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!" data-lang-en="You can switch between them for now. Tap the screen to earn Young coins!" data-lang-fr="Tant que vous pouvez passer de l'un à l'autre. Tapez sur l'écran pour obtenir Young !" data-lang-uz="Hozircha siz ikkalasini almashtirishingiz mumkin. Youngni olish uchun ekranga teging!" data-lang-ch="您现在可以在他们之间切换。要获得 Young，请点击屏幕！" data-lang-sp="Por ahora puedes cambiar entre ellos. Para conseguir a Young, ¡toca en la pantalla!">Пока вы можете переключаться между ними. Для получения Young, тапайте по экрану!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-screen" id="store-page" style="display: none;">
+        <div class="content-group">
+            <div class="upgrades">
+                <h2 data-lang-ru="АПГРЕЙДЫ" data-lang-en="UPGRADES" data-lang-fr="AMÉLIORATIONS" data-lang-uz="Yuksaltirish" data-lang-ch="UPGRADES（升级）" data-lang-sp="ACTUALIZACIONES">АПГРЕЙДЫ</h2>
+                <div class="upgrade-item">
+                    <div class="upgrade-icon">
+                        <img src="assets/images/апгрейд 1.svg" alt="GYM">
+                    </div>
+                    <div class="upgrade-details">
+                        <h3>GYM</h3>
+                        <p data-lang-ru="50 | уровень 0/10<br>1 Young coin за тап" data-lang-en="50 | level 0/10<br>1 Young coin per tap" data-lang-fr="50 | niveau 0/10<br>1 pièce de Young par tape" data-lang-uz="50 | daraja 0/10<br>1 Young coin per tap" data-lang-ch="50 | 级别 0/10<br>1 每点 Young coin" data-lang-sp="50 | nivel 0/10<br>1 Moneda joven por toque">50 | уровень 0/10<br>1 Young coin за тап</p>
+                    </div>
+                    <button class="upgrade-button" data-type="gym" data-lang-ru="КУПИТЬ" data-lang-en="BUY" data-lang-fr="ACHETER" data-lang-uz="SOTIB OLISH" data-lang-ch="购买" data-lang-sp="COMPRAR">КУПИТЬ</button>
+                </div>
+                <div class="upgrade-item">
+                    <div class="upgrade-icon">
+                        <img src="assets/images/апгрейд 2.svg" alt="AI-TAP">
+                    </div>
+                    <div class="upgrade-details">
+                        <h3>AI-TAP</h3>
+                        <p data-lang-ru="20,000 | уровень 0/10<br>2 Young coin / сек" data-lang-en="20,000 | level 0/10<br>2 Young coin / sec" data-lang-fr="20,000 | niveau 0/10<br>2 pièces de monnaie / sec" data-lang-uz="20,000 | daraja 0/10<br>2 yosh tanga / sek" data-lang-ch="20,000 | 级别 0/10<br>2 Young coin / sec" data-lang-sp="20,000 | nivel 0/10<br>2 Moneda joven / seg">20,000 | уровень 0/10<br>2 Young coin / сек</p>
+                    </div>
+                    <button class="upgrade-button" data-type="aiTap" data-lang-ru="КУПИТЬ" data-lang-en="BUY" data-lang-fr="ACHETER" data-lang-uz="SOTIB OLISH" data-lang-ch="购买" data-lang-sp="COMPRAR">BUY</button>
+                </div>
+                <div class="upgrade-item">
+                    <div class="upgrade-icon">
+                        <img src="assets/images/апгрейд 3.svg" alt="AIRDROP">
+                    </div>
+                    <div class="upgrade-details">
+                        <h3>AIRDROP</h3>
+                        <p data-lang-ru="100,000 | уровень 0/10<br>6 Young coin / сек" data-lang-en="100,000 | level 0/10<br>6 Young coin / sec" data-lang-fr="100,000 | niveau 0/10<br>6 pièces de monnaie / sec" data-lang-uz="100,000 | daraja 0/10<br>6 yosh tanga / sek" data-lang-ch="100,000 | 级别 0/10<br>6 Young coin / sec" data-lang-sp="100,000 | nivel 0/10<br>6 Moneda joven / seg">100,000 | уровень 0/10<br>6 Young coin / сек</p>
+                    </div>
+                    <button class="upgrade-button" data-type="airdrop" data-lang-ru="КУПИТЬ" data-lang-en="BUY" data-lang-fr="ACHETER" data-lang-uz="SOTIB OLISH" data-lang-ch="购买" data-lang-sp="COMPRAR">КУПИТЬ</button>
+                </div>
+                <div class="upgrade-item">
+                    <div class="upgrade-icon">
+                        <img src="assets/images/апгрейд 4.svg" alt="DeFi">
+                    </div>
+                    <div class="upgrade-details">
+                        <h3>DeFi</h3>
+                        <p data-lang-ru="10,000,000 | уровень 0/10<br>10 Young coin / сек" data-lang-en="10,000,000 | level 0/10<br>10 Young coin / sec" data-lang-fr="10,000,000 | niveau 0/10<br>10 pièces de monnaie / sec" data-lang-uz="10,000,000 | daraja 0/10<br>10 yosh tanga / sek" data-lang-ch="10,000,000 | 级别 0/10<br>10 Young coin / sec" data-lang-sp="10,000,000 | nivel 0/10<br>10 Moneda joven / seg">10,000,000 | уровень 0/10<br>10 Young coin / сек</p>
+                    </div>
+                    <button class="upgrade-button" data-type="defi" data-lang-ru="КУПИТЬ" data-lang-en="BUY" data-lang-fr="ACHETER" data-lang-uz="SOTIB OLISH" data-lang-ch="购买" data-lang-sp="COMPRAR">КУПИТЬ</button>
+                </div>
+            </div>
+            <div class="text-container-store">
+                <div class="text-background">
+                    <p class="text-main" data-lang-ru="Описание" data-lang-en="Description" data-lang-fr="Description" data-lang-uz="Tavsif" data-lang-ch="说明" data-lang-sp="Descripción">Описание</p>
+                    <p class="text-sub" data-lang-ru="Покупка первого апгрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young." data-lang-en="Purchasing the first upgrade enhances tap power. Subsequent upgrades unlock auto-accrual of Young coins." data-lang-fr="L'achat de la première amélioration augmente la puissance du robinet. Les améliorations suivantes débloquent les pièces de Young à accumulation automatique." data-lang-uz="Birinchi yangilanishni sotib olish tapning kuchini oshiradi. Keyingi yangilanishlar Young tangalarini avtomatik hisoblashni ochadi." data-lang-ch="购买第一个升级包可以增强水龙头的威力。后续升级可解锁杨的自动累积金币。" data-lang-sp="Al comprar la primera mejora aumenta la potencia del grifo. Las mejoras posteriores desbloquean las monedas de acumulación automática de Young.">Покупка первого апгрейда усиливает мощность тапа. Последующие апгрейды открывают авто-начисление монет Young.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-screen" id="wallet-page" style="display: none;">
+        <img src="assets/images/Solutions.svg" alt="About the project RU" class="centered-image" data-lang-ru="assets/images/Solutions.svg" data-lang-en="assets/images/2.svg" data-lang-fr="assets/images/3.svg" data-lang-sp="assets/images/4.svg" data-lang-uz="assets/images/5.svg" data-lang-ch="assets/images/6.svg"> <!-- Updated images -->
+    </div>
+
+    <div class="main-screen" id="stats-page" style="display: none;">
+        <div class="background-room">
+            <div class="text-container-room">
+                <div class="text-background">
+                    <p class="text-main" data-lang-ru="Это первый дом вашего персонажа" data-lang-en="This is your character's first home" data-lang-fr="C'est la première maison de votre personnage" data-lang-uz="Bu sizning xarakteringizning birinchi uyi" data-lang-ch="这是您的角色的第一个家" data-lang-sp="Este es el primer hogar de tu personaje">Это первый дом вашего персонажа</p>
+                    <p class="text-sub" data-lang-ru="Он/она скоро вернётся домой и ваше приключение начнётся..." data-lang-en="He/she will return home soon and your adventure will begin..." data-lang-fr="Il rentrera bientôt chez lui et votre aventure commencera...." data-lang-uz="U tez orada uyiga qaytadi va sizning sarguzashtingiz boshlanadi…" data-lang-ch="他/她很快就会回家，您的冒险也将开始....。" data-lang-sp="Pronto volverá a casa y comenzará tu aventura....">Он/она скоро вернётся домой и ваше приключение начнётся...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-screen" id="fun-page" style="display: none;">
+        <div class="partner-container" style="display: none;"> <!-- Hiding the FUN section -->
+            <div class="partner" id="partner1">
+                <div class="text-background">
+                    <p class="text-main" data-lang-ru="ShifuCrypto" data-lang-en="ShifuCrypto" data-lang-fr="ShifuCrypto" data-lang-uz="ShifuCrypto" data-lang-ch="ShifuCrypto" data-lang-sp="ShifuCrypto">ShifuCrypto</p>
+                    <p class="text-sub" data-lang-ru="Подпишитесь на канал." data-lang-en="Subscribe to the channel." data-lang-fr="Abonnez-vous à la chaîne." data-lang-uz="Kanalga obuna bo'ling." data-lang-ch="订阅频道。" data-lang-sp="Suscríbete al canal.">Подпишитесь на канал.</p>
+                    <div class="button-container">
+                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/shifucrypto', 'partner1')" data-lang-ru="Подписаться" data-lang-en="Subscribe" data-lang-fr="S'abonner" data-lang-uz="Obuna bo'lish" data-lang-ch="订阅" data-lang-sp="Suscribirse">Подписаться</button>
+                        <button class="confirm-button" onclick="confirmSubscription('partner1')" style="display: none;" data-lang-ru="Проверить" data-lang-en="Check" data-lang-fr="Vérifier" data-lang-uz="Tekshirish" data-lang-ch="检查" data-lang-sp="Verificar">Проверить</button>
+                    </div>
+                </div>
+            </div>
+            <div class="partner" id="partner2">
+                <div class="text-background">
+                    <p class="text-main" data-lang-ru="Tai Lung Airdrop" data-lang-en="Tai Lung Airdrop" data-lang-fr="Tai Lung Airdrop" data-lang-uz="Tai Lung Airdrop" data-lang-ch="Tai Lung Airdrop" data-lang-sp="Tai Lung Airdrop">Tai Lung Airdrop</p>
+                    <p class="text-sub" data-lang-ru="Подпишитесь на канал." data-lang-en="Subscribe to the channel." data-lang-fr="Abonnez-vous à la chaîne." data-lang-uz="Kanalga obuna bo'ling." data-lang-ch="订阅频道。" data-lang-sp="Suscríbete al canal.">Подпишитесь на канал.</p>
+                    <div class="button-container">
+                        <button class="subscribe-button" onclick="subscribeChannel('https://t.me/tailungairdrop', 'partner2')" data-lang-ru="Подписаться" data-lang-en="Subscribe" data-lang-fr="S'abonner" data-lang-uz="Obuna bo'lish" data-lang-ch="订阅" data-lang-sp="Suscribirse">Подписаться</button>
+                        <button class="confirm-button" onclick="confirmSubscription('partner2')" style="display: none;" data-lang-ru="Проверить" data-lang-en="Check" data-lang-fr="Vérifier" data-lang-uz="Tekshirish" data-lang-ch="检查" data-lang-sp="Verificar">Проверить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-screen" id="friends-page" style="display: none;">
+        <h1 class="friends-title" data-lang-ru="Друзья" data-lang-en="Friends" data-lang-fr="Amis" data-lang-uz="Do'stlar" data-lang-ch="朋友" data-lang-sp="Amigos">Друзья</h1>
+        <p class="invite-text" data-lang-ru="Расскажи о нас друзьям и получи награду!" data-lang-en="Tell your friends about us and get a reward!" data-lang-fr="Parlez de nous à vos amis et recevez une récompense !" data-lang-uz="Do'stlaringizga biz haqimizda aytib bering va mukofot oling!" data-lang-ch="向您的朋友介绍我们并获得奖励！" data-lang-sp="Háblales a tus amigos de nosotros y ¡consigue una recompensa!">Расскажи о нас друзьям и получи награду!</p>
+        <p class="invite-text" data-lang-ru="Твоя реферальная ссылка находиться в этом боте:" data-lang-en="Your referral link is in this bot:" data-lang-fr="Votre lien de référence se trouve dans ce bot :" data-lang-uz="Sizning yo'naltiruvchi havolangiz ushbu botda:" data-lang-ch="您的推荐链接在此机器人中：" data-lang-sp="Tu enlace de recomendación está en este bot:">Твоя реферальная ссылка находиться в этом боте:</p>
+        <div class="link-container">
+            <input type="text" class="referral-link" id="linkInput" value="https://t.me/YoungGame_bot" readonly>
+            <button class="copy-button" id="copyButton" data-lang-ru="Копировать" data-lang-en="Copy" data-lang-fr="Copier" data-lang-uz="Nusxalash" data-lang-ch="复制" data-lang-sp="Copiar">Копировать</button>
+        </div>
+    </div>
+
+    <div class="main-screen" id="airdrop-page" style="display: none;">
+        <div class="airdrop-container">
+            <h1 data-lang-ru="AIRDROP КАЛЬКУЛЯТОР" data-lang-en="AIRDROP CALCULATOR" data-lang-fr="CALCULATEUR AIRDROP" data-lang-uz="AIRDROP KALKULYATOR" data-lang-ch="空投计算器" data-lang-sp="CALCULADORA AIRDROP">AIRDROP КАЛЬКУЛЯТОР</h1>
+            <div class="counter-container">
+                <div class="counter">
+                    <div class="counter-controls">
+                        <button id="minus-referrals"><img src="assets/images/minus.svg" alt="Minus"></button>
+                        <span id="referrals-count">0</span>
+                        <button id="plus-referrals"><img src="assets/images/plus.svg" alt="Plus"></button>
+                    </div>
+                    <span data-lang-ru="Рефералов" data-lang-en="Referrals" data-lang-fr="Parrainages" data-lang-uz="Yo'nalishlar" data-lang-ch="推荐" data-lang-sp="Referencias">Рефералов</span>
+                </div>
+                <div class="counter">
+                    <div class="counter-controls">
+                        <button id="minus-days"><img src="assets/images/minus.svg" alt="Minus"></button>
+                        <span id="days-count">0</span>
+                        <button id="plus-days"><img src="assets/images/plus.svg" alt="Plus"></button>
+                    </div>
+                    <span data-lang-ru="Дней в игре" data-lang-en="Days in game" data-lang-fr="Jours dans le jeu" data-lang-uz="O'yindagi kunlar" data-lang-ch="游戏天数" data-lang-sp="Días en el juego">Дней в игре</span>
+                </div>
+            </div>
+            <div class="rewards-container">
+                <ul class="rewards-list">
+                    <li class="reward-item" data-threshold="5,10">
+                        <img src="assets/images/coindrop.svg" alt="TON">
+                        <span class="reward-title">1000 монет Ton</span>
+                        <div class="progress-bar"><div class="progress"></div></div>
+                        <div class="progress-percentage">0%</div>
+                    </li>
+                    <li class="reward-item" data-threshold="5,15">
+                        <img src="assets/images/nft.svg" alt="NFT">
+                        <span class="reward-title">1.000.000.000 монет Young</span>
+                        <div class="progress-bar"><div class="progress"></div></div>
+                        <div class="progress-percentage">0%</div>
+                    </li>
+                    <li class="reward-item" data-threshold="15,15">
+                        <img src="assets/images/land.svg" alt="Land">
+                        <span class="reward-title">100 NFT на сумму 100.000$</span>
+                        <div class="progress-bar"><div class="progress"></div></div>
+                        <div class="progress-percentage">0%</div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="navigation">
+        <div class="nav-item" id="nav-home" data-page="home-page">
+            <img src="assets/images/home.svg" alt="Home">
+        </div>
+        <div class="nav-item" id="nav-store" data-page="store-page">
+            <img src="assets/images/store.svg" alt="Store">
+        </div>
+        <div class="nav-item" id="nav-stats" data-page="stats-page">
+            <img src="assets/images/stats-up-square.svg" alt="Stats">
+        </div>
+        <div class="nav-item" id="nav-wallet" data-page="wallet-page">
+            <img src="assets/images/wallet.svg" alt="Wallet">
+        </div>
+        <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
+            <img src="assets/images/fun.svg" alt="Fun">
+        </div>
+        <div class=" nav-item" id="nav-friends" data-page="friends-page">
+            <img src="assets/images/fren.svg" alt="Friends">
+        </div>
+        <div class="nav-item" id="nav-airdrop" data-page="airdrop-page">
+            <img src="assets/images/wallet.svg" alt="Airdrop">
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
