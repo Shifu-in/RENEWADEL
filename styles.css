@@ -579,14 +579,15 @@ body, html {
     font-size: 12px; /* Уменьшаем иконки на 3 пикселя */
     cursor: pointer;
     touch-action: manipulation; /* Устранение приближения при двойном нажатии */
+    position: absolute;
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
-    left: 1px; /* Размещаем кнопку минус слева */
+    left: 2.5px; /* Размещаем кнопку минус слева */
 }
 
 .counter-controls button#plus-referrals, .counter-controls button#plus-days {
-    right: 1px; /* Размещаем кнопку плюс справа */
+    right: 2.5px; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
@@ -595,6 +596,9 @@ body, html {
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
+    position: absolute;
+    left: 50%; /* Центрируем текст */
+    transform: translateX(-50%); /* Компенсируем сдвиг для центрирования */
 }
 
 .rewards-container {
