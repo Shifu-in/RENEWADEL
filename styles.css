@@ -568,6 +568,7 @@ body, html {
     margin-bottom: 5px;
     background-size: cover;
     background-color: transparent; /* Убираем фон */
+    position: relative; /* Добавляем позиционирование для абсолютного размещения кнопок */
 }
 
 .counter-controls button {
@@ -577,10 +578,19 @@ body, html {
     font-size: 17px; /* Уменьшение иконок на 3 пикселя */
     cursor: pointer;
     touch-action: manipulation; /* Устранение приближения при двойном нажатии */
+    position: absolute; /* Абсолютное позиционирование кнопок */
+}
+
+.counter-controls button#minus-referrals, .counter-controls button#minus-days {
+    left: 0; /* Размещаем кнопку минус слева */
+}
+
+.counter-controls button#plus-referrals, .counter-controls button#plus-days {
+    right: 0; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
-    margin: 0 10px;
+    margin: 0 40px; /* Добавляем отступы для размещения кнопок */
     font-size: 28px;
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
@@ -651,10 +661,12 @@ body, html {
 
 .progress-percent {
     position: absolute;
-    right: -25px; /* Отступ справа в 10 пикселей */
+    bottom: -20px; /* Перемещение под прогресс бар */
+    left: 50%; /* Выравнивание по центру */
+    transform: translateX(-50%);
     font-size: 14px; /* Уменьшаем размер шрифта */
     color: #fff;
-    text-align: right; /* Выравнивание текста по правому краю */
+    text-align: center; /* Центрирование текста */
 }
 
 .counter-container {
