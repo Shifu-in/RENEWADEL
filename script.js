@@ -241,17 +241,18 @@ document.addEventListener("DOMContentLoaded", () => {
             const upgradeType = button.getAttribute('data-type');
             const price = getUpgradePrice(upgradeType);
 
-            if (coins >= price && autoClickers[upgradeType].level < 6) {
+            if (coins >= price && autoClickers[upgradeType].level < 6) { // изменено с 5 на 6
                 coins -= price;
+                coinAmountSpan.textContent = coins;
                 autoClickers[upgradeType].level++;
-                autoClickers[upgradeType].currentRate = autoClickers[upgradeType].increment * autoClickers[upgradeType].level;
-
                 if (upgradeType === "gym") {
-                    coinsPerTap += autoClickers[upgradeType].increment;
-                } else if (autoClickers[upgradeType].level === 1) {
+                    coinsPerTap *= autoClickers[upgradeType].multiplier;
+                } else {
+                    autoClickers[upgradeType].currentRate += autoClickers[upgradeType].increment * autoClickers[upgradeType].multiplier ** (autoClickers[upgradeType].level - 1);
+                }
+                if (autoClickers[upgradeType].level === 1) {
                     startAutoClicker(upgradeType);
                 }
-                coinAmountSpan.textContent = coins;
                 updateUpgradePrices();
                 saveProgressLocal();
             }
@@ -259,23 +260,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     genderSwitchInputs.forEach(input => {
-        input.addEventListener('change', (event) => {
-            const selectedGender = event.target.value;
-            if (selectedGender === 'her') {
+        input.addEventListener('change', () => {
+            if (input.value === 'her') {
                 contentHer.style.display = 'flex';
                 contentHim.style.display = 'none';
             } else {
                 contentHer.style.display = 'none';
                 contentHim.style.display = 'flex';
             }
+            saveProgressLocal();
         });
-    });
-
-    copyButton.addEventListener('click', () => {
-        linkInput.select();
-        linkInput.setSelectionRange(0, 99999);
-        document.execCommand('copy');
-        showNotification('Скопировано!');
     });
 
     const showNotification = (message) => {
@@ -286,106 +280,119 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             notification.style.opacity = '1';
-        }, 100);
+        }, 10);
 
         setTimeout(() => {
             notification.style.opacity = '0';
             setTimeout(() => {
                 notification.remove();
             }, 500);
-        }, 2000);
+        }, 3000);
     };
+
+    const copyToClipboard = () => {
+        linkInput.select();
+        document.execCommand('copy');
+        showNotification('Ссылка скопирована в буфер обмена!');
+    };
+
+    copyButton.addEventListener('click', copyToClipboard);
 
     // Language switcher functionality
     currentLanguage.addEventListener('click', () => {
-        languageList.style.display = languageList.style.display === 'none' ? 'block' : 'none';
+        languageList.style.display = languageList.style.display === 'block' ? 'none' : 'block';
     });
 
     languageList.addEventListener('click', (event) => {
-        const selectedLang = event.target.dataset.lang;
+        const selectedLang = event.target.getAttribute('data-lang');
         if (selectedLang) {
-            currentLanguage.textContent = selectedLang;
+            currentLanguage.textContent = selectedLang.toUpperCase();
+            translatePage(selectedLang);
             languageList.style.display = 'none';
-            changeLanguage(selectedLang);
         }
     });
 
-    const changeLanguage = (lang) => {
-        const elements = document.querySelectorAll('[data-lang-' + lang.toLowerCase() + ']');
-        elements.forEach(element => {
-            element.textContent = element.getAttribute('data-lang-' + lang.toLowerCase());
-        });
-    };
-
-    // Airdrop page functionality
-    const referralsCountSpan = document.getElementById('referrals-count');
-    const daysCountSpan = document.getElementById('days-count');
-    const probabilitySlider = document.getElementById('reward-probability-slider');
-    const probabilityValue = document.getElementById('probability-value');
-
-    let referralsCount = 0;
-    let daysCount = 0;
-
-    document.getElementById('plus-referrals').addEventListener('click', () => {
-        referralsCount++;
-        referralsCountSpan.textContent = referralsCount;
-        updateProbability();
-    });
-
-    document.getElementById('minus-referrals').addEventListener('click', () => {
-        if (referralsCount > 0) {
-            referralsCount--;
-            referralsCountSpan.textContent = referralsCount;
-            updateProbability();
-        }
-    });
-
-    document.getElementById('plus-days').addEventListener('click', () => {
-        daysCount++;
-        daysCountSpan.textContent = daysCount;
-        updateProbability();
-    });
-
-    document.getElementById('minus-days').addEventListener('click', () => {
-        if (daysCount > 0) {
-            daysCount--;
-            daysCountSpan.textContent = daysCount;
-            updateProbability();
-        }
-    });
-
-    probabilitySlider.addEventListener('input', (event) => {
-        probabilityValue.textContent = `${event.target.value}%`;
-    });
-
-    const updateProbability = () => {
-        const totalPoints = referralsCount + daysCount;
-        const percentage = Math.min(totalPoints, 100);
-        probabilityValue.textContent = `${percentage}%`;
-        probabilitySlider.value = percentage;
-        updateRewards(percentage);
-    };
-
-    const updateRewards = (percentage) => {
-        const rewardItems = document.querySelectorAll('.reward-item');
-        rewardItems.forEach(item => {
-            const threshold = parseInt(item.dataset.threshold, 10);
-            const progressBar = item.querySelector('.progress');
-            const progressPercentage = item.querySelector('.progress-percentage');
-
-            if (percentage >= threshold) {
-                item.classList.add('activated');
-                progressBar.style.width = '100%';
-                progressPercentage.textContent = '100%';
-            } else {
-                item.classList.remove('activated');
-                const progress = (percentage / threshold) * 100;
-                progressBar.style.width = `${progress}%`;
-                progressPercentage.textContent = `${Math.floor(progress)}%`;
+    const translatePage = (lang) => {
+        const elementsToTranslate = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
+        elementsToTranslate.forEach(element => {
+            const translation = element.getAttribute(`data-lang-${lang}`);
+            if (translation) {
+                element.textContent = translation;
             }
         });
     };
 
+    const handleAirdropPage = () => {
+        const minusReferralsButton = document.getElementById('minus-referrals');
+        const plusReferralsButton = document.getElementById('plus-referrals');
+        const referralsCountElement = document.getElementById('referrals-count');
+        const minusDaysButton = document.getElementById('minus-days');
+        const plusDaysButton = document.getElementById('plus-days');
+        const daysCountElement = document.getElementById('days-count');
+        const rewardProbabilitySlider = document.getElementById('reward-probability-slider');
+        const probabilityValueElement = document.getElementById('probability-value');
+        const rewardItems = document.querySelectorAll('.reward-item');
+
+        let referralsCount = 0;
+        let daysCount = 0;
+
+        const updateProbability = () => {
+            const totalCount = referralsCount + daysCount;
+            rewardProbabilitySlider.value = totalCount;
+            probabilityValueElement.textContent = `${totalCount}%`;
+            updateRewards(totalCount);
+        };
+
+        const updateRewards = (totalCount) => {
+            rewardItems.forEach(item => {
+                const threshold = parseInt(item.getAttribute('data-threshold'), 10);
+                const progressElement = item.querySelector('.progress');
+                const percentageElement = item.querySelector('.progress-percentage');
+                let progress = 0;
+
+                if (totalCount >= threshold) {
+                    progress = 100;
+                    item.classList.add('activated');
+                } else {
+                    progress = (totalCount / threshold) * 100;
+                    item.classList.remove('activated');
+                }
+
+                progressElement.style.width = `${progress}%`;
+                percentageElement.textContent = `${Math.floor(progress)}%`;
+            });
+        };
+
+        minusReferralsButton.addEventListener('click', () => {
+            if (referralsCount > 0) {
+                referralsCount--;
+                referralsCountElement.textContent = referralsCount;
+                updateProbability();
+            }
+        });
+
+        plusReferralsButton.addEventListener('click', () => {
+            referralsCount++;
+            referralsCountElement.textContent = referralsCount;
+            updateProbability();
+        });
+
+        minusDaysButton.addEventListener('click', () => {
+            if (daysCount > 0) {
+                daysCount--;
+                daysCountElement.textContent = daysCount;
+                updateProbability();
+            }
+        });
+
+        plusDaysButton.addEventListener('click', () => {
+            daysCount++;
+            daysCountElement.textContent = daysCount;
+            updateProbability();
+        });
+    };
+
+    handleAirdropPage();
     loadProgressLocal();
     showPage('home-page');
 });
