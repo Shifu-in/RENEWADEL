@@ -576,10 +576,9 @@ body, html {
     background-color: transparent;
     border: none;
     color: #000;
-    font-size: 14px; /* Уменьшаем иконки на 3 пикселя */
+    font-size: 12px; /* Уменьшаем иконки на 3 пикселя */
     cursor: pointer;
     touch-action: manipulation; /* Устранение приближения при двойном нажатии */
-    position: absolute; /* Абсолютное позиционирование кнопок */
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
