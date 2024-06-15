@@ -572,10 +572,10 @@ body, html {
 }
 
 .counter-controls button {
-    background-color: transparent;
+    background-color: flex;
     border: none;
     color: #000;
-    font-size: 17px; /* Уменьшение иконок на 3 пикселя */
+    font-size: 12px; /* Уменьшение иконок на 3 пикселя */
     cursor: pointer;
     touch-action: manipulation; /* Устранение приближения при двойном нажатии */
     position: flex; /* Абсолютное позиционирование кнопок */
