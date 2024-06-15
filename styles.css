@@ -564,7 +564,7 @@ body, html {
     display: flex;
     align-items: center;
     border-radius: 10px;
-    padding: 5px 10px;
+    padding: 10px 10px;
     margin-bottom: 5px;
     background-size: cover;
     background-color: transparent; /* Убираем фон */
@@ -596,7 +596,7 @@ body, html {
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
     position: absolute;
-    margin-left: 45px; /* Сдвиг вправо на 5 пикселей */
+    margin-left: 65px; /* Сдвиг вправо на 5 пикселей */
 }
 
 .rewards-container {
