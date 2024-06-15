@@ -586,7 +586,7 @@ body, html {
 }
 
 .rewards-container {
-    width: 800%;
+    width: calc(100% - 20px); /* Оставляем отступ по 10 пикселей с каждой стороны */
     text-align: left;
 }
 
@@ -597,7 +597,6 @@ body, html {
 
 .reward-item {
     display: flex;
-    flex-direction: column;
     align-items: center; /* Центрирование элементов */
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px 15px; /* Уменьшение ширины на 5 пикселей с каждой стороны */
@@ -611,20 +610,22 @@ body, html {
     font-size: 22px; /* Измените размер шрифта здесь */
     color: #fff;
     margin-bottom: 5px; /* Добавляем отступ снизу */
+    text-align: left; /* Выравнивание текста по левому краю */
 }
 
 .reward-item img {
-    width: 50px; /* Уменьшение размера иконок */
+    width: 100px; /* Увеличение размера иконок до 100 пикселей */
     height: auto;
-    margin-bottom: 5px; /* Добавляем отступ снизу */
+    margin-right: 10px; /* Добавляем отступ справа */
 }
 
 .progress-bar {
-    width: 100%;
+    flex-grow: 1; /* Расширяем прогресс-бар */
     background-color: #333;
     height: 10px;
     border-radius: 5px;
     overflow: hidden;
+    position: relative;
 }
 
 .progress {
@@ -634,9 +635,11 @@ body, html {
 }
 
 .progress-percentage {
-    width: 50px;
-    text-align: right;
-    font-size: 22px;
+    position: absolute;
+    right: 10px; /* Отступ справа в 10 пикселей */
+    top: -25px; /* Поднимаем вверх на 25 пикселей */
+    font-size: 14px; /* Уменьшаем размер шрифта */
+    color: #fff;
 }
 
 @keyframes levitate {
