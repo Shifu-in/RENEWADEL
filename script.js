@@ -201,7 +201,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveProgressLocal();
         }, remainingTime);
 
-        updateTimer(remainingTime / 1000);
+        updateTimer(remainingSeconds);
     };
 
     const updateTimer = (remainingSeconds) => {
@@ -357,9 +357,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     plusReferralsBtn.addEventListener('click', () => {
-        referralsCount++;
-        referralsCountSpan.textContent = referralsCount;
-        updateRewards();
+        if (referralsCount < 99) { // Добавляем ограничение на максимальное значение
+            referralsCount++;
+            referralsCountSpan.textContent = referralsCount;
+            updateRewards();
+        }
     });
 
     minusDaysBtn.addEventListener('click', () => {
@@ -371,9 +373,11 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     plusDaysBtn.addEventListener('click', () => {
-        daysCount++;
-        daysCountSpan.textContent = daysCount;
-        updateRewards();
+        if (daysCount < 99) { // Добавляем ограничение на максимальное значение
+            daysCount++;
+            daysCountSpan.textContent = daysCount;
+            updateRewards();
+        }
     });
 
     const updateRewards = () => {
