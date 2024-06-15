@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     const pages = document.querySelectorAll('.main-screen');
     const navItems = document.querySelectorAll('.nav-item');
     const coinAmountSpan = document.querySelector('.coin-amount');
@@ -308,105 +308,96 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    document.addEventListener('gesturestart', (e) => e.preventDefault());
-    document.addEventListener('gesturechange', (e) => e.preventDefault());
-    document.addEventListener('gestureend', (e) => e.preventDefault());
-    document.addEventListener('dblclick', (e) => e.preventDefault());
-
-    showPage('home-page');
-    loadProgressLocal();
-
-    const updateLanguage = (lang) => {
-        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
-        elements.forEach(el => {
-            el.innerHTML = el.getAttribute(`data-lang-${lang.toLowerCase()}`);
-            if (lang.toLowerCase() === 'uz' && el.classList.contains('upgrade-button')) {
-                el.innerHTML = 'BUY'; // For Uzbek language, set upgrade button text to "BUY"
-            }
-        });
-    };
+    document.addEventListener('copy', (event) => {
+        event.preventDefault();
+        if (event.clipboardData) {
+            event.clipboardData.setData('text/plain', linkInput.value);
+            showNotification('Ссылка скопирована!');
+        }
+    });
 
     languageSwitcher.addEventListener('click', () => {
         languageList.style.display = languageList.style.display === 'none' ? 'block' : 'none';
     });
 
     languageList.addEventListener('click', (event) => {
-        const selectedLang = event.target.getAttribute('data-lang');
-        if (selectedLang) {
-            currentLanguage.textContent = selectedLang;
+        if (event.target.dataset.lang) {
+            currentLanguage.textContent = event.target.dataset.lang;
             languageList.style.display = 'none';
-            updateLanguage(selectedLang);
-            saveProgressLocal();
+            updateLanguage(event.target.dataset.lang);
         }
     });
 
-    // Airdrop Page Functionality
-    const referralsCountElement = document.getElementById('referrals-count');
-    const daysCountElement = document.getElementById('days-count');
-    const rewardProbabilitySlider = document.getElementById('reward-probability-slider');
-    const probabilityValueElement = document.getElementById('probability-value');
-    const rewardsListItems = document.querySelectorAll('.reward-item');
+    const updateLanguage = (lang) => {
+        const elements = document.querySelectorAll('[data-lang-ru], [data-lang-en], [data-lang-fr], [data-lang-uz], [data-lang-ch], [data-lang-sp]');
+        elements.forEach(element => {
+            element.textContent = element.dataset[`lang${lang}`];
+        });
+        saveProgressLocal();
+    };
 
+    // Load initial progress
+    loadProgressLocal();
+
+    const airdropPage = document.getElementById('airdrop-page');
+    const referralsCountSpan = document.getElementById('referrals-count');
+    const daysCountSpan = document.getElementById('days-count');
+    const minusReferralsBtn = document.getElementById('minus-referrals');
+    const plusReferralsBtn = document.getElementById('plus-referrals');
+    const minusDaysBtn = document.getElementById('minus-days');
+    const plusDaysBtn = document.getElementById('plus-days');
+    const rewardItems = document.querySelectorAll('.reward-item');
     let referralsCount = 0;
     let daysCount = 0;
 
-    const updateRewards = () => {
-        rewardsListItems.forEach(item => {
-            const threshold = parseInt(item.getAttribute('data-threshold'));
-            const progressElement = item.querySelector('.progress');
-            const percentageElement = item.querySelector('.progress-percentage');
-            const progressPercentage = Math.min((referralsCount / threshold) * 100, 100);
-            progressElement.style.width = `${progressPercentage}%`;
-            percentageElement.textContent = `${progressPercentage.toFixed(1)}%`;
-
-            if (referralsCount >= threshold) {
-                item.classList.add('activated');
-            } else {
-                item.classList.remove('activated');
-            }
-        });
-    };
-
-    document.getElementById('minus-referrals').addEventListener('click', () => {
+    minusReferralsBtn.addEventListener('click', () => {
         if (referralsCount > 0) {
             referralsCount--;
-            referralsCountElement.textContent = referralsCount;
+            referralsCountSpan.textContent = referralsCount;
             updateRewards();
         }
     });
 
-    document.getElementById('plus-referrals').addEventListener('click', () => {
+    plusReferralsBtn.addEventListener('click', () => {
         referralsCount++;
-        referralsCountElement.textContent = referralsCount;
+        referralsCountSpan.textContent = referralsCount;
         updateRewards();
     });
 
-    document.getElementById('minus-days').addEventListener('click', () => {
+    minusDaysBtn.addEventListener('click', () => {
         if (daysCount > 0) {
             daysCount--;
-            daysCountElement.textContent = daysCount;
+            daysCountSpan.textContent = daysCount;
+            updateRewards();
         }
     });
 
-    document.getElementById('plus-days').addEventListener('click', () => {
+    plusDaysBtn.addEventListener('click', () => {
         daysCount++;
-        daysCountElement.textContent = daysCount;
+        daysCountSpan.textContent = daysCount;
+        updateRewards();
     });
 
-    rewardProbabilitySlider.addEventListener('input', () => {
-        const probability = rewardProbabilitySlider.value;
-        probabilityValueElement.textContent = `${probability}%`;
-    });
+    const updateRewards = () => {
+        rewardItems.forEach(item => {
+            const threshold = parseInt(item.dataset.threshold, 10);
+            const progressBar = item.querySelector('.progress');
+            const progressPercentage = item.querySelector('.progress-percentage');
+            const currentPercentage = Math.min((referralsCount / threshold) * 100, 100);
+            progressBar.style.width = `${currentPercentage}%`;
+            progressPercentage.textContent = `${currentPercentage.toFixed(1)}%`;
 
-    setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-    }, 4000); // Убираем экран загрузки через 4 секунды
-
-    const airdropPage = document.getElementById('airdrop-page');
-    const showAirdropPage = () => {
-        hideAllPages();
-        airdropPage.style.display = 'flex';
+            if (currentPercentage >= 100) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        });
     };
 
-    document.getElementById('nav-airdrop').addEventListener('click', showAirdropPage);
+    // Show main screen after 4 seconds
+    setTimeout(() => {
+        document.getElementById('loading-screen').style.display = 'none';
+        document.getElementById('home-page').style.display = 'flex';
+    }, 4000);
 });
