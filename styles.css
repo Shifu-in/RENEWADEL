@@ -553,18 +553,17 @@ body, html {
 .counter-controls {
     display: flex;
     align-items: center;
-    background-color: #fff;
     border-radius: 10px;
     padding: 5px 10px;
     margin-bottom: 5px;
-    background-image: url('assets/images/Фон для текста.svg');
     background-size: cover;
+    background: none; /* Убираем фон */
 }
 
 .counter-controls button {
     background-color: transparent;
     border: none;
-    color: #000;
+    color: #fff; /* Цвет текста белый */
     font-size: 20px;
     cursor: pointer;
 }
@@ -573,7 +572,7 @@ body, html {
     margin: 0 10px;
     font-size: 28px;
     font-weight: bold;
-    color: #000;
+    color: #fff; /* Цвет текста белый */
 }
 
 .rewards-container {
@@ -632,8 +631,4 @@ body, html {
     50% {
         transform: translateY(-5px);
     }
-}
-
-.reward-item.completed span {
-    color: #00ff00;
 }
