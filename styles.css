@@ -563,7 +563,7 @@ body, html {
 .counter-controls {
     display: flex;
     align-items: center;
-    border-radius: 10px;
+    border-radius: 2px;
     padding: 5px 10px;
     margin-bottom: 5px;
     background-size: cover;
@@ -583,21 +583,21 @@ body, html {
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
-    left: 5px; /* Размещаем кнопку минус слева */
+    left: 2px; /* Размещаем кнопку минус слева */
 }
 
 .counter-controls button#plus-referrals, .counter-controls button#plus-days {
-    right: 5px; /* Размещаем кнопку плюс справа */
+    right: 2px; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
     margin: 0 45px; /* Уменьшаем отступы между кнопками и числом */
-    font-size: 28px;
+    font-size: 24px;
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
     text-align: center; /* Центрирование текста */
     position: absolute;
-    left: 50%;
+    left: -50%;
     transform: translateX(-50%);
 }
 
