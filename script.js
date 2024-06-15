@@ -23,6 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const daysCountElement = document.getElementById('days-count');
     const probabilityValue = document.getElementById('probability-value');
     const rewardProbabilitySlider = document.getElementById('reward-probability-slider');
+    const rewardItems = document.querySelectorAll('.reward-item');
 
     let referralsCount = 0;
     let daysCount = 0;
@@ -81,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             if (isTapBlocked) {
-                const blockDuration = 15 * 60 * 0; // 15 минут в миллисекундах
+                const blockDuration = 15 * 60 * 1000; // 15 минут в миллисекундах
                 const timeSinceBlock = Date.now() - blockStartTime;
                 if (timeSinceBlock >= blockDuration) {
                     isTapBlocked = false;
@@ -370,27 +371,42 @@ document.addEventListener("DOMContentLoaded", () => {
         updateProbabilityValue(e.target.value);
     });
 
+    const checkAndActivateRewards = () => {
+        rewardItems.forEach(item => {
+            const threshold = parseInt(item.getAttribute('data-threshold'));
+            if (referralsCount >= threshold) {
+                item.classList.add('activated');
+            } else {
+                item.classList.remove('activated');
+            }
+        });
+    };
+
     document.getElementById('minus-referrals').addEventListener('click', () => {
         if (referralsCount > 0) {
             referralsCount--;
             referralsCountElement.textContent = referralsCount;
+            checkAndActivateRewards();
         }
     });
 
     document.getElementById('plus-referrals').addEventListener('click', () => {
         referralsCount++;
         referralsCountElement.textContent = referralsCount;
+        checkAndActivateRewards();
     });
 
     document.getElementById('minus-days').addEventListener('click', () => {
         if (daysCount > 0) {
             daysCount--;
             daysCountElement.textContent = daysCount;
+            checkAndActivateRewards();
         }
     });
 
     document.getElementById('plus-days').addEventListener('click', () => {
         daysCount++;
         daysCountElement.textContent = daysCount;
+        checkAndActivateRewards();
     });
 });
