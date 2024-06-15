@@ -578,7 +578,7 @@ body, html {
     font-size: 17px; /* Уменьшение иконок на 3 пикселя */
     cursor: pointer;
     touch-action: manipulation; /* Устранение приближения при двойном нажатии */
-    position: absolute; /* Абсолютное позиционирование кнопок */
+    position: flex; /* Абсолютное позиционирование кнопок */
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
