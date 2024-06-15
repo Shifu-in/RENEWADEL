@@ -596,46 +596,57 @@ body, html {
 }
 
 .reward-item {
+    list-style-type: none;
+    border: 2px solid #9d53ff;
+    border-radius: 8px;
+    padding: 10px;
     display: flex;
-    align-items: center; /* Центрирование элементов */
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 10px 15px; /* Уменьшение ширины на 5 пикселей с каждой стороны */
-    border-radius: 10px;
-    margin-bottom: 10px;
-    font-size: 22px; /* Размер шрифта для наград */
-    animation: levitate 2s infinite;
+    align-items: center;
+    background-color: #f9f9f9;
+    margin: 10px 0;
+}
+
+.reward-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.reward-image {
+    width: 100px; /* Увеличение размера иконок до 100 пикселей */
+    height: auto;
+    margin-right: 10px;
+    margin-left: 10px; /* Перемещение иконки влево */
+}
+
+.reward-info {
+    flex-grow: 1;
 }
 
 .reward-title {
-    font-size: 22px; /* Измените размер шрифта здесь */
-    color: #fff;
-    margin-bottom: 5px; /* Добавляем отступ снизу */
+    font-size: 20px;
+    display: block;
+    margin-bottom: 5px;
     text-align: left; /* Выравнивание текста по левому краю */
-}
-
-.reward-item img {
-    width: 100px; /* Увеличение размера иконок до 100 пикселей */
-    height: auto;
-    margin-right: 10px; /* Добавляем отступ справа */
-    margin-left: 10px; /* Перемещение иконки влево */
 }
 
 .progress-bar {
     flex-grow: 1; /* Расширяем прогресс-бар */
-    background-color: #333;
-    height: 10px;
+    background-color: #e0e0e0;
     border-radius: 5px;
     overflow: hidden;
+    height: 10px;
     position: relative;
 }
 
 .progress {
-    height: 100%;
-    background-color: #00ff00;
     width: 0%;
+    height: 100%;
+    background-color: #ff3b30;
+    border-radius: 5px;
 }
 
-.progress-percentage {
+.progress-percent {
     position: absolute;
     right: 10px; /* Отступ справа в 10 пикселей */
     top: -25px; /* Поднимаем вверх на 25 пикселей */
