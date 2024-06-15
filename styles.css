@@ -595,7 +595,8 @@ body, html {
     font-size: 28px;
     font-weight: bold;
     color: #fff; /* Изменение цвета текста */
-    text-align: center; /* Центрирование текста */
+    text-align: right; /* Центрирование текста */
+
 }
 
 .rewards-container {
