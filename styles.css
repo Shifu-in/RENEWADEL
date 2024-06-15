@@ -557,13 +557,13 @@ body, html {
     padding: 5px 10px;
     margin-bottom: 5px;
     background-size: cover;
-    background: none; /* Убираем фон */
+    background-color: transparent; /* Убираем фон */
 }
 
 .counter-controls button {
     background-color: transparent;
     border: none;
-    color: #fff; /* Цвет текста белый */
+    color: #000;
     font-size: 20px;
     cursor: pointer;
 }
@@ -572,7 +572,7 @@ body, html {
     margin: 0 10px;
     font-size: 28px;
     font-weight: bold;
-    color: #fff; /* Цвет текста белый */
+    color: #fff; /* Изменение цвета текста */
 }
 
 .rewards-container {
