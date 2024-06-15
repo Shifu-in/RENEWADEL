@@ -380,7 +380,7 @@ document.addEventListener("DOMContentLoaded", () => {
         rewardItems.forEach(item => {
             const [referralThreshold, dayThreshold] = item.dataset.threshold.split(',').map(Number);
             const progressBar = item.querySelector('.progress');
-            const progressPercentage = item.querySelector('.progress-percentage');
+            const progressPercentage = item.querySelector('.progress-percent');
 
             let progress = Math.min((referralsCount / referralThreshold) * 100, (daysCount / dayThreshold) * 100);
             progress = Math.min(progress, 100); // Ensure the progress doesn't exceed 100%
