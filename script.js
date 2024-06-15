@@ -328,14 +328,15 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     const setLanguage = (lang) => {
-        document.querySelectorAll('[data-lang-' + lang.toLowerCase() + ']').forEach(element => {
-            element.textContent = element.getAttribute('data-lang-' + lang.toLowerCase());
+        const elements = document.querySelectorAll('[data-lang-ru]');
+        elements.forEach(element => {
+            const text = element.getAttribute(`data-lang-${lang.toLowerCase()}`);
+            if (text) {
+                element.textContent = text;
+            }
         });
     };
 
-    loadProgressLocal();
-
-    const navItems = document.querySelectorAll('.nav-item');
     const referralsCountSpan = document.getElementById('referrals-count');
     const daysCountSpan = document.getElementById('days-count');
     const minusReferralsBtn = document.getElementById('minus-referrals');
@@ -343,6 +344,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const minusDaysBtn = document.getElementById('minus-days');
     const plusDaysBtn = document.getElementById('plus-days');
     const rewardItems = document.querySelectorAll('.reward-item');
+
     let referralsCount = 0;
     let daysCount = 0;
 
@@ -376,22 +378,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const updateRewards = () => {
         rewardItems.forEach(item => {
-            const thresholds = item.dataset.threshold.split(',').map(Number);
-            const [referralThreshold, daysThreshold] = thresholds;
+            const [referralThreshold, dayThreshold] = item.dataset.threshold.split(',').map(Number);
             const progressBar = item.querySelector('.progress');
             const progressPercentage = item.querySelector('.progress-percentage');
 
-            let referralProgress = referralsCount / referralThreshold * 50;
-            let daysProgress = daysCount / daysThreshold * 50;
-            let totalProgress = Math.min(referralProgress + daysProgress, 100);
+            let progress = Math.min((referralsCount / referralThreshold) * 100, (daysCount / dayThreshold) * 100);
+            progress = Math.min(progress, 100); // Ensure the progress doesn't exceed 100%
 
-            progressBar.style.width = `${totalProgress}%`;
-            progressPercentage.textContent = `${totalProgress.toFixed(1)}%`;
+            progressBar.style.width = `${progress}%`;
+            progressPercentage.textContent = `${progress.toFixed(1)}%`;
 
-            if (totalProgress >= 100) {
-                item.querySelector('span').style.color = '#00ff00'; // Зеленый цвет текста
+            if (progress >= 100) {
+                item.classList.add('completed');
             } else {
-                item.querySelector('span').style.color = '#fff'; // Белый цвет текста
+                item.classList.remove('completed');
             }
         });
     };
@@ -401,4 +401,32 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
     }, 4000);
+
+    // Load progress from local storage
+    loadProgressLocal();
+
+    // Save progress every 30 seconds
+    setInterval(saveProgressLocal, 30000);
 });
+
+const subscribeChannel = (url, partnerId) => {
+    window.open(url, '_blank');
+    const partnerElement = document.getElementById(partnerId);
+    const subscribeButton = partnerElement.querySelector('.subscribe-button');
+    const confirmButton = partnerElement.querySelector('.confirm-button');
+    subscribeButton.style.display = 'none';
+    confirmButton.style.display = 'block';
+};
+
+const confirmSubscription = (partnerId) => {
+    const partnerElement = document.getElementById(partnerId);
+    const subscribeButton = partnerElement.querySelector('.subscribe-button');
+    const confirmButton = partnerElement.querySelector('.confirm-button');
+    subscribeButton.style.display = 'none';
+    confirmButton.style.display = 'none';
+
+    const checkmark = document.createElement('img');
+    checkmark.src = 'assets/images/checkmark.svg';
+    checkmark.classList.add('checkmark');
+    partnerElement.appendChild(checkmark);
+};
