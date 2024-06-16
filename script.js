@@ -325,6 +325,7 @@ document.addEventListener("DOMContentLoaded", () => {
         currentLanguage.textContent = selectedLanguage;
         setLanguage(selectedLanguage);
         languageList.style.display = 'none';
+        localStorage.setItem('selectedLanguage', selectedLanguage); // Сохранение выбранного языка
     });
 
     const setLanguage = (lang) => {
