@@ -325,7 +325,6 @@ document.addEventListener("DOMContentLoaded", () => {
         currentLanguage.textContent = selectedLanguage;
         setLanguage(selectedLanguage);
         languageList.style.display = 'none';
-        localStorage.setItem('selectedLanguage', selectedLanguage); // Сохранение выбранного языка
     });
 
     const setLanguage = (lang) => {
@@ -435,3 +434,13 @@ const confirmSubscription = (partnerId) => {
     checkmark.classList.add('checkmark');
     partnerElement.appendChild(checkmark);
 };
+
+// Prevent double-tap zooming on mobile devices
+let lastTouchEnd = 0;
+document.addEventListener('touchend', (event) => {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
