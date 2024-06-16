@@ -688,3 +688,10 @@ body, html {
         transform: translateY(-5px);
     }
 }
+
+.whitepaper-text {
+    color: white;
+    font-size: 10px;
+    text-align: center;
+    margin-top: 20px; /* Добавляем отступ сверху, чтобы надпись не перекрывала награды */
+}
