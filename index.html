@@ -25,7 +25,6 @@
             -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
             -ms-user-select: none; /* Запрещаем выделение текста на IE */
             user-select: none; /* Запрещаем выделение текста на всех браузерах */
-            touch-action: manipulation; /* Запрет функции приближения при двойном тапе */
         }
 
         #tap-timer {
@@ -51,14 +50,6 @@
             margin: auto;
             max-width: 100%; /* Вернули размер на 100% */
             height: auto;
-        }
-
-        /* Стиль для строки Whitepaper */
-        .whitepaper-info {
-            color: white;
-            font-size: 10px;
-            text-align: center;
-            margin-top: 10px;
         }
     </style>
 </head>
@@ -245,38 +236,71 @@
             </div>
             <div class="rewards-container">
                 <ul class="rewards-list">
-                    <!-- Ваши элементы наград -->
+                    <li class="reward-item" data-threshold="5,10">
+                        <div class="reward-container">
+                            <img src="assets/images/coindrop.svg" alt="TON" class="reward-image">
+                            <div class="reward-info">
+                                <span class="reward-title">1000 Ton</span>
+                                <div class="progress-bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                            <span class="progress-percent">0%</span>
+                        </div>
+                    </li>
+                    <li class="reward-item" data-threshold="5,15">
+                        <div class="reward-container">
+                            <img src="assets/images/nft.svg" alt="NFT" class="reward-image">
+                            <div class="reward-info">
+                                <span class="reward-title">1.000.000.000 Young</span>
+                                <div class="progress-bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                            <span class="progress-percent">0%</span>
+                        </div>
+                    </li>
+                    <li class="reward-item" data-threshold="15,15">
+                        <div class="reward-container">
+                            <img src="assets/images/land.svg" alt="Land" class="reward-image">
+                            <div class="reward-info">
+                                <span class="reward-title">100 NFT - 100.000$</span>
+                                <div class="progress-bar">
+                                    <div class="progress"></div>
+                                </div>
+                            </div>
+                            <span class="progress-percent">0%</span>
+                        </div>
+                    </li>
                 </ul>
+                <p class="whitepaper-text">*Whitepaper доступен на сайте и в Telegram</p>
             </div>
-        </div>
-        <div class="whitepaper-info">
-            *Whitepaper доступен на сайте и в Telegram
         </div>
     </div>
 
-    <div class="navigation">
-        <div class="nav-item" id="nav-home" data-page="home-page">
-            <img src="assets/images/home.svg" alt="Home">
-        </div>
-        <div class="nav-item" id="nav-store" data-page="store-page">
-            <img src="assets/images/store.svg" alt="Store">
-        </div>
-        <div class="nav-item" id="nav-airdrop" data-page="airdrop-page"> <!-- Добавлен новый элемент -->
-            <img src="assets/images/wallet.svg" alt="Airdrop"> <!-- Используем новую иконку -->
-        </div>
-        <div class="nav-item" id="nav-stats" data-page="stats-page">
-            <img src="assets/images/stats-up-square.svg" alt="Stats">
-        </div>
-        <div class="nav-item" id="nav-wallet" data-page="wallet-page">
-            <img src="assets/images/4 cube.svg" alt="Wallet"> <!-- Новая иконка -->
-        </div>
-        <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
-            <img src="assets/images/fun.svg" alt="Fun">
-        </div>
-        <div class="nav-item" id="nav-friends" data-page="friends-page">
-            <img src="assets/images/fren.svg" alt="Friends">
-        </div>
+<div class="navigation">
+    <div class="nav-item" id="nav-home" data-page="home-page">
+        <img src="assets/images/home.svg" alt="Home">
     </div>
+    <div class="nav-item" id="nav-store" data-page="store-page">
+        <img src="assets/images/store.svg" alt="Store">
+    </div>
+    <div class="nav-item" id="nav-airdrop" data-page="airdrop-page"> <!-- Добавлен новый элемент -->
+        <img src="assets/images/dollar.svg" alt="Airdrop"> <!-- Используем новую иконку -->
+    </div>
+    <div class="nav-item" id="nav-stats" data-page="stats-page">
+        <img src="assets/images/stats-up-square.svg" alt="Stats">
+    </div>
+    <div class="nav-item" id="nav-wallet" data-page="wallet-page">
+        <img src="assets/images/wallet.svg" alt="Wallet">
+    </div>
+    <div class="nav-item" id="nav-fun" data-page="fun-page" style="display: none;"> <!-- Hiding the FUN tab -->
+        <img src="assets/images/fun.svg" alt="Fun">
+    </div>
+    <div class="nav-item" id="nav-friends" data-page="friends-page">
+        <img src="assets/images/fren.svg" alt="Friends">
+    </div>
+</div>
 
     <script src="script.js"></script>
 </body>
