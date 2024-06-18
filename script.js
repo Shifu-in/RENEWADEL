@@ -335,6 +335,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 element.textContent = text;
             }
         });
+
+        const images = document.querySelectorAll('img[data-lang-ru]');
+        images.forEach(image => {
+            const imgSrc = image.getAttribute(`data-lang-${lang.toLowerCase()}`);
+            if (imgSrc) {
+                image.src = imgSrc;
+            }
+        });
     };
 
     const referralsCountSpan = document.getElementById('referrals-count');
