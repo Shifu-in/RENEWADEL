@@ -107,6 +107,11 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAllPages();
         document.getElementById(pageId).style.display = 'flex';
         updateNavigation(pageId);
+        if (pageId === 'stats-page') {
+            soundControl.style.display = 'block';
+        } else {
+            soundControl.style.display = 'none';
+        }
     };
 
     const updateNavigation = (activePageId) => {
@@ -121,11 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
     navItems.forEach(navItem => {
         navItem.addEventListener('click', () => {
             showPage(navItem.dataset.page);
-            if (navItem.dataset.page === 'stats-page') {
-                soundControl.style.display = 'block';
-            } else {
-                soundControl.style.display = 'none';
-            }
         });
     });
 
@@ -384,7 +384,7 @@ document.addEventListener("DOMContentLoaded", () => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
         // Показ иконки звука только на главной странице
-        soundControl.style.display = 'block';
+        soundControl.style.display = 'none';
     }, 4000);
 
     // Load progress from local storage
