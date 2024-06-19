@@ -16,6 +16,26 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
 
+    const soundOnIcon = document.getElementById('sound-on');
+    const soundOffIcon = document.getElementById('sound-off');
+    const backgroundMusic = document.getElementById('background-music');
+
+    // Автоматическое проигрывание музыки на низком уровне громкости
+    backgroundMusic.volume = 0.1;
+    backgroundMusic.play();
+
+    soundOnIcon.addEventListener('click', () => {
+        backgroundMusic.pause();
+        soundOnIcon.style.display = 'none';
+        soundOffIcon.style.display = 'block';
+    });
+
+    soundOffIcon.addEventListener('click', () => {
+        backgroundMusic.play();
+        soundOnIcon.style.display = 'block';
+        soundOffIcon.style.display = 'none';
+    });
+
     let coins = 0;
     let coinsPerTap = 1;
     let clickCount = 0;
