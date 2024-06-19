@@ -16,12 +16,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
 
+    const soundControl = document.querySelector('.sound-control');
     const soundOnIcon = document.getElementById('sound-on');
     const soundOffIcon = document.getElementById('sound-off');
     const backgroundMusic = document.getElementById('background-music');
 
-    // Автоматическое проигрывание музыки на низком уровне громкости
-    backgroundMusic.volume = 0.1;
+    // Установка базовой громкости на 30%
+    backgroundMusic.volume = 0.3;
     backgroundMusic.play();
 
     soundOnIcon.addEventListener('click', () => {
@@ -122,6 +123,13 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAllPages();
         document.getElementById(pageId).style.display = 'flex';
         updateNavigation(pageId);
+
+        // Показать/скрыть значок звука в зависимости от текущей страницы
+        if (pageId === 'stats-page') {
+            soundControl.style.display = 'block';
+        } else {
+            soundControl.style.display = 'none';
+        }
     };
 
     const updateNavigation = (activePageId) => {
@@ -185,290 +193,4 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    const handleClick = (event) => {
-        if (isTapBlocked) {
-            showNotification('Достигнут лимит тапов! Подождите 15 минут.');
-            return;
-        }
-
-        tapCount++;
-        if (tapCount > 1000) {
-            isTapBlocked = true;
-            blockStartTime = Date.now(); // Устанавливаем время начала блокировки
-            showNotification('Достигнут лимит тапов! Подождите 15 минут.');
-            startBlockTimeout();
-            saveProgressLocal();
-            return;
-        }
-
-        coins += coinsPerTap;
-        clickCount++;
-        coinAmountSpan.textContent = coins;
-        showCoinAnimation(event.clientX, event.clientY, coinsPerTap);
-        updateUpgradePrices();
-
-        if (clickCount % 5 === 0) {
-            saveProgressLocal();
-        }
-    };
-
-    const startBlockTimeout = (remainingTime = 15 * 60 * 1000) => {
-        blockTimeout = setTimeout(() => {
-            isTapBlocked = false;
-            tapCount = 0;
-            showNotification('Вы снова можете тапать!');
-            timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
-            saveProgressLocal();
-        }, remainingTime);
-
-        updateTimer(remainingTime / 1000);
-    };
-
-    const updateTimer = (remainingSeconds) => {
-        timerElement.style.display = 'block';
-
-        const interval = setInterval(() => {
-            if (remainingSeconds <= 0) {
-                clearInterval(interval);
-                timerElement.style.display = 'none';
-                return;
-            }
-            remainingSeconds--;
-            const minutes = Math.floor(remainingSeconds / 60);
-            const seconds = remainingSeconds % 60;
-            timerElement.textContent = `${minutes}м ${seconds}с`;
-        }, 1000);
-    };
-
-    characterHim.addEventListener('pointerdown', handleClick);
-    characterHer.addEventListener('pointerdown', handleClick);
-
-    const showCoinAnimation = (x, y, amount) => {
-        const coinAnimation = document.createElement('div');
-        coinAnimation.classList.add('coin-animation');
-        coinAnimation.innerHTML = `<img src="assets/images/coins.svg" alt="Coin"><span>+${amount}</span>`;
-        document.body.appendChild(coinAnimation);
-
-        coinAnimation.style.left = `${x}px`;
-        coinAnimation.style.top = `${y}px`;
-
-        coinAnimation.addEventListener('animationend', () => {
-            coinAnimation.remove();
-        });
-    };
-
-    upgradeButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const upgradeType = button.getAttribute('data-type');
-            const price = getUpgradePrice(upgradeType);
-
-            if (coins >= price && autoClickers[upgradeType].level < 6) { // изменено с 5 на 6
-                coins -= price;
-                coinAmountSpan.textContent = coins;
-                autoClickers[upgradeType].level++;
-                if (upgradeType === "gym") {
-                    coinsPerTap *= autoClickers[upgradeType].multiplier;
-                } else {
-                    autoClickers[upgradeType].currentRate += autoClickers[upgradeType].increment * autoClickers[upgradeType].multiplier ** (autoClickers[upgradeType].level - 1);
-                }
-                if (autoClickers[upgradeType].level === 1) {
-                    startAutoClicker(upgradeType);
-                }
-                updateUpgradePrices();
-                saveProgressLocal();
-            }
-        });
-    });
-
-    genderSwitchInputs.forEach(input => {
-        input.addEventListener('change', () => {
-            if (input.value === 'her') {
-                contentHer.style.display = 'flex';
-                contentHim.style.display = 'none';
-            } else {
-                contentHer.style.display = 'none';
-                contentHim.style.display = 'flex';
-            }
-            saveProgressLocal();
-        });
-    });
-
-    const showNotification = (message) => {
-        const notification = document.createElement('div');
-        notification.classList.add('notification');
-        notification.textContent = message;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-            notification.style.opacity = 1;
-        }, 100); // Delay to trigger CSS transition
-
-        setTimeout(() => {
-            notification.style.opacity = 0;
-            setTimeout(() => {
-                notification.remove();
-            }, 500); // Wait for transition to complete
-        }, 3000); // Duration the notification is visible
-    };
-
-    copyButton.addEventListener('click', () => {
-        linkInput.select();
-        linkInput.setSelectionRange(0, 99999); // Для мобильных устройств
-
-        // Копируем выделенный текст в буфер обмена
-        navigator.clipboard.writeText(linkInput.value).then(() => {
-            showNotification('Ссылка скопирована!');
-            if (!rewardGiven) {
-                coins += 5000;
-                coinAmountSpan.textContent = coins;
-                showNotification('Вам начислено 5,000 монет Young!');
-                rewardGiven = true;
-                saveProgressLocal();
-            }
-        });
-    });
-
-    document.addEventListener('copy', (event) => {
-        event.preventDefault();
-        if (event.clipboardData) {
-            event.clipboardData.setData('text/plain', linkInput.value);
-            showNotification('Ссылка скопирована!');
-        }
-    });
-
-    languageSwitcher.addEventListener('click', () => {
-        languageList.style.display = languageList.style.display === 'none' ? 'block' : 'none';
-    });
-
-    languageList.addEventListener('click', (event) => {
-        const selectedLanguage = event.target.dataset.lang;
-        currentLanguage.textContent = selectedLanguage;
-        setLanguage(selectedLanguage);
-        languageList.style.display = 'none';
-    });
-
-    const setLanguage = (lang) => {
-        const elements = document.querySelectorAll('[data-lang-ru]');
-        elements.forEach(element => {
-            const text = element.getAttribute(`data-lang-${lang.toLowerCase()}`);
-            if (text) {
-                element.textContent = text;
-            }
-        });
-
-        const images = document.querySelectorAll('img[data-lang-ru]');
-        images.forEach(image => {
-            const imgSrc = image.getAttribute(`data-lang-${lang.toLowerCase()}`);
-            if (imgSrc) {
-                image.src = imgSrc;
-            }
-        });
-    };
-
-    const referralsCountSpan = document.getElementById('referrals-count');
-    const daysCountSpan = document.getElementById('days-count');
-    const minusReferralsBtn = document.getElementById('minus-referrals');
-    const plusReferralsBtn = document.getElementById('plus-referrals');
-    const minusDaysBtn = document.getElementById('minus-days');
-    const plusDaysBtn = document.getElementById('plus-days');
-    const rewardItems = document.querySelectorAll('.reward-item');
-
-    let referralsCount = 0;
-    let daysCount = 0;
-
-    minusReferralsBtn.addEventListener('click', () => {
-        if (referralsCount > 0) {
-            referralsCount--;
-            referralsCountSpan.textContent = referralsCount;
-            updateRewards();
-        }
-    });
-
-    plusReferralsBtn.addEventListener('click', () => {
-        if (referralsCount < 99) { // Добавляем ограничение на максимальное значение
-            referralsCount++;
-            referralsCountSpan.textContent = referralsCount;
-            updateRewards();
-        }
-    });
-
-    minusDaysBtn.addEventListener('click', () => {
-        if (daysCount > 0) {
-            daysCount--;
-            daysCountSpan.textContent = daysCount;
-            updateRewards();
-        }
-    });
-
-    plusDaysBtn.addEventListener('click', () => {
-        if (daysCount < 99) { // Добавляем ограничение на максимальное значение
-            daysCount++;
-            daysCountSpan.textContent = daysCount;
-            updateRewards();
-        }
-    });
-
-    const updateRewards = () => {
-        rewardItems.forEach(item => {
-            const [referralThreshold, dayThreshold] = item.dataset.threshold.split(',').map(Number);
-            const progressBar = item.querySelector('.progress');
-            const progressPercentage = item.querySelector('.progress-percent');
-
-            let progress = Math.min((referralsCount / referralThreshold) * 100, (daysCount / dayThreshold) * 100);
-            progress = Math.min(progress, 100); // Ensure the progress doesn't exceed 100%
-
-            progressBar.style.width = `${progress}%`;
-            progressPercentage.textContent = `${progress.toFixed(1)}%`;
-
-            if (progress >= 100) {
-                item.classList.add('completed');
-            } else {
-                item.classList.remove('completed');
-            }
-        });
-    };
-
-    // Show main screen after 4 seconds
-    setTimeout(() => {
-        document.getElementById('loading-screen').style.display = 'none';
-        document.getElementById('home-page').style.display = 'flex';
-    }, 4000);
-
-    // Load progress from local storage
-    loadProgressLocal();
-
-    // Save progress every 30 seconds
-    setInterval(saveProgressLocal, 30000);
-});
-
-const subscribeChannel = (url, partnerId) => {
-    window.open(url, '_blank');
-    const partnerElement = document.getElementById(partnerId);
-    const subscribeButton = partnerElement.querySelector('.subscribe-button');
-    const confirmButton = partnerElement.querySelector('.confirm-button');
-    subscribeButton.style.display = 'none';
-    confirmButton.style.display = 'block';
-};
-
-const confirmSubscription = (partnerId) => {
-    const partnerElement = document.getElementById(partnerId);
-    const subscribeButton = partnerElement.querySelector('.subscribe-button');
-    const confirmButton = partnerElement.querySelector('.confirm-button');
-    subscribeButton.style.display = 'none';
-    confirmButton.style.display = 'none';
-
-    const checkmark = document.createElement('img');
-    checkmark.src = 'assets/images/checkmark.svg';
-    checkmark.classList.add('checkmark');
-    partnerElement.appendChild(checkmark);
-};
-
-// Prevent double-tap zooming on mobile devices
-let lastTouchEnd = 0;
-document.addEventListener('touchend', (event) => {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
+    const handleClick
