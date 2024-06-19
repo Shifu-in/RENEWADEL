@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Установка базовой громкости на 30%
     backgroundMusic.volume = 0.3;
-    backgroundMusic.play();
 
     soundOnIcon.addEventListener('click', () => {
         backgroundMusic.pause();
@@ -229,7 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveProgressLocal();
         }, remainingTime);
 
-        updateTimer(remainingTime / 1000);
+        updateTimer(remainingSeconds / 1000);
     };
 
     const updateTimer = (remainingSeconds) => {
@@ -440,6 +439,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
+        backgroundMusic.play(); // Автоматический запуск музыки после загрузки
     }, 4000);
 
     // Load progress from local storage
