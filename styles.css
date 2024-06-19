@@ -695,3 +695,17 @@ body, html {
     text-align: center;
     margin-top: 20px; /* Добавляем отступ сверху, чтобы надпись не перекрывала награды */
 }
+
+/* Стили для значка звука */
+.sound-control {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 10001; /* Установить высокий z-index, чтобы значок был поверх всех элементов */
+}
+
+.sound-icon {
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
