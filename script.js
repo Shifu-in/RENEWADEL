@@ -202,6 +202,13 @@ document.addEventListener("DOMContentLoaded", () => {
         if (clickCount % 5 === 0) {
             saveProgressLocal();
         }
+
+        // Запуск фоновой музыки при первом тапе
+        if (clickCount === 1) {
+            const audio = document.getElementById('background-music');
+            audio.volume = 0.3; // Устанавливаем громкость на 30%
+            audio.play();
+        }
     };
 
     const startBlockTimeout = (remainingTime = 15 * 60 * 1000) => {
@@ -376,6 +383,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
+        // Показ иконки звука только на главной странице
+        soundControl.style.display = 'block';
     }, 4000);
 
     // Load progress from local storage
