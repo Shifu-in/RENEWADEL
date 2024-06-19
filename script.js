@@ -44,6 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let isTapBlocked = false; // Добавлена переменная для блокировки тапов
     let blockStartTime = null; // Время начала блокировки
     let blockTimeout = null; // Таймаут для блокировки тапов
+    let autoEarningsLimitReached = false;
+    let autoEarningsLimitStart = null;
+    const AUTO_EARNINGS_LIMIT_HOURS = 8;
     const autoClickers = {
         gym: { level: 0, basePrice: 50, increment: 1, currentRate: 0, priceFactor: 3, multiplier: 2 },
         aiTap: { level: 0, basePrice: 20000, increment: 2, currentRate: 0, priceFactor: 3, multiplier: 2 },
@@ -60,7 +63,9 @@ document.addEventListener("DOMContentLoaded", () => {
             lastActive: Date.now(),
             tapCount: tapCount, // Сохранение количества тапов
             isTapBlocked: isTapBlocked, // Сохранение состояния блокировки
-            blockStartTime: blockStartTime // Сохранение времени начала блокировки
+            blockStartTime: blockStartTime, // Сохранение времени начала блокировки
+            autoEarningsLimitReached: autoEarningsLimitReached,
+            autoEarningsLimitStart: autoEarningsLimitStart
         };
         localStorage.setItem('gameProgress', JSON.stringify(progress));
     };
@@ -75,6 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
             tapCount = progress.tapCount || 0; // Загрузка количества тапов
             isTapBlocked = progress.isTapBlocked || false; // Загрузка состояния блокировки
             blockStartTime = progress.blockStartTime || null; // Загрузка времени начала блокировки
+            autoEarningsLimitReached = progress.autoEarningsLimitReached || false;
+            autoEarningsLimitStart = progress.autoEarningsLimitStart || null;
             const lastActive = progress.lastActive || Date.now();
             const timeElapsed = Math.floor((Date.now() - lastActive) / 1000);
             Object.keys(autoClickers).forEach(key => {
@@ -106,10 +113,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const calculateOfflineEarnings = (timeElapsed) => {
         let offlineCoins = 0;
+        let totalAutoEarningRate = 0;
         Object.keys(autoClickers).forEach(key => {
-            offlineCoins += autoClickers[key].currentRate * timeElapsed;
+            totalAutoEarningRate += autoClickers[key].currentRate;
         });
+
+        let availableTime = AUTO_EARNINGS_LIMIT_HOURS * 3600; // 8 часов в секундах
+        if (autoEarningsLimitStart) {
+            const timeSinceLimitStart = Math.floor((Date.now() - autoEarningsLimitStart) / 1000);
+            if (timeSinceLimitStart < availableTime) {
+                availableTime -= timeSinceLimitStart;
+            } else {
+                availableTime = 0;
+                autoEarningsLimitReached = true;
+            }
+        }
+
+        if (timeElapsed < availableTime) {
+            offlineCoins = totalAutoEarningRate * timeElapsed;
+            availableTime -= timeElapsed;
+        } else {
+            offlineCoins = totalAutoEarningRate * availableTime;
+            availableTime = 0;
+            autoEarningsLimitReached = true;
+        }
+
         coins += offlineCoins;
+        showNotification(`Вы заработали ${offlineCoins} монет во время отсутствия!`);
     };
 
     const hideAllPages = () => {
@@ -157,10 +187,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const startAutoClicker = (upgradeType) => {
         setInterval(() => {
-            coins += autoClickers[upgradeType].currentRate;
-            coinAmountSpan.textContent = coins;
-            updateUpgradePrices();
-            saveProgressLocal();
+            if (!autoEarningsLimitReached) {
+                coins += autoClickers[upgradeType].currentRate;
+                coinAmountSpan.textContent = coins;
+                updateUpgradePrices();
+                saveProgressLocal();
+            }
         }, 1000);
     };
 
@@ -216,6 +248,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (clickCount % 5 === 0) {
             saveProgressLocal();
+        }
+
+        // Запуск музыки при первом тапе
+        if (clickCount === 1) {
+            backgroundMusic.play();
         }
     };
 
@@ -439,7 +476,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
-        backgroundMusic.play(); // Автоматический запуск музыки после загрузки
     }, 4000);
 
     // Load progress from local storage
