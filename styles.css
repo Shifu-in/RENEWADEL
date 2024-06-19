@@ -651,61 +651,38 @@ body, html {
     background-color: #e0e0e0;
     border-radius: 5px;
     overflow: hidden;
-    height: 10px;
-    position: relative;
-    width: calc(100% - 25px); /* Уменьшение ширины прогресс бара */
+    height: 8px; /* Высота прогресс-бара */
+    margin: 10px 0; /* Добавляем отступы сверху и снизу */
+    display: flex; /* Делаем родительский элемент flex-контейнером */
 }
 
 .progress {
-    width: 0%;
+    background-color: #9d53ff;
     height: 100%;
-    background-color: #00ff00; 
-    border-radius: 5px;
 }
 
 .progress-percent {
-    position: absolute;
-    bottom: -20px; /* Перемещение под прогресс бар */
-    left: 50%; /* Выравнивание по центру */
-    transform: translateX(-50%);
-    font-size: 14px; /* Уменьшаем размер шрифта */
-    color: #fff;
-    text-align: center; /* Центрирование текста */
-}
-
-.counter-container {
-    -webkit-touch-callout: none; /* Запрещаем вызов контекстного меню на iOS */
-    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
-    -ms-user-select: none; /* Запрещаем выделение текста на IE */
-    user-select: none; /* Запрещаем выделение текста на всех браузерах */
-}
-
-@keyframes levitate {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
-}
-
-.whitepaper-text {
-    color: white;
-    font-size: 10px;
+    font-size: 10px; /* Уменьшаем размер шрифта */
     text-align: center;
-    margin-top: 20px; /* Добавляем отступ сверху, чтобы надпись не перекрывала награды */
+    position: absolute; /* Абсолютное позиционирование текста */
+    right: 10px; /* Отступ текста справа */
+    color: #fff; /* Цвет текста белый */
 }
 
-/* Стили для значка звука */
+.reward-item.completed .reward-title {
+    text-decoration: line-through;
+    color: #00ff00; /* Цвет текста зеленый */
+}
+
 .sound-control {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    z-index: 10001; /* Установить высокий z-index, чтобы значок был поверх всех элементов */
+    bottom: 30px;
+    right: 30px;
+    cursor: pointer;
+    display: none; /* Изначально скрыт */
 }
 
-.sound-icon {
-    width: 30px;
-    height: 30px;
-    cursor: pointer;
+.sound-control img {
+    width: 45px; /* Увеличение размера иконки на 50% */
+    height: 45px; /* Увеличение размера иконки на 50% */
 }
