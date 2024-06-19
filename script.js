@@ -11,30 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
+    const soundControl = document.getElementById('sound-control');
 
     const languageSwitcher = document.getElementById('language-switch');
     const currentLanguage = document.querySelector('.current-language');
     const languageList = document.querySelector('.language-list');
-
-    const soundControl = document.querySelector('.sound-control');
-    const soundOnIcon = document.getElementById('sound-on');
-    const soundOffIcon = document.getElementById('sound-off');
-    const backgroundMusic = document.getElementById('background-music');
-
-    // Установка базовой громкости на 30%
-    backgroundMusic.volume = 0.3;
-
-    soundOnIcon.addEventListener('click', () => {
-        backgroundMusic.pause();
-        soundOnIcon.style.display = 'none';
-        soundOffIcon.style.display = 'block';
-    });
-
-    soundOffIcon.addEventListener('click', () => {
-        backgroundMusic.play();
-        soundOnIcon.style.display = 'block';
-        soundOffIcon.style.display = 'none';
-    });
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -44,15 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
     let isTapBlocked = false; // Добавлена переменная для блокировки тапов
     let blockStartTime = null; // Время начала блокировки
     let blockTimeout = null; // Таймаут для блокировки тапов
-    let autoEarningsLimitReached = false;
-    let autoEarningsLimitStart = null;
-    const AUTO_EARNINGS_LIMIT_HOURS = 8;
     const autoClickers = {
         gym: { level: 0, basePrice: 50, increment: 1, currentRate: 0, priceFactor: 3, multiplier: 2 },
         aiTap: { level: 0, basePrice: 20000, increment: 2, currentRate: 0, priceFactor: 3, multiplier: 2 },
         airdrop: { level: 0, basePrice: 100000, increment: 6, currentRate: 0, priceFactor: 3, multiplier: 2 },
         defi: { level: 0, basePrice: 10000000, increment: 10, currentRate: 0, priceFactor: 3, multiplier: 2 },
     };
+    let autoEarningsLimitReached = false; // Ограничение авто-начислений
 
     const saveProgressLocal = () => {
         const progress = {
@@ -63,9 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
             lastActive: Date.now(),
             tapCount: tapCount, // Сохранение количества тапов
             isTapBlocked: isTapBlocked, // Сохранение состояния блокировки
-            blockStartTime: blockStartTime, // Сохранение времени начала блокировки
-            autoEarningsLimitReached: autoEarningsLimitReached,
-            autoEarningsLimitStart: autoEarningsLimitStart
+            blockStartTime: blockStartTime // Сохранение времени начала блокировки
         };
         localStorage.setItem('gameProgress', JSON.stringify(progress));
     };
@@ -80,8 +57,6 @@ document.addEventListener("DOMContentLoaded", () => {
             tapCount = progress.tapCount || 0; // Загрузка количества тапов
             isTapBlocked = progress.isTapBlocked || false; // Загрузка состояния блокировки
             blockStartTime = progress.blockStartTime || null; // Загрузка времени начала блокировки
-            autoEarningsLimitReached = progress.autoEarningsLimitReached || false;
-            autoEarningsLimitStart = progress.autoEarningsLimitStart || null;
             const lastActive = progress.lastActive || Date.now();
             const timeElapsed = Math.floor((Date.now() - lastActive) / 1000);
             Object.keys(autoClickers).forEach(key => {
@@ -113,33 +88,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const calculateOfflineEarnings = (timeElapsed) => {
         let offlineCoins = 0;
-        let totalAutoEarningRate = 0;
         Object.keys(autoClickers).forEach(key => {
-            totalAutoEarningRate += autoClickers[key].currentRate;
+            offlineCoins += autoClickers[key].currentRate * timeElapsed;
         });
-
-        let availableTime = AUTO_EARNINGS_LIMIT_HOURS * 3600; // 8 часов в секундах
-        if (autoEarningsLimitStart) {
-            const timeSinceLimitStart = Math.floor((Date.now() - autoEarningsLimitStart) / 1000);
-            if (timeSinceLimitStart < availableTime) {
-                availableTime -= timeSinceLimitStart;
-            } else {
-                availableTime = 0;
-                autoEarningsLimitReached = true;
-            }
-        }
-
-        if (timeElapsed < availableTime) {
-            offlineCoins = totalAutoEarningRate * timeElapsed;
-            availableTime -= timeElapsed;
-        } else {
-            offlineCoins = totalAutoEarningRate * availableTime;
-            availableTime = 0;
-            autoEarningsLimitReached = true;
-        }
-
-        coins += offlineCoins;
-        showNotification(`Вы заработали ${offlineCoins} монет во время отсутствия!`);
+        const maxOfflineEarnings = 8 * 3600; // Максимум 8 часов заработка
+        const actualOfflineEarnings = Math.min(offlineCoins, maxOfflineEarnings);
+        coins += actualOfflineEarnings;
+        showNotification(`Вы заработали ${actualOfflineEarnings} монет во время отсутствия!`);
     };
 
     const hideAllPages = () => {
@@ -152,13 +107,6 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAllPages();
         document.getElementById(pageId).style.display = 'flex';
         updateNavigation(pageId);
-
-        // Показать/скрыть значок звука в зависимости от текущей страницы
-        if (pageId === 'stats-page') {
-            soundControl.style.display = 'block';
-        } else {
-            soundControl.style.display = 'none';
-        }
     };
 
     const updateNavigation = (activePageId) => {
@@ -173,6 +121,11 @@ document.addEventListener("DOMContentLoaded", () => {
     navItems.forEach(navItem => {
         navItem.addEventListener('click', () => {
             showPage(navItem.dataset.page);
+            if (navItem.dataset.page === 'stats-page') {
+                soundControl.style.display = 'block';
+            } else {
+                soundControl.style.display = 'none';
+            }
         });
     });
 
@@ -249,14 +202,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (clickCount % 5 === 0) {
             saveProgressLocal();
         }
-
-        // Запуск музыки при первом тапе
-        if (clickCount === 1) {
-            backgroundMusic.play();
-        }
     };
 
     const startBlockTimeout = (remainingTime = 15 * 60 * 1000) => {
+        timerElement.style.display = 'block'; // Показать таймер при блокировке
         blockTimeout = setTimeout(() => {
             isTapBlocked = false;
             tapCount = 0;
@@ -265,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
             saveProgressLocal();
         }, remainingTime);
 
-        updateTimer(remainingSeconds / 1000);
+        updateTimer(remainingTime / 1000);
     };
 
     const updateTimer = (remainingSeconds) => {
@@ -409,68 +358,19 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    const referralsCountSpan = document.getElementById('referrals-count');
-    const daysCountSpan = document.getElementById('days-count');
-    const minusReferralsBtn = document.getElementById('minus-referrals');
-    const plusReferralsBtn = document.getElementById('plus-referrals');
-    const minusDaysBtn = document.getElementById('minus-days');
-    const plusDaysBtn = document.getElementById('plus-days');
-    const rewardItems = document.querySelectorAll('.reward-item');
-
-    let referralsCount = 0;
-    let daysCount = 0;
-
-    minusReferralsBtn.addEventListener('click', () => {
-        if (referralsCount > 0) {
-            referralsCount--;
-            referralsCountSpan.textContent = referralsCount;
-            updateRewards();
+    const toggleSound = () => {
+        const audio = document.getElementById('background-music');
+        if (audio.paused) {
+            audio.volume = 0.3; // Устанавливаем громкость на 30%
+            audio.play();
+            soundControl.src = 'assets/images/mus.svg'; // Иконка для включенного состояния
+        } else {
+            audio.pause();
+            soundControl.src = 'assets/images/musoff.svg'; // Иконка для выключенного состояния
         }
-    });
-
-    plusReferralsBtn.addEventListener('click', () => {
-        if (referralsCount < 99) { // Добавляем ограничение на максимальное значение
-            referralsCount++;
-            referralsCountSpan.textContent = referralsCount;
-            updateRewards();
-        }
-    });
-
-    minusDaysBtn.addEventListener('click', () => {
-        if (daysCount > 0) {
-            daysCount--;
-            daysCountSpan.textContent = daysCount;
-            updateRewards();
-        }
-    });
-
-    plusDaysBtn.addEventListener('click', () => {
-        if (daysCount < 99) { // Добавляем ограничение на максимальное значение
-            daysCount++;
-            daysCountSpan.textContent = daysCount;
-            updateRewards();
-        }
-    });
-
-    const updateRewards = () => {
-        rewardItems.forEach(item => {
-            const [referralThreshold, dayThreshold] = item.dataset.threshold.split(',').map(Number);
-            const progressBar = item.querySelector('.progress');
-            const progressPercentage = item.querySelector('.progress-percent');
-
-            let progress = Math.min((referralsCount / referralThreshold) * 100, (daysCount / dayThreshold) * 100);
-            progress = Math.min(progress, 100); // Ensure the progress doesn't exceed 100%
-
-            progressBar.style.width = `${progress}%`;
-            progressPercentage.textContent = `${progress.toFixed(1)}%`;
-
-            if (progress >= 100) {
-                item.classList.add('completed');
-            } else {
-                item.classList.remove('completed');
-            }
-        });
     };
+
+    soundControl.addEventListener('click', toggleSound);
 
     // Show main screen after 4 seconds
     setTimeout(() => {
