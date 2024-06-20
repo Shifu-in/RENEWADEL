@@ -3,15 +3,15 @@ body, html {
     padding: 0;
     width: 100%;
     height: 100%;
-    overflow: hidden;
+    overflow: hidden; /* Убираем прокрутку */
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #000000;
     font-family: 'Discovery', Arial, sans-serif;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
+    -ms-user-select: none; /* Запрещаем выделение текста на IE */
+    user-select: none; /* Запрещаем выделение текста на всех браузерах */
 }
 
 #loading-screen {
@@ -23,11 +23,11 @@ body, html {
     justify-content: center;
     align-items: center;
     background-color: #000;
-    z-index: 10000;
+    z-index: 10000; /* Высокий z-index для отображения поверх всего */
 }
 
 #loading-gif {
-    width: 200px;
+    width: 200px; /* Установите нужный размер для гиф */
     height: auto;
 }
 
@@ -49,13 +49,13 @@ body, html {
 
 .language-switch {
     position: absolute;
-    top: 120px;
-    left: 35px;
+    top: 120px; /* Опущен еще на 50 пикселей */
+    left: 35px; /* 5px правее предыдущего положения */
     transform: translateY(-50%);
     color: #fff;
     font-family: 'Discovery', Arial, sans-serif;
     cursor: pointer;
-    z-index: 10001;
+    z-index: 10001; /* Ensure it is on top of other elements */
 }
 
 .language-switch .current-language {
@@ -72,7 +72,7 @@ body, html {
     background-color: #000;
     border-radius: 5px;
     overflow: hidden;
-    z-index: 10002;
+    z-index: 10002; /* Ensure it is on top of other elements */
 }
 
 .language-switch .language-list div {
@@ -81,7 +81,7 @@ body, html {
     cursor: pointer;
 }
 
-.language-switch .language-list div {
+.language-switch .language-list div:hover {
     background-color: #555;
 }
 
@@ -93,18 +93,18 @@ body, html {
     justify-content: flex-start;
     align-items: center;
     position: absolute;
-    overflow: hidden;
+    overflow: hidden; /* Убираем прокрутку */
     background: url('assets/images/Фон общий.png') no-repeat center center;
     background-size: cover;
 }
 
 .main-screen#stats-page {
-    background: none;
+    background: none; /* Убираем общий фон на странице статистики */
 }
 
 .header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Размещаем элементы по краям */
     width: 100%;
     padding: 20px;
     position: relative;
@@ -132,7 +132,7 @@ body, html {
     width: 30px;
     height: 30px;
     position: relative;
-    top: 1px;
+    top: 1px; /* Lower the coin image by 3px */
 }
 
 .gender-switch {
@@ -161,7 +161,7 @@ body, html {
     color: #ffffff;
 }
 
-.gender-switch label {
+.gender-switch label:not(:checked) {
     background-color: #f0f0f0;
     color: #000000;
 }
@@ -176,27 +176,27 @@ body, html {
 }
 
 .character {
-    width: 430px;
+    width: 430px; /* Уменьшенный размер на 10 пикселей */
     height: auto;
-    margin-bottom: -65px;
-    margin-top: 10px;
-    margin-left: -20px;
-    cursor: pointer;
+    margin-bottom: -65px; /* Перемещение вверх на 5 пикселей */
+    margin-top: 10px; /* Перемещение вверх на 10 пикселей */
+    margin-left: -20px; /* Сдвиг вправо на 5 пикселей */
+    cursor: pointer; /* Указываем, что элемент кликабельный */
 }
 
 .character-her {
-    width: 370px;
+    width: 370px; /* Уменьшенный размер на 20% + 10 пикселей */
     height: auto;
-    margin-bottom: -25px;
-    margin-top: 10px;
-    margin-left: -10px;
-    cursor: pointer;
+    margin-bottom: -25px; /* Перемещение вверх на 5 пикселей */
+    margin-top: 10px; /* Перемещение вверх на 10 пикселей */
+    margin-left: -10px; /* Сдвиг вправо на 5 пикселей */
+    cursor: pointer; /* Указываем, что элемент кликабельный */
 }
 
 .text-container {
     width: 90%;
     max-width: 300px;
-    text-align: left;
+    text-align: left; /* Выравнивание текста по левому краю */
 }
 
 .text-background {
@@ -228,6 +228,7 @@ body, html {
     height: 50px;
 }
 
+/* Убираем элементы dots */
 .page-controls {
     display: none;
 }
@@ -264,7 +265,7 @@ body, html {
 }
 
 .upgrades {
-    width: 340px;
+    width: 340px; /* Уменьшен контейнер на 20 пикселей */
     max-width: 340px;
     background-color: #1c1c1e;
     border-radius: 20px;
@@ -285,7 +286,7 @@ body, html {
     margin-bottom: 20px;
 }
 
-.upgrade-item {
+.upgrade-item:last-child {
     margin-bottom: 0;
 }
 
@@ -326,12 +327,12 @@ body, html {
     color: #fff;
     border: none;
     border-radius: 10px;
-    padding: 10px 17px;
+    padding: 10px 17px; /* Make buttons narrower */
     cursor: pointer;
     font-size: 14px;
 }
 
-.upgrade-button {
+.upgrade-button:disabled {
     background-color: #ff5e57;
 }
 
@@ -343,22 +344,22 @@ body, html {
 }
 
 .text-container-store {
-    width: 280px;
+    width: 280px; /* Уменьшен контейнер на 10 пикселей */
     max-width: 300px;
     position: relative;
-    margin: 0 auto;
-    margin-top: 0px;
-    margin-bottom: 20px;
+    margin: 0 auto; /* Центрирование по горизонтали */
+    margin-top: 0px; /* Adjust the margin as needed */
+    margin-bottom: 20px; /* Add margin-bottom to avoid overlapping with navigation */
     text-align: left;
 }
 
 .content-group {
-    margin-top: 220px;
+    margin-top: 220px; /* Lower the group of containers by 150px */
 }
 
 .background-room {
     background: url('assets/images/Фон комната.svg') no-repeat center center;
-    background-size: cover;
+    background-size: cover; /* Устанавливаем размер фонового изображения, чтобы оно покрыло весь экран */
     width: 100%;
     height: 100%;
     display: flex;
@@ -370,29 +371,31 @@ body, html {
 .text-container-room {
     width: 90%;
     max-width: 300px;
-    margin-top: 420px;
-    margin-left: 20px;
+    margin-top: 420px; /* Опустить контейнер текста на 200 пикселей */
+    margin-left: 20px; /* Сдвиг правее на 20 пикселей */
     text-align: left;
 }
 
+/* Updated styles for stats-page */
 #stats-page {
     background: url('assets/images/Фон комната.svg') no-repeat center center;
-    background-size: cover;
+    background-size: cover; /* Устанавливаем размер фонового изображения, чтобы оно покрыло весь экран */
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
 
+/* Стили для анимации монет */
 .coin-animation {
     position: absolute;
-    color: #ffd700;
+    color: #ffd700; /* Золотой цвет для монет */
     font-size: 18px;
     font-weight: bold;
     display: flex;
     align-items: center;
     animation: coin-fall 1s ease-out forwards;
-    z-index: 1000;
+    z-index: 1000; /* Установим высокий z-index для отображения монет поверх всего */
 }
 
 .coin-animation img {
@@ -415,43 +418,43 @@ body, html {
 .partner-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Center the partner blocks */
     justify-content: center;
     width: 100%;
-    height: 100%;
+    height: 100%; /* Ensure full height */
 }
 
 .partner {
     margin-bottom: 20px;
-    width: 80%;
-    position: relative;
+    width: 80%; /* Adjust width to ensure it doesn't stretch too much */
+    position: relative; /* Ensure relative positioning for the checkmark */
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 .text-background {
-    font-size: 1.5em;
+    font-size: 1.5em; /* Increase font size by 1.5 times */
 }
 
 .subscribe-button, .confirm-button {
-    background-color: #ff3b30;
+    background-color: #ff3b30; /* New red color for buttons */
     color: #fff;
     border: none;
     border-radius: 5px;
-    padding: 10px 17px;
+    padding: 10px 17px; /* Make buttons narrower */
     cursor: pointer;
     font-size: 14px;
 }
 
-.subscribe-button, .confirm-button {
+.subscribe-button:disabled, .confirm-button:disabled {
     background-color: #ff5e57;
 }
 
 .checkmark {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 10px; /* Top right corner */
+    right: 10px; /* Top right corner */
     width: 20px;
     height: 20px;
 }
@@ -480,7 +483,7 @@ body, html {
 
 .link-container {
     display: flex;
-    flex-direction: column;
+    flex-direction: column; /* Updated to column to fit within screen */
     align-items: center;
     margin-top: 10px;
 }
@@ -493,10 +496,10 @@ body, html {
     padding: 10px 20px;
     cursor: pointer;
     font-size: 14px;
-    margin-top: 10px;
+    margin-top: 10px; /* Added margin-top for spacing */
 }
 
-.copy-button {
+.copy-button:disabled {
     background-color: #ff5e57;
 }
 
@@ -507,7 +510,7 @@ body, html {
     background-color: #1c1c1e;
     border: none;
     border-radius: 10px;
-    width: 300px;
+    width: 300px; /* Фиксированная ширина */
 }
 
 .notification {
@@ -524,19 +527,20 @@ body, html {
     transition: opacity 0.5s;
 }
 
+/* Airdrop Page Styles */
 .airdrop-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 10px;
+    padding: 10px; /* Уменьшение отступа до 10 пикселей */
     color: white;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    -webkit-user-select: none; /* Запрещаем выделение текста на iOS */
+    -ms-user-select: none; /* Запрещаем выделение текста на IE */
+    user-select: none; /* Запрещаем выделение текста на всех браузерах */
 }
 
 .airdrop-container h1 {
-    font-size: 24px;
+    font-size: 24px; /* Измените размер шрифта здесь */
     text-align: center;
     margin-bottom: 20px;
 }
@@ -546,7 +550,7 @@ body, html {
     justify-content: space-around;
     width: 100%;
     margin-bottom: 20px;
-    padding: 0 20px;
+    padding: 0 20px; /* Отступы от боковых границ экрана */
 }
 
 .counter {
@@ -563,40 +567,40 @@ body, html {
     padding: 5px 10px;
     margin-bottom: 5px;
     background-size: cover;
-    background-color: transparent;
-    position: relative;
-    width: 150px;
+    background-color: transparent; /* Убираем фон */
+    position: relative; /* Добавляем позиционирование для абсолютного размещения кнопок */
+    width: 150px; /* Увеличиваем ширину контейнера для кнопок */
 }
 
 .counter-controls button {
     background-color: transparent;
     border: none;
     color: #000;
-    font-size: 14px;
+    font-size: 14px; /* Уменьшаем иконки на 3 пикселя */
     cursor: pointer;
-    touch-action: manipulation;
-    position: absolute;
+    touch-action: manipulation; /* Устранение приближения при двойном нажатии */
+    position: absolute; /* Абсолютное позиционирование кнопок */
 }
 
 .counter-controls button#minus-referrals, .counter-controls button#minus-days {
-    left: 4px;
+    left: 4px; /* Размещаем кнопку минус слева */
 }
 
 .counter-controls button#plus-referrals, .counter-controls button#plus-days {
-    right: 4px;
+    right: 4px; /* Размещаем кнопку плюс справа */
 }
 
 .counter-controls span {
-    margin: 0 30px;
+    margin: 0 30px; /* Увеличиваем отступы между кнопками и числом */
     font-size: 22px;
     font-weight: bold;
-    color: #fff;
-    margin-left: 62px;
+    color: #fff; /* Изменение цвета текста */
+    margin-left: 62px; /* Сдвиг вправо на 5 пикселей */
     position: relative;
 }
 
 .rewards-container {
-    width: calc(100% - 20px);
+    width: calc(100% - 20px); /* Оставляем отступ по 10 пикселей с каждой стороны */
     text-align: left;
 }
 
@@ -612,21 +616,21 @@ body, html {
     padding: 10px;
     display: flex;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* Темный полупрозрачный фон */
     margin: 10px 0;
 }
 
 .reward-container {
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 100%; /* Уменьшение ширины для соблюдения отступов */
 }
 
 .reward-image {
-    width: 100px;
+    width: 100px; /* Увеличение размера иконок до 100 пикселей */
     height: auto;
     margin-right: 10px;
-    margin-left: 10px;
+    margin-left: 10px; /* Перемещение иконки влево */
 }
 
 .reward-info {
@@ -634,59 +638,87 @@ body, html {
 }
 
 .reward-title {
-    font-size: 18px;
+    font-size: 18px; /* Изменение размера шрифта */
     display: block;
     margin-bottom: 5px;
-    text-align: left;
-    color: #fff;
+    text-align: left; /* Выравнивание текста по левому краю */
+    color: #fff; /* Цвет текста белый */
 }
 
 .progress-bar {
-    flex-grow: 1;
+    flex-grow: 1; /* Расширяем прогресс-бар */
     background-color: #e0e0e0;
     border-radius: 5px;
-    overflow: hidden;
-    height: 10px;
-    position: relative;
-    width: calc(100% - 25px);
+    height: 10px; /* Увеличиваем высоту прогресс-бара */
+    margin-right: 10px; /* Добавляем отступ справа */
+    position: relative; /* Добавляем позиционирование для полоски прогресса */
 }
 
 .progress {
-    width: 0%;
+    background-color: #9d53ff;
     height: 100%;
-    background-color: #00ff00;
+    width: 0;
     border-radius: 5px;
+    position: absolute; /* Полоска прогресса абсолютного позиционирования */
+    top: 0;
+    left: 0;
 }
 
 .progress-percent {
-    position: absolute;
-    bottom: -20px;
-    left: 50%;
-    transform: translateX(-50%);
     font-size: 14px;
-    color: #fff;
-    text-align: center;
-}
-
-.counter-container {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-
-@keyframes levitate {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
+    white-space: nowrap;
+    text-align: right; /* Выравнивание текста по правому краю */
+    color: #fff; /* Цвет текста белый */
+    position: relative; /* Изменение позиционирования */
+    top: 1px; /* Перемещение текста вверх на 1 пиксель */
+    margin-right: -40px; /* Перемещение текста влево на 10 пикселей */
 }
 
 .whitepaper-text {
-    color: white;
-    font-size: 10px;
     text-align: center;
     margin-top: 20px;
+    font-size: 14px;
+}
+
+#tap-timer {
+    display: none;
+    color: white;
+    position: absolute;
+    top: 80px;
+    right: 20px; /* Таймер будет справа под переключателем "Он/Она" */
+    font-size: 10px;
+    z-index: 10000; /* Увеличенный z-index для отображения поверх других элементов */
+}
+
+/* Updated styles for air-coin animation */
+.coin-animation {
+    position: absolute;
+    color: #ffd700; /* Золотой цвет для монет */
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    animation: coin-fall 1s ease-out forwards;
+    z-index: 1000; /* Установим высокий z-index для отображения монет поверх всего */
+}
+
+.coin-animation img {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+@keyframes coin-fall {
+    0% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+.text-background {
+    font-size: 1.5em; /* Увеличение размера шрифта */
 }
