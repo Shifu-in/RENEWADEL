@@ -11,27 +11,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
-    const soundControl = document.getElementById('sound-control');
+    const soundIcon = document.getElementById('sound-icon');
+    const audio = new Audio('assets/MI24N.mp3');
+    let isSoundOn = true;
+    let firstTap = true;
 
-    const languageSwitcher = document.getElementById('language-switch');
-    const currentLanguage = document.querySelector('.current-language');
-    const languageList = document.querySelector('.language-list');
+    audio.loop = true;
+    audio.volume = 0.3;
+
+    soundIcon.addEventListener('click', () => {
+        if (isSoundOn) {
+            audio.pause();
+            soundIcon.src = 'assets/images/musoff.svg';
+        } else {
+            audio.play();
+            soundIcon.src = 'assets/images/mus.svg';
+        }
+        isSoundOn = !isSoundOn;
+    });
+
+    document.addEventListener('pointerdown', () => {
+        if (firstTap) {
+            audio.play();
+            firstTap = false;
+        }
+    });
 
     let coins = 0;
     let coinsPerTap = 1;
     let clickCount = 0;
     let rewardGiven = false;
-    let tapCount = 0; // Добавлена переменная для отслеживания количества тапов
-    let isTapBlocked = false; // Добавлена переменная для блокировки тапов
-    let blockStartTime = null; // Время начала блокировки
-    let blockTimeout = null; // Таймаут для блокировки тапов
+    let tapCount = 0;
+    let isTapBlocked = false;
+    let blockStartTime = null;
+    let blockTimeout = null;
     const autoClickers = {
         gym: { level: 0, basePrice: 50, increment: 1, currentRate: 0, priceFactor: 3, multiplier: 2 },
         aiTap: { level: 0, basePrice: 20000, increment: 2, currentRate: 0, priceFactor: 3, multiplier: 2 },
         airdrop: { level: 0, basePrice: 100000, increment: 6, currentRate: 0, priceFactor: 3, multiplier: 2 },
         defi: { level: 0, basePrice: 10000000, increment: 10, currentRate: 0, priceFactor: 3, multiplier: 2 },
     };
-    let autoEarningsLimitReached = false; // Ограничение авто-начислений
 
     const saveProgressLocal = () => {
         const progress = {
@@ -40,9 +59,9 @@ document.addEventListener("DOMContentLoaded", () => {
             autoClickers: autoClickers,
             rewardGiven: rewardGiven,
             lastActive: Date.now(),
-            tapCount: tapCount, // Сохранение количества тапов
-            isTapBlocked: isTapBlocked, // Сохранение состояния блокировки
-            blockStartTime: blockStartTime // Сохранение времени начала блокировки
+            tapCount: tapCount,
+            isTapBlocked: isTapBlocked,
+            blockStartTime: blockStartTime
         };
         localStorage.setItem('gameProgress', JSON.stringify(progress));
     };
@@ -54,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
             coins = progress.coins;
             coinsPerTap = progress.coinsPerTap;
             rewardGiven = progress.rewardGiven;
-            tapCount = progress.tapCount || 0; // Загрузка количества тапов
-            isTapBlocked = progress.isTapBlocked || false; // Загрузка состояния блокировки
-            blockStartTime = progress.blockStartTime || null; // Загрузка времени начала блокировки
+            tapCount = progress.tapCount || 0;
+            isTapBlocked = progress.isTapBlocked || false;
+            blockStartTime = progress.blockStartTime || null;
             const lastActive = progress.lastActive || Date.now();
             const timeElapsed = Math.floor((Date.now() - lastActive) / 1000);
             Object.keys(autoClickers).forEach(key => {
@@ -72,13 +91,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             if (isTapBlocked) {
-                const blockDuration = 15 * 60 * 1000; // 15 минут в миллисекундах
+                const blockDuration = 15 * 60 * 1000;
                 const timeSinceBlock = Date.now() - blockStartTime;
                 if (timeSinceBlock >= blockDuration) {
                     isTapBlocked = false;
                     tapCount = 0;
                     showNotification('Вы снова можете тапать!');
-                    timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
+                    timerElement.style.display = 'none';
                 } else {
                     startBlockTimeout(blockDuration - timeSinceBlock);
                 }
@@ -88,13 +107,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const calculateOfflineEarnings = (timeElapsed) => {
         let offlineCoins = 0;
+        const maxEarningsDuration = 8 * 60 * 60;
+        const effectiveTimeElapsed = Math.min(timeElapsed, maxEarningsDuration);
         Object.keys(autoClickers).forEach(key => {
-            offlineCoins += autoClickers[key].currentRate * timeElapsed;
+            offlineCoins += autoClickers[key].currentRate * effectiveTimeElapsed;
         });
-        const maxOfflineEarnings = 8 * 3600; // Максимум 8 часов заработка
-        const actualOfflineEarnings = Math.min(offlineCoins, maxOfflineEarnings);
-        coins += actualOfflineEarnings;
-        showNotification(`Вы заработали ${actualOfflineEarnings} монет во время отсутствия!`);
+        coins += offlineCoins;
+        showNotification(`Вы накопили ${offlineCoins} монет Young за время вашего отсутствия.`);
     };
 
     const hideAllPages = () => {
@@ -107,11 +126,6 @@ document.addEventListener("DOMContentLoaded", () => {
         hideAllPages();
         document.getElementById(pageId).style.display = 'flex';
         updateNavigation(pageId);
-        if (pageId === 'stats-page') {
-            soundControl.style.display = 'block';
-        } else {
-            soundControl.style.display = 'none';
-        }
     };
 
     const updateNavigation = (activePageId) => {
@@ -140,12 +154,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const startAutoClicker = (upgradeType) => {
         setInterval(() => {
-            if (!autoEarningsLimitReached) {
-                coins += autoClickers[upgradeType].currentRate;
-                coinAmountSpan.textContent = coins;
-                updateUpgradePrices();
-                saveProgressLocal();
-            }
+            coins += autoClickers[upgradeType].currentRate;
+            coinAmountSpan.textContent = coins;
+            updateUpgradePrices();
+            saveProgressLocal();
         }, 1000);
     };
 
@@ -165,14 +177,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
 
             if (level >= 6) {
-                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если достигнут максимальный уровень
-                button.disabled = true; // Отключаем кнопку
+                button.style.backgroundColor = '#ff3b30';
+                button.disabled = true;
             } else if (coins >= price) {
-                button.style.backgroundColor = '#00ff00'; // Кнопка зелёная, если достаточно монет для покупки
-                button.disabled = false; // Включаем кнопку
+                button.style.backgroundColor = '#00ff00';
+                button.disabled = false;
             } else {
-                button.style.backgroundColor = '#ff3b30'; // Кнопка красная, если недостаточно монет
-                button.disabled = false; // Включаем кнопку
+                button.style.backgroundColor = '#ff3b30';
+                button.disabled = false;
             }
         });
     };
@@ -186,7 +198,7 @@ document.addEventListener("DOMContentLoaded", () => {
         tapCount++;
         if (tapCount > 1000) {
             isTapBlocked = true;
-            blockStartTime = Date.now(); // Устанавливаем время начала блокировки
+            blockStartTime = Date.now();
             showNotification('Достигнут лимит тапов! Подождите 15 минут.');
             startBlockTimeout();
             saveProgressLocal();
@@ -202,22 +214,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (clickCount % 5 === 0) {
             saveProgressLocal();
         }
-
-        // Запуск фоновой музыки при первом тапе
-        if (clickCount === 1) {
-            const audio = document.getElementById('background-music');
-            audio.volume = 0.3; // Устанавливаем громкость на 30%
-            audio.play();
-        }
     };
 
     const startBlockTimeout = (remainingTime = 15 * 60 * 1000) => {
-        timerElement.style.display = 'block'; // Показать таймер при блокировке
         blockTimeout = setTimeout(() => {
             isTapBlocked = false;
             tapCount = 0;
             showNotification('Вы снова можете тапать!');
-            timerElement.style.display = 'none'; // Скрыть таймер после разблокировки
+            timerElement.style.display = 'none';
             saveProgressLocal();
         }, remainingTime);
 
@@ -262,7 +266,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const upgradeType = button.getAttribute('data-type');
             const price = getUpgradePrice(upgradeType);
 
-            if (coins >= price && autoClickers[upgradeType].level < 6) { // изменено с 5 на 6
+            if (coins >= price && autoClickers[upgradeType].level < 6) {
                 coins -= price;
                 coinAmountSpan.textContent = coins;
                 autoClickers[upgradeType].level++;
@@ -301,21 +305,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setTimeout(() => {
             notification.style.opacity = 1;
-        }, 100); // Delay to trigger CSS transition
+        }, 100);
 
         setTimeout(() => {
             notification.style.opacity = 0;
             setTimeout(() => {
                 notification.remove();
-            }, 500); // Wait for transition to complete
-        }, 3000); // Duration the notification is visible
+            }, 500);
+        }, 3000);
     };
 
     copyButton.addEventListener('click', () => {
         linkInput.select();
-        linkInput.setSelectionRange(0, 99999); // Для мобильных устройств
+        linkInput.setSelectionRange(0, 99999);
 
-        // Копируем выделенный текст в буфер обмена
         navigator.clipboard.writeText(linkInput.value).then(() => {
             showNotification('Ссылка скопирована!');
             if (!rewardGiven) {
@@ -365,32 +368,76 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    const toggleSound = () => {
-        const audio = document.getElementById('background-music');
-        if (audio.paused) {
-            audio.volume = 0.3; // Устанавливаем громкость на 30%
-            audio.play();
-            soundControl.src = 'assets/images/mus.svg'; // Иконка для включенного состояния
-        } else {
-            audio.pause();
-            soundControl.src = 'assets/images/musoff.svg'; // Иконка для выключенного состояния
+    const referralsCountSpan = document.getElementById('referrals-count');
+    const daysCountSpan = document.getElementById('days-count');
+    const minusReferralsBtn = document.getElementById('minus-referrals');
+    const plusReferralsBtn = document.getElementById('plus-referrals');
+    const minusDaysBtn = document.getElementById('minus-days');
+    const plusDaysBtn = document.getElementById('plus-days');
+    const rewardItems = document.querySelectorAll('.reward-item');
+
+    let referralsCount = 0;
+    let daysCount = 0;
+
+    minusReferralsBtn.addEventListener('click', () => {
+        if (referralsCount > 0) {
+            referralsCount--;
+            referralsCountSpan.textContent = referralsCount;
+            updateRewards();
         }
+    });
+
+    plusReferralsBtn.addEventListener('click', () => {
+        if (referralsCount < 99) {
+            referralsCount++;
+            referralsCountSpan.textContent = referralsCount;
+            updateRewards();
+        }
+    });
+
+    minusDaysBtn.addEventListener('click', () => {
+        if (daysCount > 0) {
+            daysCount--;
+            daysCountSpan.textContent = daysCount;
+            updateRewards();
+        }
+    });
+
+    plusDaysBtn.addEventListener('click', () => {
+        if (daysCount < 99) {
+            daysCount++;
+            daysCountSpan.textContent = daysCount;
+            updateRewards();
+        }
+    });
+
+    const updateRewards = () => {
+        rewardItems.forEach(item => {
+            const [referralThreshold, dayThreshold] = item.dataset.threshold.split(',').map(Number);
+            const progressBar = item.querySelector('.progress');
+            const progressPercentage = item.querySelector('.progress-percent');
+
+            let progress = Math.min((referralsCount / referralThreshold) * 100, (daysCount / dayThreshold) * 100);
+            progress = Math.min(progress, 100);
+
+            progressBar.style.width = `${progress}%`;
+            progressPercentage.textContent = `${progress.toFixed(1)}%`;
+
+            if (progress >= 100) {
+                item.classList.add('completed');
+            } else {
+                item.classList.remove('completed');
+            }
+        });
     };
 
-    soundControl.addEventListener('click', toggleSound);
-
-    // Show main screen after 4 seconds
     setTimeout(() => {
         document.getElementById('loading-screen').style.display = 'none';
         document.getElementById('home-page').style.display = 'flex';
-        // Показ иконки звука только на главной странице
-        soundControl.style.display = 'none';
     }, 4000);
 
-    // Load progress from local storage
     loadProgressLocal();
 
-    // Save progress every 30 seconds
     setInterval(saveProgressLocal, 30000);
 });
 
@@ -416,7 +463,6 @@ const confirmSubscription = (partnerId) => {
     partnerElement.appendChild(checkmark);
 };
 
-// Prevent double-tap zooming on mobile devices
 let lastTouchEnd = 0;
 document.addEventListener('touchend', (event) => {
     const now = (new Date()).getTime();
