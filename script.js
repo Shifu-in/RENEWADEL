@@ -11,31 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const linkInput = document.getElementById('linkInput');
     const copyButton = document.getElementById('copyButton');
     const timerElement = document.getElementById('tap-timer');
-    const soundIcon = document.getElementById('sound-icon');
-    const audio = new Audio('assets/MI24N.mp3');
-    let isSoundOn = true;
-    let firstTap = true;
-
-    audio.loop = true;
-    audio.volume = 0.3;
-
-    soundIcon.addEventListener('click', () => {
-        if (isSoundOn) {
-            audio.pause();
-            soundIcon.src = 'assets/images/musoff.svg';
-        } else {
-            audio.play();
-            soundIcon.src = 'assets/images/mus.svg';
-        }
-        isSoundOn = !isSoundOn;
-    });
-
-    document.addEventListener('pointerdown', () => {
-        if (firstTap) {
-            audio.play();
-            firstTap = false;
-        }
-    });
+    const languageSwitcher = document.getElementById('language-switch');
+    const currentLanguage = document.querySelector('.current-language');
+    const languageList = document.querySelector('.language-list');
 
     let coins = 0;
     let coinsPerTap = 1;
@@ -107,13 +85,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const calculateOfflineEarnings = (timeElapsed) => {
         let offlineCoins = 0;
-        const maxEarningsDuration = 8 * 60 * 60;
-        const effectiveTimeElapsed = Math.min(timeElapsed, maxEarningsDuration);
         Object.keys(autoClickers).forEach(key => {
-            offlineCoins += autoClickers[key].currentRate * effectiveTimeElapsed;
+            offlineCoins += autoClickers[key].currentRate * timeElapsed;
         });
         coins += offlineCoins;
-        showNotification(`Вы накопили ${offlineCoins} монет Young за время вашего отсутствия.`);
     };
 
     const hideAllPages = () => {
@@ -439,35 +414,61 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProgressLocal();
 
     setInterval(saveProgressLocal, 30000);
+
+    const subscribeChannel = (url, partnerId) => {
+        window.open(url, '_blank');
+        const partnerElement = document.getElementById(partnerId);
+        const subscribeButton = partnerElement.querySelector('.subscribe-button');
+        const confirmButton = partnerElement.querySelector('.confirm-button');
+        subscribeButton.style.display = 'none';
+        confirmButton.style.display = 'block';
+    };
+
+    const confirmSubscription = (partnerId) => {
+        const partnerElement = document.getElementById(partnerId);
+        const subscribeButton = partnerElement.querySelector('.subscribe-button');
+        const confirmButton = partnerElement.querySelector('.confirm-button');
+        subscribeButton.style.display = 'none';
+        confirmButton.style.display = 'none';
+
+        const checkmark = document.createElement('img');
+        checkmark.src = 'assets/images/checkmark.svg';
+        checkmark.classList.add('checkmark');
+        partnerElement.appendChild(checkmark);
+    };
+
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (event) => {
+        const now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+
+    const soundIcon = document.getElementById('sound-icon');
+    const audio = new Audio('assets/MI24N.mp3');
+    let isSoundOn = true;
+    let firstTap = true;
+
+    audio.loop = true;
+    audio.volume = 0.3;
+
+    soundIcon.addEventListener('click', () => {
+        if (isSoundOn) {
+            audio.pause();
+            soundIcon.src = 'assets/images/musoff.svg';
+        } else {
+            audio.play();
+            soundIcon.src = 'assets/images/mus.svg';
+        }
+        isSoundOn = !isSoundOn;
+    });
+
+    document.addEventListener('pointerdown', () => {
+        if (firstTap) {
+            audio.play();
+            firstTap = false;
+        }
+    });
 });
-
-const subscribeChannel = (url, partnerId) => {
-    window.open(url, '_blank');
-    const partnerElement = document.getElementById(partnerId);
-    const subscribeButton = partnerElement.querySelector('.subscribe-button');
-    const confirmButton = partnerElement.querySelector('.confirm-button');
-    subscribeButton.style.display = 'none';
-    confirmButton.style.display = 'block';
-};
-
-const confirmSubscription = (partnerId) => {
-    const partnerElement = document.getElementById(partnerId);
-    const subscribeButton = partnerElement.querySelector('.subscribe-button');
-    const confirmButton = partnerElement.querySelector('.confirm-button');
-    subscribeButton.style.display = 'none';
-    confirmButton.style.display = 'none';
-
-    const checkmark = document.createElement('img');
-    checkmark.src = 'assets/images/checkmark.svg';
-    checkmark.classList.add('checkmark');
-    partnerElement.appendChild(checkmark);
-};
-
-let lastTouchEnd = 0;
-document.addEventListener('touchend', (event) => {
-    const now = (new Date()).getTime();
-    if (now - lastTouchEnd <= 300) {
-        event.preventDefault();
-    }
-    lastTouchEnd = now;
-}, false);
